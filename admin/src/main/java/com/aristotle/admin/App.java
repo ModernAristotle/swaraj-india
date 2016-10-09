@@ -10,19 +10,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
+import org.springframework.context.annotation.Import;
 
 import java.util.Arrays;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.aristotle.admin"})
 @EnableAutoConfiguration
+@Import({SwaggerConfig.class, CoreConfig.class, DatabaseConfig.class, DynamoServiceContext.class})
 public class App extends SpringBootServletInitializer {
 
     @Override
@@ -42,21 +38,6 @@ public class App extends SpringBootServletInitializer {
             System.out.println(beanName);
         }
     }
-
-    @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.aristotle.admin.controller.rest"))
-                .paths(PathSelectors.any())
-                .build();
-    }
-
-    private ApiInfo apiInfo() {
-        ApiInfo apiInfo = new ApiInfo("My REST API", "Some custom description of API.", "API TOS", "Terms of service", "ping2ravi@gmail.com", "License of API", "API license URL");
-        return apiInfo;
-    }
-
 
 }
 

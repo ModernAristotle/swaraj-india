@@ -1,7 +1,12 @@
 package com.aristotle.admin.controller.rest;
 
 import com.aristotle.admin.controller.beans.UserBean;
+import com.aristotle.admin.controller.rest.error.ApiErrorResponse;
+import com.aristotle.core.exception.AppException;
 import com.aristotle.core.persistance.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 public abstract class BaseRestController {
 
@@ -13,5 +18,18 @@ public abstract class BaseRestController {
         userBean.setSuperAdmin(user.isSuperAdmin());
         userBean.setProfilePic(user.getProfilePic());
         return userBean;
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErrorResponse test(IllegalArgumentException e) {
+        return new ApiErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+    }
+
+    //
+    @ExceptionHandler(AppException.class)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ApiErrorResponse appExceptionHandler(AppException appException) {
+        return new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), appException.getMessage());
     }
 }

@@ -19,6 +19,8 @@ public interface UserService {
 
     void addPhoneToUser(Long phoneId, Long userId) throws AppException;
 
+    void linkPhoneToEmail(Long phoneId, Long emailId) throws AppException;
+
     void saveUserLocations(Long userId, Long livingAcId, Long livingDistrictId, Long livingPcId, Long livingStateId, Long votingAcId, Long votingDistrictId, Long votingPcId, Long votingStateId, Long nriCountryId, Long nriCountryRegionId, Long nriCountryRegionAreaId) throws AppException;
 
     void saveUserVolunteerData(Long userId, Volunteer volunteer, Long[] interests);

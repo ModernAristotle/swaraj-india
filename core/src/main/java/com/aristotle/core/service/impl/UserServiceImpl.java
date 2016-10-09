@@ -1,7 +1,6 @@
 package com.aristotle.core.service.impl;
 
 import com.aristotle.core.exception.AppException;
-import com.aristotle.core.exception.FieldsAppException;
 import com.aristotle.core.persistance.*;
 import com.aristotle.core.persistance.repo.*;
 import com.aristotle.core.service.EmailManager;
@@ -16,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.HashSet;
@@ -62,6 +62,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(String userName, String password) throws AppException {
+        Assert.notNull(userName, "User name can not be null or Empty");
+        Assert.notNull(password, "Password can not be null or Empty");
+
         LoginAccount loginAccount = loginAccountRepository.getLoginAccountByUserName(userName.toLowerCase());
         if (loginAccount == null) {
             throw new AppException("Invalid user name/password");
@@ -77,6 +80,8 @@ public class UserServiceImpl implements UserService {
 
         User dbUser = new User();
         BeanUtils.copyProperties(user, dbUser);
+        Assert.notNull(dbUser.getName(), "Name must be provided");
+        log.info("saving DB User : {}, \n copied from : {}", dbUser, user);
 
         dbUser = userRepository.save(dbUser);
         return dbUser;
@@ -115,7 +120,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Phone savePhone(String mobileNumber, String countryCode) throws AppException {
+    public Phone savePhone(String countryCode, String mobileNumber) throws AppException {
         return getOrCreateMobile(mobileNumber, countryCode, true);
     }
 
@@ -137,6 +142,13 @@ public class UserServiceImpl implements UserService {
         Phone phone = phoneRepository.findOne(phoneId);
         User user = userRepository.findOne(userId);
         phone.setUser(user);
+    }
+
+    @Override
+    public void linkPhoneToEmail(Long phoneId, Long emailId) throws AppException {
+        Phone phone = phoneRepository.findOne(phoneId);
+        Email email = emailRepository.findOne(emailId);
+        email.setPhone(phone);
     }
 
     @Override
@@ -183,7 +195,7 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         if (StringUtils.isEmpty(countryCode)) {
-            throw new AppException("Country Code must be provided");
+            throw new IllegalArgumentException("Country Code must be provided");
         }
         Phone mobile = phoneRepository.getPhoneByPhoneNumberAndCountryCode(mobileNumber, countryCode);
         if (mobile == null) {
@@ -215,7 +227,7 @@ public class UserServiceImpl implements UserService {
         }
         Matcher matcher = EMAIL_COMPILED_PATTERN.matcher(emailId);
         if (!matcher.matches()) {
-            throwFieldAppException("email", "Invalid Email id");
+            throw new IllegalArgumentException("Invalid Email id");
         }
         Email email = emailRepository.getEmailByEmailUp(emailId.toUpperCase());
         if (email == null) {
@@ -228,16 +240,10 @@ public class UserServiceImpl implements UserService {
             email = emailRepository.save(email);
         }
         if (failIfExists && (email.isConfirmed() || email.getUser() != null)) {
-            throwFieldAppException("email", "Email is already registered");
+            throw new IllegalArgumentException("Email is already registered");
         }
         email.setNewsLetter(true);
         return email;
-    }
-
-    private void throwFieldAppException(String fieldName, String error) throws FieldsAppException {
-        FieldsAppException fieldsAppException = new FieldsAppException(error);
-        fieldsAppException.addFieldError(fieldName, error);
-        throw fieldsAppException;
     }
 
     @Override

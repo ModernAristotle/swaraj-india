@@ -3,7 +3,6 @@ package com.aristotle.admin.controller.rest;
 import com.aristotle.admin.controller.beans.LoginBean;
 import com.aristotle.admin.controller.beans.LoginResultBean;
 import com.aristotle.admin.controller.beans.UserBean;
-import com.aristotle.admin.service.ControllerService;
 import com.aristotle.admin.service.LoginService;
 import com.aristotle.core.exception.AppException;
 import com.aristotle.core.persistance.User;
@@ -21,8 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginRestController extends BaseRestController {
 
     @Autowired
-    private ControllerService controllerService;
-    @Autowired
     private LoginService loginService;
 
     @RequestMapping(value = "/service/login", method = RequestMethod.POST)
@@ -35,4 +32,5 @@ public class LoginRestController extends BaseRestController {
         loginResultBean.setLoggedInUser(userBean);
         return loginResultBean;
     }
+
 }

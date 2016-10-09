@@ -114,12 +114,6 @@ public class User extends BaseEntity {
     @Column(name = "volunteer", nullable = false)
     private boolean volunteer;
 
-    @Column(name = "reindex", nullable = true)
-    private boolean reindex;
-
-    @Column(name = "membership_status")
-    private String membershipStatus;
-
     @Column(name = "passport_number")
     private String passportNumber;
 
