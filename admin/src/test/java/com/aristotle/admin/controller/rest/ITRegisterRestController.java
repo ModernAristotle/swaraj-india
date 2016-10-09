@@ -3,6 +3,7 @@ package com.aristotle.admin.controller.rest;
 import com.aristotle.admin.controller.beans.UserRegisterBean;
 import com.aristotle.core.enums.CreationType;
 import com.aristotle.core.persistance.Email;
+import com.aristotle.core.persistance.LoginAccount;
 import com.aristotle.core.persistance.Phone;
 import com.aristotle.core.persistance.User;
 import com.aristotle.core.persistance.repo.EmailRepository;
@@ -159,6 +160,12 @@ public class ITRegisterRestController extends AbstractBaseControllerTest {
         assertFalse(dbEmail.isConfirmed());
         assertTrue(dbEmail.isNewsLetter());
 
+        List<LoginAccount> loginAccountsInDB = loginAccountRepository.findAll();
+        assertEquals(1, loginAccountsInDB.size());
+        LoginAccount dbLoginAccount = loginAccountsInDB.get(0);
+        assertEquals(userRegisterBean.getEmailId(), dbLoginAccount.getUserName());
+        assertNotNull(dbLoginAccount.getPassword());
+        assertEquals(dbUser.getId(), dbLoginAccount.getUser().getId());
 
     }
 

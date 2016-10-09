@@ -48,7 +48,6 @@ public abstract class AbstractBaseControllerTest {
     public void setConverters(HttpMessageConverter<?>[] converters) {
 
         this.mappingJackson2HttpMessageConverter = Arrays.asList(converters).stream().filter(hmc -> hmc instanceof MappingJackson2HttpMessageConverter).findAny().get();
-
         Assert.assertNotNull("the JSON message converter must not be null", this.mappingJackson2HttpMessageConverter);
     }
 

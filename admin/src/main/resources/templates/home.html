@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+
+    <div th:include="common/linkScript :: links"/>
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header" th:include="common/navbar-header :: navbar-header-div"/>
+
+        <!-- /.navbar-header -->
+        <ul class="nav navbar-top-links navbar-right" th:include="common/right-top-menu :: right-top-menu"/>
+
+        <!-- /.navbar-top-links Ravi-->
+
+        <div class="navbar-default sidebar" role="navigation" th:include="common/left-side-bar :: left-side-bar"/>
+
+        <!-- /.navbar-static-side -->
+    </nav>
+
+    <!-- Page Content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Blank- All Code will go here</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+<div th:include="common/scripts :: scripts"/>
+
+</body>
+
+</html>

@@ -69,7 +69,9 @@ public class UserRegisterService {
         userService.sendEmailConfirmtionEmail(userRegisterBean.getEmailId());
         //TODO userService.sendMemberForIndexing(user.getId());
         httpSessionUtil.setLoggedInUser(httpServletRequest, user);
-        return null;
+        userRegisterBean.setId(user.getId());
+        userRegisterBean.setVer(user.getVer());
+        return userRegisterBean;
     }
 
 }

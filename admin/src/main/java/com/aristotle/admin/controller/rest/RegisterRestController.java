@@ -1,7 +1,7 @@
 package com.aristotle.admin.controller.rest;
 
-import com.aristotle.admin.controller.beans.LoginResultBean;
 import com.aristotle.admin.controller.beans.UserRegisterBean;
+import com.aristotle.admin.controller.beans.UserRegisterResultBean;
 import com.aristotle.admin.service.UserRegisterService;
 import com.aristotle.core.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
@@ -21,13 +21,14 @@ public class RegisterRestController extends BaseRestController {
     private UserRegisterService userRegisterService;
 
     @RequestMapping(value = "/service/register", method = RequestMethod.POST)
-    public LoginResultBean adminLogin(HttpServletRequest httpServletRequest, @RequestBody UserRegisterBean userRegisterBean) throws AppException {
+    public UserRegisterResultBean adminLogin(HttpServletRequest httpServletRequest, @RequestBody UserRegisterBean userRegisterBean) throws AppException {
         log.info("userRegisterBean : {}", userRegisterBean);
 
         userRegisterBean = userRegisterService.register(httpServletRequest, userRegisterBean);
-        LoginResultBean loginResultBean = new LoginResultBean();
-        loginResultBean.setSuccess(true);
+        UserRegisterResultBean userRegisterResultBean = new UserRegisterResultBean();
+        userRegisterResultBean.setSuccess(true);
+        userRegisterResultBean.setRegisteredUser(userRegisterBean);
 
-        return loginResultBean;
+        return userRegisterResultBean;
     }
 }

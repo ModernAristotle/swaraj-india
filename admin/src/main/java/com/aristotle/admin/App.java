@@ -8,7 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
@@ -28,7 +28,6 @@ public class App extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(new Object[]{App.class, SwaggerConfig.class, CoreConfig.class, DatabaseConfig.class, DynamoServiceContext.class}, args);
-        //ApplicationContext ctx = SpringApplication.run(new Object[] { App.class, SwaggerConfig.class}, args);
 
         System.out.println("Let's inspect the beans provided by Spring Boot:");
         String[] beanNames = ctx.getBeanDefinitionNames();

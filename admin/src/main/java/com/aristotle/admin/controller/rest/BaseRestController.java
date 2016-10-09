@@ -5,9 +5,11 @@ import com.aristotle.admin.controller.rest.error.ApiErrorResponse;
 import com.aristotle.core.exception.AppException;
 import com.aristotle.core.persistance.User;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+@Transactional(rollbackFor = Exception.class)
 public abstract class BaseRestController {
 
     protected UserBean convertUserForLoginResult(User user) {

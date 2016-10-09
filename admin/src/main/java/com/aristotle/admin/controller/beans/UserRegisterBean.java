@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class UserRegisterBean {
+public class UserRegisterBean extends BaseBean {
 
     private String name;
     private String fatherName;
