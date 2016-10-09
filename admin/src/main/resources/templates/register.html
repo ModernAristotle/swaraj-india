@@ -20,26 +20,48 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-            <div class="login-panel panel panel-default">
+            <div class="login-panel panel panel-yellow">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Please Sign In</h3>
+                    <h3 class="panel-title">Register</h3>
                 </div>
                 <div class="panel-body">
                     <form role="form">
                         <fieldset>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Name" name="name" type="text" value=""/>
+                            </div>
+
                             <div class="form-group">
                                 <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus="true"/>
                             </div>
                             <div class="form-group">
                                 <input class="form-control" placeholder="Password" name="password" type="password" value=""/>
                             </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Renter Password" name="repassword" type="password" value=""/>
+                            </div>
                             <div class="checkbox">
-                                <label>
-                                    <input name="remember" type="checkbox" value="Remember Me"/>Remember Me
+                                <label data-toggle="tooltip"
+                                       title="Select Whether you are Living in India or abroad(NRI). If living outside india then check this box else leave it">
+                                    <input name="nri" type="checkbox" value="false"/>NRI
                                 </label>
                             </div>
+                            <div class="form-group">
+                                <label>Select Country</label>
+                                <select class="form-control">
+                                    <option>India</option>
+                                    <option>UK</option>
+                                    <option>USA</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Mobile Number" name="mobileNumber" type="text" value=""/>
+                            </div>
+
                             <!-- Change this to a button or input when using this as a form -->
-                            <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>
+                            <a href="index.html" class="btn btn-lg btn-success btn-block">Register</a>
                         </fieldset>
                     </form>
                 </div>
