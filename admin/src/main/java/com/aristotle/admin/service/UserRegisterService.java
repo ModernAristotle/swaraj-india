@@ -2,12 +2,12 @@ package com.aristotle.admin.service;
 
 
 import com.aristotle.admin.controller.beans.UserRegisterBean;
+import com.aristotle.admin.controller.beans.UserRegisterResultBean;
 import com.aristotle.core.enums.CreationType;
 import com.aristotle.core.exception.AppException;
 import com.aristotle.core.persistance.Email;
 import com.aristotle.core.persistance.Phone;
 import com.aristotle.core.persistance.User;
-import com.aristotle.core.persistance.Volunteer;
 import com.aristotle.core.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +25,7 @@ public class UserRegisterService {
     @Autowired
     private HttpSessionUtil httpSessionUtil;
 
-    public User login(HttpServletRequest httpServletRequest, String userName, String password) throws AppException {
-        User user = userService.login(userName, password);
-        httpSessionUtil.setLoggedInUser(httpServletRequest, user);
-        return user;
-    }
-
-    public UserRegisterBean register(HttpServletRequest httpServletRequest, UserRegisterBean userRegisterBean) throws AppException {
+    public UserRegisterResultBean register(HttpServletRequest httpServletRequest, UserRegisterBean userRegisterBean) throws AppException {
         Email email = userService.saveEmail(userRegisterBean.getEmailId());
         if (email == null) {
             throw new IllegalArgumentException("Valid Email must be provided");
@@ -58,20 +52,24 @@ public class UserRegisterService {
             userService.addPhoneToUser(phone.getId(), user.getId());
         }
         userService.linkPhoneToEmail(phone.getId(), email.getId());
-        userService.saveUserLocations(user.getId(), userRegisterBean.getAssemblyConstituencyLivingId(), userRegisterBean.getDistrictLivingId(), userRegisterBean.getParliamentConstituencyLivingId(), userRegisterBean.getStateLivingId(), userRegisterBean.getAssemblyConstituencyVotingId(), userRegisterBean.getDistrictVotingId(), userRegisterBean.getParliamentConstituencyVotingId(), userRegisterBean.getStateVotingId(), userRegisterBean.getNriCountryId(), userRegisterBean.getNriCountryRegionId(), userRegisterBean.getNriCountryRegionAreaId());
-
-        if (user.isVolunteer()) {
-            Volunteer volunteer = new Volunteer();
-            BeanUtils.copyProperties(userRegisterBean, volunteer);
-            userService.saveUserVolunteerData(user.getId(), volunteer, userRegisterBean.getInterests());
-        }
+//        userService.saveUserLocations(user.getId(), userRegisterBean.getAssemblyConstituencyLivingId(), userRegisterBean.getDistrictLivingId(), userRegisterBean.getParliamentConstituencyLivingId(), userRegisterBean.getStateLivingId(), userRegisterBean.getAssemblyConstituencyVotingId(), userRegisterBean.getDistrictVotingId(), userRegisterBean.getParliamentConstituencyVotingId(), userRegisterBean.getStateVotingId(), userRegisterBean.getNriCountryId(), userRegisterBean.getNriCountryRegionId(), userRegisterBean.getNriCountryRegionAreaId());
+//
+//        if (user.isVolunteer()) {
+//            Volunteer volunteer = new Volunteer();
+//            BeanUtils.copyProperties(userRegisterBean, volunteer);
+//            userService.saveUserVolunteerData(user.getId(), volunteer, userRegisterBean.getInterests());
+//        }
         userService.saveLoginAccount(user.getId(), userRegisterBean.getEmailId(), userRegisterBean.getPassword());
         userService.sendEmailConfirmtionEmail(userRegisterBean.getEmailId());
         //TODO userService.sendMemberForIndexing(user.getId());
         httpSessionUtil.setLoggedInUser(httpServletRequest, user);
-        userRegisterBean.setId(user.getId());
-        userRegisterBean.setVer(user.getVer());
-        return userRegisterBean;
+
+        UserRegisterResultBean userRegisterResultBean = new UserRegisterResultBean();
+        userRegisterResultBean.setId(user.getId());
+        userRegisterResultBean.setVer(user.getVer());
+        userRegisterResultBean.setSuccess(true);
+        userRegisterResultBean.setRegisteredUser(userRegisterBean);
+        return userRegisterResultBean;
     }
 
 }

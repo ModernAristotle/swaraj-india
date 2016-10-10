@@ -20,15 +20,11 @@ public class RegisterRestController extends BaseRestController {
     @Autowired
     private UserRegisterService userRegisterService;
 
-    @RequestMapping(value = "/service/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/service/register/web", method = RequestMethod.POST)
     public UserRegisterResultBean adminLogin(HttpServletRequest httpServletRequest, @RequestBody UserRegisterBean userRegisterBean) throws AppException {
         log.info("userRegisterBean : {}", userRegisterBean);
 
-        userRegisterBean = userRegisterService.register(httpServletRequest, userRegisterBean);
-        UserRegisterResultBean userRegisterResultBean = new UserRegisterResultBean();
-        userRegisterResultBean.setSuccess(true);
-        userRegisterResultBean.setRegisteredUser(userRegisterBean);
-
+        UserRegisterResultBean userRegisterResultBean = userRegisterService.register(httpServletRequest, userRegisterBean);
         return userRegisterResultBean;
     }
 }

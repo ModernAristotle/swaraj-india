@@ -34,7 +34,7 @@ public class ITRegisterRestController extends AbstractBaseControllerTest {
     @Autowired
     private LoginAccountRepository loginAccountRepository;
 
-    private final String REGISTER_URL = "/service/register";
+    private final String REGISTER_URL = "/service/register/web";
 
     /*
     No EMail provided, null

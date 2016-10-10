@@ -13,6 +13,7 @@
 
     <div th:include="common/linkScript :: links"/>
 
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 
 <body>
@@ -59,6 +60,7 @@
                             <div class="form-group">
                                 <input class="form-control" placeholder="Mobile Number" name="mobileNumber" type="text" value=""/>
                             </div>
+                            <div class="g-recaptcha" data-sitekey="6LdF0QgUAAAAAONFzptIy_AeBH3kR1hZDF85J1G0"></div>
 
                             <!-- Change this to a button or input when using this as a form -->
                             <a href="index.html" class="btn btn-lg btn-success btn-block">Register</a>
