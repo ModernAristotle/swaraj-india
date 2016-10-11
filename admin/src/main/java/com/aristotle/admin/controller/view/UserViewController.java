@@ -36,7 +36,7 @@ public class UserViewController {
         return mv;
     }
 
-    @RequestMapping(value = {"/me/donations", "/me/awaz.html"})
+    @RequestMapping(value = {"/me/awaz", "/me/awaz.html"})
     public ModelAndView userAwaz(ModelAndView mv, HttpServletRequest request) {
         mv.getModel().put("fragmentName", "awaz");
         mv.getModel().put("fragmentFile", "user/awaz");
