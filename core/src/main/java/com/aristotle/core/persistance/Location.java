@@ -1,5 +1,6 @@
 package com.aristotle.core.persistance;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,6 +18,7 @@ public class Location extends BaseEntity {
     private String name;
 
     @Column(name = "name_up", nullable = false)
+    @JsonIgnore
     private String nameUp;
 
     @Column(name = "isd_code")
@@ -27,14 +29,18 @@ public class Location extends BaseEntity {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "location_type_id")
+    @JsonIgnore
     private LocationType locationType;
     @Column(name = "location_type_id", insertable = false, updatable = false)
+    @JsonIgnore
     private Long locationTypeId;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
+    @JsonIgnore
     private Location parentLocation;
     @Column(name = "parent_id", insertable = false, updatable = false)
+    @JsonIgnore
     private Long parentLocationId;
 
 }
