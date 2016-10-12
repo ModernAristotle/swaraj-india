@@ -1,5 +1,6 @@
 package com.aristotle.admin.controller.view;
 
+import com.aristotle.admin.controller.beans.UserPermissionBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,9 @@ public class AdminViewController {
     private ModelAndView getModelAndView(ModelAndView mv, String fragmentName, String fragmentFile) {
         mv.getModel().put("fragmentName", fragmentName);
         mv.getModel().put("fragmentFile", fragmentFile);
+        UserPermissionBean userPermissionBean = new UserPermissionBean();
+        userPermissionBean.setSuperAdmin(true);
+        mv.getModel().put("userPermission", userPermissionBean);
 
         mv.setViewName("user_template");
         return mv;

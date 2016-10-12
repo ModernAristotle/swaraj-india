@@ -1,7 +1,11 @@
 package com.aristotle.core.service;
 
+import com.aristotle.core.enums.AppPermission;
 import com.aristotle.core.exception.AppException;
 import com.aristotle.core.persistance.*;
+
+import java.util.List;
+import java.util.Set;
 
 public interface UserService {
 
@@ -28,4 +32,9 @@ public interface UserService {
     void sendEmailConfirmtionEmail(String emailId) throws AppException;
 
     void sendMemberForIndexing(Long userId) throws AppException;
+
+    List<Location> getUserAdminLocations(Long userId) throws AppException;
+
+    Set<AppPermission> getLocationPermissionsOfUser(Long userId, Long locationId) throws AppException;
+
 }

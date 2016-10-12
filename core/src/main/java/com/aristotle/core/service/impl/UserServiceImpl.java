@@ -1,5 +1,6 @@
 package com.aristotle.core.service.impl;
 
+import com.aristotle.core.enums.AppPermission;
 import com.aristotle.core.exception.AppException;
 import com.aristotle.core.persistance.*;
 import com.aristotle.core.persistance.repo.*;
@@ -18,8 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import java.util.HashSet;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -375,5 +375,39 @@ public class UserServiceImpl implements UserService {
 //            userSearchService.sendUserForIndexing(user.getId().toString());
 //
 //        }
+    }
+
+    @Override
+    public List<Location> getUserAdminLocations(Long userId) throws AppException {
+        return locationRepository.getAdminLocationsOfUser(userId);
+    }
+
+    @Override
+    public Set<AppPermission> getLocationPermissionsOfUser(Long userId, Long locationId) throws AppException {
+        User user = userRepository.findOne(userId);
+        Set<LocationRole> locationRoles = user.getLocationRoles();
+        log.info("locationRoles= {}", locationRoles);
+
+        Set<AppPermission> appPermissions = Collections.emptySet();
+        if (locationRoles != null && !locationRoles.isEmpty()) {
+            for (LocationRole oneLocationRole : locationRoles) {
+                if (oneLocationRole.getLocation().getId().equals(locationId) && !oneLocationRole.getRole().getPermissions().isEmpty()) {
+                    appPermissions = convertPermissionToAppPermission(oneLocationRole.getRole().getPermissions());
+                    break;
+                }
+            }
+        }
+        return appPermissions;
+    }
+
+    private Set<AppPermission> convertPermissionToAppPermission(Set<Permission> permissions) {
+        Set<AppPermission> returnPermissions = new HashSet<>();
+        if (permissions != null) {
+            for (Permission onePermission : permissions) {
+                returnPermissions.add(onePermission.getPermission());
+            }
+        }
+
+        return returnPermissions;
     }
 }
