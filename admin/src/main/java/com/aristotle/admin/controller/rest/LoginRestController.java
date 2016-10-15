@@ -22,7 +22,7 @@ public class LoginRestController extends BaseRestController {
     @Autowired
     private LoginService loginService;
 
-    @RequestMapping(value = "/service/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/service/us/login", method = RequestMethod.POST)
     public LoginResultBean adminLogin(HttpServletRequest httpServletRequest, @RequestBody LoginBean loginBean) throws AppException {
         log.info("Login : {}", loginBean);
         User user = loginService.login(httpServletRequest, loginBean.getLoginName(), loginBean.getPassword());
