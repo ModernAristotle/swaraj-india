@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class RegisterController {
 
-    @RequestMapping("/register")
+    @RequestMapping("/register.html")
     public String login(ModelAndView mv, HttpServletRequest request) {
         return "register";
     }
