@@ -3,13 +3,10 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.aristotle.core</groupId>
+    <groupId>com.next.aristotle.core</groupId>
     <artifactId>core</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0</version>
-    <modules>
-        <module>../web</module>
-    </modules>
+    <packaging>jar</packaging>
+    <version>2.0</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -17,11 +14,10 @@
         <version>1.4.1.RELEASE</version>
     </parent>
     <properties>
-        <spring.version>4.1.5.RELEASE</spring.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <dbunit.version>2.5.1</dbunit.version>
-        <spring-test-dbunit.version>1.2.1</spring-test-dbunit.version>
+        <java.version>1.8</java.version>
     </properties>
+
 
     <dependencies>
         <dependency>
@@ -52,22 +48,5 @@
         </dependency>
 
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

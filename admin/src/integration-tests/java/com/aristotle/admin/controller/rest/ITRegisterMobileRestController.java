@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class ITRegisterRestController extends AbstractBaseControllerTest {
+public class ITRegisterMobileRestController extends AbstractBaseControllerTest {
 
     @Autowired
     private UserService userService;
@@ -34,15 +34,13 @@ public class ITRegisterRestController extends AbstractBaseControllerTest {
     @Autowired
     private LoginAccountRepository loginAccountRepository;
 
-    private final String REGISTER_URL = "/service/register/web";
-
     /*
     No EMail provided, null
      */
     @Test
     public void register_whenSendingEmptyUserRegisterBean() throws Exception {
         UserRegisterBean userRegisterBean = new UserRegisterBean();
-        permformPost(REGISTER_URL, userRegisterBean)
+        permformPost(REGISTER_MOBILE_URL, userRegisterBean)
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$.status", is(400)))
@@ -57,7 +55,7 @@ public class ITRegisterRestController extends AbstractBaseControllerTest {
     public void register_whenSendingUserRegisterBeanWithNonNullButInvalidEmail() throws Exception {
         UserRegisterBean userRegisterBean = new UserRegisterBean();
         userRegisterBean.setEmailId("NotAValidEmailId");
-        permformPost(REGISTER_URL, userRegisterBean)
+        permformPost(REGISTER_MOBILE_URL, userRegisterBean)
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$.status", is(400)))
@@ -72,7 +70,7 @@ public class ITRegisterRestController extends AbstractBaseControllerTest {
     public void register_NoMobileNumberProvided() throws Exception {
         UserRegisterBean userRegisterBean = new UserRegisterBean();
         userRegisterBean.setEmailId("abc@gmail.com");
-        permformPost(REGISTER_URL, userRegisterBean)
+        permformPost(REGISTER_MOBILE_URL, userRegisterBean)
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$.status", is(400)))
@@ -89,7 +87,7 @@ public class ITRegisterRestController extends AbstractBaseControllerTest {
         UserRegisterBean userRegisterBean = new UserRegisterBean();
         userRegisterBean.setEmailId("abc@gmail.com");
         userRegisterBean.setMobileNumber("9876543210");
-        permformPost(REGISTER_URL, userRegisterBean)
+        permformPost(REGISTER_MOBILE_URL, userRegisterBean)
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$.status", is(400)))
@@ -108,7 +106,7 @@ public class ITRegisterRestController extends AbstractBaseControllerTest {
         userRegisterBean.setEmailId("abc@gmail.com");
         userRegisterBean.setMobileNumber("9876543210");
         userRegisterBean.setCountryCode("91");
-        permformPost(REGISTER_URL, userRegisterBean)
+        permformPost(REGISTER_MOBILE_URL, userRegisterBean)
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$.status", is(400)))
@@ -128,7 +126,7 @@ public class ITRegisterRestController extends AbstractBaseControllerTest {
         userRegisterBean.setMobileNumber("9876543210");
         userRegisterBean.setCountryCode("91");
         userRegisterBean.setName("Ravi Sharma");
-        permformPost(REGISTER_URL, userRegisterBean)
+        permformPost(REGISTER_MOBILE_URL, userRegisterBean)
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().contentType(contentType));
 

@@ -19,7 +19,7 @@ public class ITLoginRestController extends AbstractBaseControllerTest {
 
     @Test
     public void login_whenSendingEmptyLoginBean() throws Exception {
-        mockMvc.perform(post("/service/login")
+        mockMvc.perform(post(LOGIN_URL)
                 .content(toJson(new LoginBean()))
                 .contentType(contentType))
                 .andDo(print())
@@ -33,7 +33,7 @@ public class ITLoginRestController extends AbstractBaseControllerTest {
     public void login_whenSendingLoginBeanWithaNonNullUserNameAndNullPassword() throws Exception {
         LoginBean loginBean = new LoginBean();
         loginBean.setLoginName("SomeLoginName");
-        mockMvc.perform(post("/service/login")
+        mockMvc.perform(post(LOGIN_URL)
                 .content(toJson(loginBean))
                 .contentType(contentType))
                 .andDo(print())
@@ -45,7 +45,7 @@ public class ITLoginRestController extends AbstractBaseControllerTest {
 
     @Test
     public void login_whenSendingLoginBeanWithNonExistentUserName() throws Exception {
-        mockMvc.perform(post("/service/login")
+        mockMvc.perform(post(LOGIN_URL)
                 .content(toJson(new LoginBean("NonExistentUserName", "SomePassword I dont care for this test")))
                 .contentType(contentType))
                 .andDo(print())
@@ -60,7 +60,7 @@ public class ITLoginRestController extends AbstractBaseControllerTest {
         User user = createUser();
         user = userService.saveUser(user);
         LoginAccount loginAccount = userService.saveLoginAccount(user.getId(), "ravi", "password");
-        mockMvc.perform(post("/service/login")
+        mockMvc.perform(post(LOGIN_URL)
                 .content(toJson(new LoginBean("NonExistentUserName", "SomePassword I dont care for this test")))
                 .contentType(contentType))
                 .andDo(print())
@@ -75,7 +75,7 @@ public class ITLoginRestController extends AbstractBaseControllerTest {
         User user = createUser();
         user = userService.saveUser(user);
         LoginAccount loginAccount = userService.saveLoginAccount(user.getId(), "ravi", "password");
-        mockMvc.perform(post("/service/login")
+        mockMvc.perform(post(LOGIN_URL)
                 .content(toJson(new LoginBean("ravi", "IncorrectPassword")))
                 .contentType(contentType))
                 .andDo(print())
@@ -90,7 +90,7 @@ public class ITLoginRestController extends AbstractBaseControllerTest {
         User user = createUser();
         user = userService.saveUser(user);
         userService.saveLoginAccount(user.getId(), "ravi", "password");
-        mockMvc.perform(post("/service/login")
+        mockMvc.perform(post(LOGIN_URL)
                 .content(toJson(new LoginBean("ravi", "password")))
                 .contentType(contentType))
                 .andDo(print())

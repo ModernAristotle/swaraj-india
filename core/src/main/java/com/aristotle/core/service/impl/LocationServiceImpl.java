@@ -11,12 +11,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 @Transactional(rollbackFor = {Throwable.class})
 public class LocationServiceImpl implements LocationService {
 
+    public static final String COUNTRY_LOCATION_TYPE = "Country";
+    public static final String STATE_LOCATION_TYPE = "State";
+    public static final String PARLIAMENT_CONSTITUENCY_LOCATION_TYPE = "ParliamentConstituency";
+    public static final String DISTRICT_LOCATION_TYPE = "District";
+    public static final String ASSEMBLY_CONSTITUENCY_LOCATION_TYPE = "AssemblyConstituency";
     @Autowired
     private LocationTypeRepository locationTypeRepository;
     @Autowired
@@ -42,32 +48,46 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public List<Location> getAllCountries() throws AppException {
-        LocationType locationType = locationTypeRepository.getLocationTypeByName("Country");
+        LocationType locationType = locationTypeRepository.getLocationTypeByName(COUNTRY_LOCATION_TYPE);
+        if (locationType == null) {
+            return Collections.emptyList();
+        }
         return locationRepository.getLocationsByLocationTypeIdOrderByNameAsc(locationType.getId());
     }
 
     @Override
     public List<Location> getAllStates() throws AppException {
-        LocationType locationType = locationTypeRepository.getLocationTypeByName("State");
+        LocationType locationType = locationTypeRepository.getLocationTypeByName(STATE_LOCATION_TYPE);
+        if (locationType == null) {
+            return Collections.emptyList();
+        }
         return locationRepository.getLocationsByLocationTypeIdOrderByNameAsc(locationType.getId());
     }
 
     @Override
     public List<Location> getAllParliamentConstituenciesOfState(Long stateId) throws AppException {
-        LocationType locationType = locationTypeRepository.getLocationTypeByName("ParliamentConstituency");
-        System.out.println("locationType = " + locationType);
+        LocationType locationType = locationTypeRepository.getLocationTypeByName(PARLIAMENT_CONSTITUENCY_LOCATION_TYPE);
+        if (locationType == null) {
+            return Collections.emptyList();
+        }
         return locationRepository.getLocationsByLocationTypeIdAndParentLocationIdOrderByNameAsc(locationType.getId(), stateId);
     }
 
     @Override
     public List<Location> getAllDistrictOfState(Long stateId) throws AppException {
-        LocationType locationType = locationTypeRepository.getLocationTypeByName("District");
+        LocationType locationType = locationTypeRepository.getLocationTypeByName(DISTRICT_LOCATION_TYPE);
+        if (locationType == null) {
+            return Collections.emptyList();
+        }
         return locationRepository.getLocationsByLocationTypeIdAndParentLocationIdOrderByNameAsc(locationType.getId(), stateId);
     }
 
     @Override
     public List<Location> getAllAssemblyConstituenciesOfDistrict(Long districtId) throws AppException {
-        LocationType locationType = locationTypeRepository.getLocationTypeByName("AssemblyConstituency");
+        LocationType locationType = locationTypeRepository.getLocationTypeByName(ASSEMBLY_CONSTITUENCY_LOCATION_TYPE);
+        if (locationType == null) {
+            return Collections.emptyList();
+        }
         return locationRepository.getLocationsByLocationTypeIdAndParentLocationIdOrderByNameAsc(locationType.getId(), districtId);
     }
 
@@ -79,6 +99,9 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public List<LocationType> getAllLocationUnderLocationType(Long locationTypeId) throws AppException {
         LocationType locationType = locationTypeRepository.findOne(locationTypeId);
+        if (locationType == null) {
+            return Collections.emptyList();
+        }
         List<LocationType> locationTypes = new ArrayList<LocationType>();
         locationTypes.add(locationType);
         addChildLocationTypes(locationType, locationTypes);
