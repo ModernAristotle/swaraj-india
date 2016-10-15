@@ -115,19 +115,17 @@
         </filters>
         <resources>
             <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
-                <directory>${project.sources}</directory>
                 <excludes>
-                    <exclude>**/*.woff</exclude>
-                    <exclude>**/*.ttf</exclude>
+                    <exclude>static/**</exclude>
                 </excludes>
             </resource>
             <resource>
-                <directory>${project.sources}</directory>
+                <directory>${project.basedir}/src/main/resources</directory>
                 <filtering>false</filtering>
                 <includes>
-                    <include>**/*.woff</include>
-                    <include>**/*.ttf</include>
+                    <include>static/**</include>
                 </includes>
             </resource>
         </resources>
