@@ -11,19 +11,18 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
 
 import java.util.Arrays;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.aristotle.admin"})
 @EnableAutoConfiguration
-@Import({SwaggerConfig.class, CoreConfig.class, DatabaseConfig.class, DynamoServiceContext.class})
+//@Import({SwaggerConfig.class, CoreConfig.class, DatabaseConfig.class, DynamoServiceContext.class})
 public class App extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(App.class);
+        return application.sources(App.class, SwaggerConfig.class, CoreConfig.class, DatabaseConfig.class, DynamoServiceContext.class);
     }
 
     public static void main(String[] args) {
