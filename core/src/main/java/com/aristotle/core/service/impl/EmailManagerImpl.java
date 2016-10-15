@@ -8,6 +8,7 @@ import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClient;
 import com.amazonaws.services.simpleemail.model.*;
 import com.aristotle.core.exception.AppException;
 import com.aristotle.core.service.EmailManager;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -15,15 +16,22 @@ import org.springframework.util.StringUtils;
 
 @Service
 @Lazy
+@Slf4j
 public class EmailManagerImpl implements EmailManager {
 
     @Value("${aws_access_key:NA}")
     private String awsKey;
     @Value("${aws_access_secret:NA}")
     private String awsSecret;
+    @Value("${enable_email_service:false}")
+    private boolean enableEmailService;
 
     @Override
     public void sendEmail(String toEmail, String fromName, String fromEmail, String subjectStr, String bodyStr, String htmlContent) throws AppException {
+        if (!enableEmailService) {
+            log.info("Email is not enabled so not sending email");
+            return;
+        }
         System.out.println("Sending Email to " + toEmail + ", from : " + fromEmail + " with Subject " + subjectStr);
         if (StringUtils.isEmpty(toEmail)) {
             return;
