@@ -117,7 +117,6 @@
             <resource>
                 <filtering>true</filtering>
                 <directory>${project.sources}</directory>
-                <directory>src/main/resources</directory>
                 <excludes>
                     <exclude>**/*.woff</exclude>
                     <exclude>**/*.ttf</exclude>
