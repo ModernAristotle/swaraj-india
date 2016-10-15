@@ -27,7 +27,7 @@ public class App extends SpringBootServletInitializer {
     }
 
     public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(new Object[]{App.class, SwaggerConfig.class, CoreConfig.class, DatabaseConfig.class, DynamoServiceContext.class}, args);
+        ApplicationContext ctx = SpringApplication.run(new Object[]{App.class}, args);
 
         System.out.println("Let's inspect the beans provided by Spring Boot:");
         String[] beanNames = ctx.getBeanDefinitionNames();
