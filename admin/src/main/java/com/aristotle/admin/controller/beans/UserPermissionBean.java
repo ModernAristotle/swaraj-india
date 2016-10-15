@@ -1,9 +1,6 @@
 package com.aristotle.admin.controller.beans;
 
-import com.aristotle.core.persistance.Location;
 import lombok.Setter;
-
-import java.util.List;
 
 @Setter
 public class UserPermissionBean {
@@ -33,9 +30,6 @@ public class UserPermissionBean {
     private boolean userRoles;
     private boolean searchVolunteer;
     private boolean editUser;
-
-    private List<Location> userAdminLocations;
-    private Location selectedAdminLocations;
 
     public boolean isContent() {
         return superAdmin || news || twitter || poll || events;
@@ -136,14 +130,5 @@ public class UserPermissionBean {
     public boolean isEditUser() {
         return superAdmin || editUser;
     }
-
-    public List<Location> getUserAdminLocations() {
-        return userAdminLocations;
-    }
-
-    public Location getSelectedAdminLocations() {
-        return selectedAdminLocations;
-    }
-
 
 }

@@ -2,6 +2,7 @@ package com.aristotle.admin.service;
 
 
 import com.aristotle.admin.controller.beans.UserPermissionBean;
+import com.aristotle.admin.controller.beans.UserSessionObject;
 import com.aristotle.core.enums.AppPermission;
 import com.aristotle.core.exception.AppException;
 import com.aristotle.core.persistance.Location;
@@ -29,7 +30,17 @@ public class LoginService {
 
     public User login(HttpServletRequest httpServletRequest, String userName, String password) throws AppException {
         User user = userService.login(userName, password);
-        httpSessionUtil.setLoggedInUser(httpServletRequest, user);
+        refreshUserSession(httpServletRequest, user.getId());
+        return user;
+    }
+
+    public void refreshUserSession(HttpServletRequest httpServletRequest, Long userId) throws AppException {
+        UserSessionObject userSessionObject = new UserSessionObject();
+
+        User user = userService.findUserById(userId);
+        userSessionObject.setUser(user);
+
+
         //now add user admin locations and
         UserPermissionBean userPermissionBean = new UserPermissionBean();
         List<Location> adminLocations = Collections.emptyList();
@@ -39,16 +50,22 @@ public class LoginService {
         } else {
             adminLocations = userService.getUserAdminLocations(user.getId());
         }
+        userSessionObject.setUserPermissionBean(userPermissionBean);
+        userSessionObject.setUserAdminLocations(adminLocations);
+
         if (adminLocations.size() == 1) {
-            selectLocation(user, userPermissionBean, adminLocations.get(0));
+            selectLocation(user, userSessionObject, adminLocations.get(0));
         }
-        userPermissionBean.setUserAdminLocations(adminLocations);
-        httpSessionUtil.setLoggedInUserPermission(httpServletRequest, userPermissionBean);
-        return user;
+        httpSessionUtil.setLoggedInUserSessionObject(httpServletRequest, userSessionObject);
     }
 
-    private void selectLocation(User user, UserPermissionBean userPermissionBean, Location location) throws AppException {
-        userPermissionBean.setSelectedAdminLocations(location);
+    public UserSessionObject getUserSessionObject(HttpServletRequest httpServletRequest) {
+        return httpSessionUtil.getLoggedInUserSessionObject(httpServletRequest);
+    }
+
+    private void selectLocation(User user, UserSessionObject userSessionObject, Location location) throws AppException {
+        userSessionObject.setSelectedAdminLocation(location);
+        UserPermissionBean userPermissionBean = userSessionObject.getUserPermissionBean();
         Set<AppPermission> appPermissions = userService.getLocationPermissionsOfUser(user.getId(), location.getId());
         for (AppPermission oneAppPermission : appPermissions) {
             userPermissionBean.setNews(userPermissionBean.isNews() || oneAppPermission == CREATE_NEWS || oneAppPermission == UPDATE_NEWS || oneAppPermission == DELETE_NEWS || oneAppPermission == APPROVE_NEWS);

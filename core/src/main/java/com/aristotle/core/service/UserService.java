@@ -13,6 +13,8 @@ public interface UserService {
 
     User saveUser(User user) throws AppException;
 
+    User findUserById(Long userId) throws AppException;
+
     LoginAccount saveLoginAccount(Long userId, String userName, String password) throws AppException;
 
     Email saveEmail(String emailId) throws AppException;

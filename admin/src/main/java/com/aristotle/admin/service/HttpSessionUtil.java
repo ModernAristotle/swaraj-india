@@ -1,6 +1,7 @@
 package com.aristotle.admin.service;
 
 import com.aristotle.admin.controller.beans.UserPermissionBean;
+import com.aristotle.admin.controller.beans.UserSessionObject;
 import com.aristotle.core.persistance.User;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,8 @@ public class HttpSessionUtil {
     private static final String LOGGED_IN_USER_SESSION_PARAM_NAME = "_u";
     private static final String LOGGED_IN_USER_LOCATION_SESSION_PARAM_NAME = "_ul";
     private static final String LOGGED_IN_USER_PERMISSION_SESSION_PARAM_NAME = "_up";
+    private static final String LOGGED_IN_USER_SESSION_OBJECT_PARAM_NAME = "_uso";
+
     private static final String LOGGED_IN_USER_LOCATION_COOLKIE_NAME = "_l";
 
     public void logoff(HttpServletRequest httpServletRequest, User user) {
@@ -34,6 +37,15 @@ public class HttpSessionUtil {
     public UserPermissionBean getLoggedInUserPermission(HttpServletRequest httpServletRequest) {
         return (UserPermissionBean) httpServletRequest.getSession().getAttribute(LOGGED_IN_USER_PERMISSION_SESSION_PARAM_NAME);
     }
+
+    public void setLoggedInUserSessionObject(HttpServletRequest httpServletRequest, UserSessionObject userSessionObject) {
+        httpServletRequest.getSession(true).setAttribute(LOGGED_IN_USER_SESSION_OBJECT_PARAM_NAME, userSessionObject);
+    }
+
+    public UserSessionObject getLoggedInUserSessionObject(HttpServletRequest httpServletRequest) {
+        return (UserSessionObject) httpServletRequest.getSession().getAttribute(LOGGED_IN_USER_SESSION_OBJECT_PARAM_NAME);
+    }
+
 
 //    public void setLoggedInUserLocations(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Set<Long> userLocations) {
 //        httpServletRequest.getSession(true).setAttribute(LOGGED_IN_USER_LOCATION_SESSION_PARAM_NAME, userLocations);

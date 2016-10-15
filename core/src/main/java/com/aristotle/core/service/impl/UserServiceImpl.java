@@ -87,6 +87,11 @@ public class UserServiceImpl implements UserService {
         return dbUser;
     }
 
+    @Override
+    public User findUserById(Long userId) throws AppException {
+        return userRepository.findOne(userId);
+    }
+
     private UserLocation addLocationsTouser(User dbUser, Long locationId, String type) throws AppException {
         if (locationId == null || locationId <= 0) {
             return null;
