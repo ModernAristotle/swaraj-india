@@ -117,16 +117,7 @@
             <resource>
                 <directory>${project.basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
-                <excludes>
-                    <exclude>static/**</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>${project.basedir}/src/main/resources</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>static/**</include>
-                </includes>
+                <directory>src/main/resources</directory>
             </resource>
         </resources>
         <plugins>
