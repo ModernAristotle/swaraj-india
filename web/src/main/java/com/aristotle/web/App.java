@@ -1,6 +1,5 @@
 package com.aristotle.web;
 
-import com.aristotle.core.config.CoreConfig;
 import com.aristotle.core.config.DatabaseConfig;
 import com.next.dynamo.context.DynamoServiceContext;
 import org.springframework.boot.SpringApplication;
@@ -19,7 +18,7 @@ import java.util.Arrays;
 @ComponentScan(basePackages = {"com.aristotle.web"})
 @EnableAutoConfiguration
 @EnableCaching
-@Import({DatabaseConfig.class, CoreConfig.class, DatabaseConfig.class, DynamoServiceContext.class})
+@Import({DatabaseConfig.class, DatabaseConfig.class, DynamoServiceContext.class})
 public class App extends SpringBootServletInitializer {
 
     @Override

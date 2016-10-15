@@ -1,7 +1,6 @@
 package com.aristotle.admin;
 
 import com.aristotle.admin.config.SwaggerConfig;
-import com.aristotle.core.config.CoreConfig;
 import com.aristotle.core.config.DatabaseConfig;
 import com.next.dynamo.context.DynamoServiceContext;
 import org.springframework.boot.SpringApplication;
@@ -12,25 +11,23 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.Arrays;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.aristotle.admin"})
 @EnableAutoConfiguration
-@EnableJpaRepositories(basePackages = {"com.aristotle.core.persistance.repo"})
 @EntityScan(basePackages = {"com.aristotle.core.persistance"})
-//@Import({SwaggerConfig.class, CoreConfig.class, DatabaseConfig.class, DynamoServiceContext.class})
+//@Import({SwaggerConfig.class, DatabaseConfig.class, DynamoServiceContext.class})
 public class App extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(App.class, SwaggerConfig.class, CoreConfig.class, DatabaseConfig.class, DynamoServiceContext.class);
+        return application.sources(App.class, SwaggerConfig.class, DatabaseConfig.class, DynamoServiceContext.class);
     }
 
     public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(new Object[]{App.class, SwaggerConfig.class, CoreConfig.class, DatabaseConfig.class, DynamoServiceContext.class}, args);
+        ApplicationContext ctx = SpringApplication.run(new Object[]{App.class, SwaggerConfig.class, DatabaseConfig.class, DynamoServiceContext.class}, args);
 
         System.out.println("Let's inspect the beans provided by Spring Boot:");
         String[] beanNames = ctx.getBeanDefinitionNames();
