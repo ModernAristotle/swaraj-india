@@ -3,6 +3,8 @@ package com.aristotle.admin.service;
 
 import com.aristotle.admin.controller.beans.UserRegisterBean;
 import com.aristotle.admin.controller.beans.UserRegisterResultBean;
+import com.aristotle.admin.controller.beans.user.UpdateUserDetails;
+import com.aristotle.admin.controller.beans.user.UpdateUserPassword;
 import com.aristotle.core.enums.CreationType;
 import com.aristotle.core.exception.AppException;
 import com.aristotle.core.persistance.Email;
@@ -24,6 +26,8 @@ public class UserRegisterService {
     private UserService userService;
     @Autowired
     private HttpSessionUtil httpSessionUtil;
+    @Autowired
+    private LoginService loginService;
 
     public UserRegisterResultBean register(HttpServletRequest httpServletRequest, UserRegisterBean userRegisterBean) throws AppException {
         Email email = userService.saveEmail(userRegisterBean.getEmailId());
@@ -62,14 +66,33 @@ public class UserRegisterService {
         userService.saveLoginAccount(user.getId(), userRegisterBean.getEmailId(), userRegisterBean.getPassword());
         userService.sendEmailConfirmtionEmail(userRegisterBean.getEmailId());
         //TODO userService.sendMemberForIndexing(user.getId());
-        httpSessionUtil.setLoggedInUser(httpServletRequest, user);
 
+        loginService.refreshUserSession(httpServletRequest, user.getId());
         UserRegisterResultBean userRegisterResultBean = new UserRegisterResultBean();
         userRegisterResultBean.setId(user.getId());
         userRegisterResultBean.setVer(user.getVer());
         userRegisterResultBean.setSuccess(true);
         userRegisterResultBean.setRegisteredUser(userRegisterBean);
         return userRegisterResultBean;
+    }
+
+    public UpdateUserDetails updateUserDetails(HttpServletRequest httpServletRequest, UpdateUserDetails updateUserDetails) throws AppException {
+        User user = httpSessionUtil.getLoggedInUserSessionObject(httpServletRequest).getUser();
+
+        User dbUser = userService.findUserById(user.getId());
+
+        BeanUtils.copyProperties(updateUserDetails, dbUser);
+
+        userService.saveUser(dbUser);
+
+        loginService.refreshUserSession(httpServletRequest, user.getId());
+
+        return updateUserDetails;
+    }
+
+    public void updateUserPassword(HttpServletRequest httpServletRequest, UpdateUserPassword updateUserPassword) throws AppException {
+        User user = httpSessionUtil.getLoggedInUserSessionObject(httpServletRequest).getUser();
+        userService.changePassword(user.getId(), updateUserPassword.getCurrentPassword(), updateUserPassword.getNewPassword(), updateUserPassword.getNewPassword2());
     }
 
 }

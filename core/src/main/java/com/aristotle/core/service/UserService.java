@@ -39,4 +39,5 @@ public interface UserService {
 
     Set<AppPermission> getLocationPermissionsOfUser(Long userId, Long locationId) throws AppException;
 
+    void changePassword(Long userId, String oldPassword, String newPassword, String newPassword2) throws AppException;
 }

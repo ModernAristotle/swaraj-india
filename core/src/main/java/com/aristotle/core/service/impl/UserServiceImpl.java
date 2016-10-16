@@ -405,6 +405,19 @@ public class UserServiceImpl implements UserService {
         return appPermissions;
     }
 
+    @Override
+    public void changePassword(Long userId, String oldPassword, String newPassword, String newPassword2) throws AppException {
+        Assert.notNull(newPassword, "New Password must be provided");
+        Assert.notNull(newPassword2, "Please retype password");
+        Assert.notNull(oldPassword, "Old Password must be provided");
+        LoginAccount loginAccount = loginAccountRepository.getLoginAccountByUserId(userId);
+        if (!passwordUtil.checkPassword(oldPassword, loginAccount.getPassword())) {
+            throw new AppException("Incorrect Old password");
+        }
+        loginAccount.setPassword(passwordUtil.encryptPassword(newPassword));
+        loginAccount = loginAccountRepository.save(loginAccount);
+    }
+
     private Set<AppPermission> convertPermissionToAppPermission(Set<Permission> permissions) {
         Set<AppPermission> returnPermissions = new HashSet<>();
         if (permissions != null) {
