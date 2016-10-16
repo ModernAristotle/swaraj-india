@@ -26,7 +26,7 @@ public class AdminViewController {
         userPermissionBean.setSuperAdmin(true);
         mv.getModel().put("userPermission", userPermissionBean);
 
-        mv.setViewName("user_template");
+        mv.setViewName(fragmentFile);
         return mv;
     }
 }

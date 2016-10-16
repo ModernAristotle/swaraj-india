@@ -19,49 +19,47 @@
             <!--&lt;!&ndash; /input-group &ndash;&gt;-->
             <!--</li>-->
             <li>
-                <a href="/index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                <a href="#/index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-file-text-o fa-fw"></i> Profile<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="/me/basic.html">Basic Profile</a>
+                        <a href="#/me/basic.html">Basic Profile</a>
                     </li>
                     <li>
-                        <a href="/me/security.html">Security</a>
+                        <a href="#/me/security.html">Security</a>
                     </li>
                     <li>
-                        <a href="/me/contact.html">Contact Information</a>
+                        <a href="#/me/contact.html">Contact Information</a>
                     </li>
                     <li>
-                        <a href="/me/location.html">Location</a>
+                        <a href="#/me/location.html">Location</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
+
             <li>
-                <a href="/me/editProfile.html"><i class="fa fa-edit fa-fw"></i> Edit Profile</a>
+                <a href="#/me/donations.html"><i class="fa fa-money fa-fw"></i> Donations</a>
             </li>
             <li>
-                <a href="/me/donations.html"><i class="fa fa-money fa-fw"></i> Donations</a>
-            </li>
-            <li>
-                <a href="/me/awaz.html"><i class="fa fa-lightbulb-o fa-fw"></i> Swaraj Ki Awaz</a>
+                <a href="#/me/awaz.html"><i class="fa fa-lightbulb-o fa-fw"></i> Swaraj Ki Awaz</a>
             </li>
             <li th:if="${userPermission.content}">
                 <a href="#"><i class="fa fa-file-text-o fa-fw"></i> Content<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li th:if="${userPermission.news}">
-                        <a href="/admin/content/news.html">News</a>
+                        <a href="#/admin/content/news.html">News</a>
                     </li>
                     <li th:if="${userPermission.blogs}">
-                        <a href="/admin/content/blogs.html">Blogs</a>
+                        <a href="#/admin/content/blogs.html">Blogs</a>
                     </li>
                     <li th:if="${userPermission.poll}">
-                        <a href="/admin/content/poll.html">Poll</a>
+                        <a href="#/admin/content/poll.html">Poll</a>
                     </li>
                     <li th:if="${userPermission.events}">
-                        <a href="/admin/content/events.html">Events</a>
+                        <a href="#/admin/content/events.html">Events</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
@@ -70,28 +68,28 @@
                 <a href="#"><i class="fa fa-bullhorn  fa-fw"></i> Campaign<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li th:if="${userPermission.facebook}">
-                        <a href="/admin/campaign/facebook.html">Facebook</a>
+                        <a href="#/admin/campaign/facebook.html">Facebook</a>
                     </li>
                     <li th:if="${userPermission.twitter}">
-                        <a href="/admin/campaign/twitter.html">Twitter</a>
+                        <a href="#/admin/campaign/twitter.html">Twitter</a>
                     </li>
                     <li th:if="${userPermission.sms}">
-                        <a href="/admin/campaign/sms.html">Sms</a>
+                        <a href="#/admin/campaign/sms.html">Sms</a>
                     </li>
                     <li th:if="${userPermission.email}">
-                        <a href="/admin/campaign/email.html">Email</a>
+                        <a href="#/admin/campaign/email.html">Email</a>
                     </li>
                     <li th:if="${userPermission.call}">
-                        <a href="/admin/campaign/call.html">Call Campaigns</a>
+                        <a href="#/admin/campaign/call.html">Call Campaigns</a>
                     </li>
                     <li th:if="${userPermission.mobileGroups}">
-                        <a href="/admin/campaign/mobilegroups.html">Mobile Groups</a>
+                        <a href="#/admin/campaign/mobilegroups.html">Mobile Groups</a>
                     </li>
                     <li th:if="${userPermission.donation}">
-                        <a href="/admin/campaign/donations.html">Donation</a>
+                        <a href="#/admin/campaign/donations.html">Donation</a>
                     </li>
                     <li th:if="${userPermission.candidates}">
-                        <a href="/admin/campaign/candidates.html">Candidates</a>
+                        <a href="#/admin/campaign/candidates.html">Candidates</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
@@ -100,16 +98,16 @@
                 <a href="#"><i class="fa fa-codepen fa-fw"></i> Developer<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li th:if="${userPermission.domain}">
-                        <a href="/admin/developer/domain.html">Domain</a>
+                        <a href="#/admin/developer/domain.html">Domain</a>
                     </li>
                     <li th:if="${userPermission.urlMapping}">
-                        <a href="/admin/developer/urlmapping.html">Url Mapping</a>
+                        <a href="#/admin/developer/urlmapping.html">Url Mapping</a>
                     </li>
                     <li th:if="${userPermission.templates}">
-                        <a href="/admin/developer/templates.html">Templates</a>
+                        <a href="#/admin/developer/templates.html">Templates</a>
                     </li>
                     <li th:if="${userPermission.dataPlugins}">
-                        <a href="/admin/developer/static.html">Static Data Plugins</a>
+                        <a href="#/admin/developer/static.html">Static Data Plugins</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
@@ -118,19 +116,19 @@
                 <a href="#"><i class="fa fa-user fa-fw"></i> User/Members<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li th:if="${userPermission.userRoles}">
-                        <a href="/admin/user/roles.html">Manage User Roles</a>
+                        <a href="#/admin/user/roles.html">Manage User Roles</a>
                     </li>
                     <li th:if="${userPermission.searchVolunteer}">
-                        <a href="/admin/user/search.html">Search Volunteers</a>
+                        <a href="#/admin/user/search.html">Search Volunteers</a>
                     </li>
                     <li th:if="${userPermission.editUser}">
-                        <a href="/admin/user/edit.html">Manage User/Volunteer/Members</a>
+                        <a href="#/admin/user/edit.html">Manage User/Volunteer/Members</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
             <li th:if="${userPermission.pickLocation}">
-                <a href="/admin/location/update.html"><i class="fa  fa-location-arrow fa-fw"></i> Pick Location</a>
+                <a href="#/admin/location/update.html"><i class="fa  fa-location-arrow fa-fw"></i> Pick Location</a>
             </li>
             <li>
                 <a href="/me/logout.html">

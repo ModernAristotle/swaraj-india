@@ -18,35 +18,54 @@ public class UserViewController {
     private LoginService loginService;
     private UserPermissionBean emptyUserPermissionBean = new UserPermissionBean();
 
-    @RequestMapping(value = {"/home", "/index.html"})
-    public ModelAndView userHome(ModelAndView mv, HttpServletRequest request) {
-        mv = getModelAndView(mv, request, "home", "user/home");
-        return mv;
-    }
-
-    @RequestMapping(value = {"/me/editProfile", "/me/editProfile.html"})
-    public ModelAndView userEditProfile(ModelAndView mv, HttpServletRequest request) {
-        mv = getModelAndView(mv, request, "edit_profile", "user/edit_profile");
-        return mv;
-    }
-
-    @RequestMapping(value = {"/me/donations", "/me/donations.html"})
-    public ModelAndView userDonations(ModelAndView mv, HttpServletRequest request) {
-        mv = getModelAndView(mv, request, "my_donations", "user/my_donations");
-        return mv;
-    }
-
-    @RequestMapping(value = {"/me/awaz  ", "/me/awaz.html"})
-    public ModelAndView userAwaz(ModelAndView mv, HttpServletRequest request) {
-        mv = getModelAndView(mv, request, "awaz", "user/awaz");
+    @RequestMapping(value = {"/test"})
+    public ModelAndView test(ModelAndView mv, HttpServletRequest request) {
+        UserPermissionBean userPermissionBean = new UserPermissionBean();
+        userPermissionBean.setSuperAdmin(true);
+        mv.getModel().put("userPermission", userPermissionBean);
+        mv.setViewName("ajs_template");
         return mv;
     }
 
     @RequestMapping(value = {"/me/{fragmentName}.html"})
-    public ModelAndView genericView(ModelAndView mv, HttpServletRequest request, @PathVariable("fragmentName") String fragmentName) {
-        mv = getModelAndView(mv, request, fragmentName, "user/" + fragmentName);
-        return mv;
+    public String genericEachHtmlView(ModelAndView mv, HttpServletRequest request, @PathVariable("fragmentName") String fragmentName) {
+        return "user/" + fragmentName;
     }
+//    @RequestMapping(value = {"/me/basic.html"})
+//    public String basic(ModelAndView mv, HttpServletRequest request) {
+//        return "user/basic";
+//    }
+//
+//    @RequestMapping(value = {"/home", "/index.html"})
+//    public ModelAndView userHome(ModelAndView mv, HttpServletRequest request) {
+//        mv = getModelAndView(mv, request, "home", "user/home");
+//        return mv;
+//    }
+//
+//    @RequestMapping(value = {"/me/editProfile", "/me/editProfile.html"})
+//    public ModelAndView userEditProfile(ModelAndView mv, HttpServletRequest request) {
+//        mv = getModelAndView(mv, request, "edit_profile", "user/edit_profile");
+//        return mv;
+//    }
+//
+//    @RequestMapping(value = {"/me/donations", "/me/donations.html"})
+//    public ModelAndView userDonations(ModelAndView mv, HttpServletRequest request) {
+//        mv = getModelAndView(mv, request, "my_donations", "user/my_donations");
+//        return mv;
+//    }
+//
+//    @RequestMapping(value = {"/me/awaz  ", "/me/awaz.html"})
+//    public ModelAndView userAwaz(ModelAndView mv, HttpServletRequest request) {
+//        mv = getModelAndView(mv, request, "awaz", "user/awaz");
+//        return mv;
+//    }
+//
+//    @RequestMapping(value = {"/me/{fragmentName}.html"})
+//    public ModelAndView genericView(ModelAndView mv, HttpServletRequest request, @PathVariable("fragmentName") String fragmentName) {
+//        mv = getModelAndView(mv, request, fragmentName, "user/" + fragmentName);
+//        return mv;
+//    }
+
 
     private ModelAndView getModelAndView(ModelAndView mv, HttpServletRequest request, String fragmentName, String fragmentFile) {
         mv.getModel().put("fragmentName", fragmentName);
