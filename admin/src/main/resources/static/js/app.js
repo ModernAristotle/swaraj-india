@@ -105,6 +105,10 @@ app.config(function($routeProvider){
              templateUrl: '/admin/location/update.html',
              controller: 'usersController'
          })
+         .when('/register.html',{
+             templateUrl: '/registerView.html',
+             controller: 'registerController'
+         })
        .otherwise(
             { redirectTo: '/'}
         );

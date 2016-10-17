@@ -11,6 +11,11 @@ public class LoginController {
 
     @RequestMapping(value = "/login.html")
     public String login(ModelAndView mv, HttpServletRequest request) {
+        return "loginTemplate";
+    }
+
+    @RequestMapping(value = "/loginView.html")
+    public String loginView(ModelAndView mv, HttpServletRequest request) {
         return "login";
     }
 }

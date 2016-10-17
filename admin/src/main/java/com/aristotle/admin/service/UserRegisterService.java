@@ -36,7 +36,7 @@ public class UserRegisterService {
         }
         Phone phone;
         if (userRegisterBean.isNri()) {
-            phone = userService.savePhone(userRegisterBean.getNriCountryCode(), userRegisterBean.getNriMobileNumber());
+            phone = userService.savePhone(userRegisterBean.getNriCountryCode(), userRegisterBean.getMobileNumber());
         } else {
             phone = userService.savePhone(userRegisterBean.getCountryCode(), userRegisterBean.getMobileNumber());
         }

@@ -1,6 +1,7 @@
 package com.aristotle.admin;
 
 import com.aristotle.admin.config.SwaggerConfig;
+import com.aristotle.admin.filter.FilterConfig;
 import com.aristotle.core.config.DatabaseConfig;
 import com.next.dynamo.context.DynamoServiceContext;
 import org.springframework.boot.SpringApplication;
@@ -23,7 +24,7 @@ public class App extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(App.class, SwaggerConfig.class, DatabaseConfig.class, DynamoServiceContext.class);
+        return application.sources(App.class, SwaggerConfig.class, DatabaseConfig.class, DynamoServiceContext.class, FilterConfig.class);
     }
 
     public static void main(String[] args) {

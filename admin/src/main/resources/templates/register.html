@@ -1,79 +1,61 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
-
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
-
-    <div th:include="common/linkScript :: links"/>
-
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <title>Title</title>
 </head>
-
 <body>
+<div th:fragment="register">
+    <div class="login-panel panel panel-yellow">
+        <div class="panel-heading">
+            <h3 class="panel-title">Register</h3>
+        </div>
+        <div class="panel-body">
+            <form role="form" ng-submit="registerUser()">
+                <fieldset>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Name" name="name" type="text" autofocus="true" ng-model="user.name"/>
+                    </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <div class="login-panel panel panel-yellow">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Register</h3>
-                </div>
-                <div class="panel-body">
-                    <form role="form">
-                        <fieldset>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Name" name="name" type="text" value=""/>
-                            </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="E-mail" name="email" type="email" ng-model="user.emailId"/>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Password" name="password" type="password" ng-model="user.password"/>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Renter Password" name="repassword" type="password" ng-model="user.password2"/>
+                    </div>
+                    <div class="checkbox">
+                        <label data-toggle="tooltip"
+                               title="Select Whether you are Living in India or abroad(NRI). If living outside india then check this box else leave it">
+                            <input name="nri" type="checkbox" value="false" ng-model="user.nri"/>NRI
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Country</label>
+                        <select class="form-control" ng-model="user.nriCountryCode">
+                            <option>India</option>
+                            <option>UK</option>
+                            <option>USA</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Mobile Number" name="mobileNumber" type="text" ng-model="user.mobileNumber"/>
+                    </div>
+                    <div class="g-recaptcha" data-sitekey="6LdF0QgUAAAAAONFzptIy_AeBH3kR1hZDF85J1G0" ng-model="user.grecaptchaResponse"></div>
 
-                            <div class="form-group">
-                                <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus="true"/>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Password" name="password" type="password" value=""/>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Renter Password" name="repassword" type="password" value=""/>
-                            </div>
-                            <div class="checkbox">
-                                <label data-toggle="tooltip"
-                                       title="Select Whether you are Living in India or abroad(NRI). If living outside india then check this box else leave it">
-                                    <input name="nri" type="checkbox" value="false"/>NRI
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label>Select Country</label>
-                                <select class="form-control">
-                                    <option>India</option>
-                                    <option>UK</option>
-                                    <option>USA</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Mobile Number" name="mobileNumber" type="text" value=""/>
-                            </div>
-                            <div class="g-recaptcha" data-sitekey="6LdF0QgUAAAAAONFzptIy_AeBH3kR1hZDF85J1G0"></div>
+                    <!-- Change this to a button or input when using this as a form -->
+                    <input type="submit" class="btn btn-lg btn-success btn-block" value="Register"/>
+                    <div class="form-group">
+                        <a href="/login.html"><i class="fa fa-sign-in fa-fw"></i> Already Registered? Login Now</a>
+                    </div>
 
-                            <!-- Change this to a button or input when using this as a form -->
-                            <a href="index.html" class="btn btn-lg btn-success btn-block">Register</a>
-                        </fieldset>
-                    </form>
-                </div>
-            </div>
+                </fieldset>
+            </form>
         </div>
     </div>
 </div>
-
-<div th:include="common/scripts :: scripts"/>
-
 </body>
-
 </html>

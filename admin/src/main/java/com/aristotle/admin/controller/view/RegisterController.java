@@ -10,7 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 public class RegisterController {
 
     @RequestMapping("/register.html")
-    public String login(ModelAndView mv, HttpServletRequest request) {
+    public String registerTemplate(ModelAndView mv, HttpServletRequest request) {
+        return "registerTemplate";
+    }
+
+    @RequestMapping("/registerView.html")
+    public String register(ModelAndView mv, HttpServletRequest request) {
         return "register";
     }
 }

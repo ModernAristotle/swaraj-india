@@ -25,6 +25,7 @@ public abstract class BaseRestController {
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiErrorResponse test(IllegalArgumentException e) {
+        e.printStackTrace();
         return new ApiErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
 
@@ -32,6 +33,7 @@ public abstract class BaseRestController {
     @ExceptionHandler(AppException.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiErrorResponse appExceptionHandler(AppException appException) {
+        appException.printStackTrace();
         return new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), appException.getMessage());
     }
 }

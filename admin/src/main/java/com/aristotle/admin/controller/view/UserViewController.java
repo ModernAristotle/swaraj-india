@@ -18,7 +18,7 @@ public class UserViewController {
     private LoginService loginService;
     private UserPermissionBean emptyUserPermissionBean = new UserPermissionBean();
 
-    @RequestMapping(value = {"/test"})
+    @RequestMapping(value = {"/test", "/home"})
     public ModelAndView test(ModelAndView mv, HttpServletRequest request) {
         UserPermissionBean userPermissionBean = new UserPermissionBean();
         userPermissionBean.setSuperAdmin(true);
