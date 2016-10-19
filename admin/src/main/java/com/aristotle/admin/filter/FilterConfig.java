@@ -13,10 +13,20 @@ public class FilterConfig {
 
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(loginFilter());
-        registration.addUrlPatterns("/home", "/me/*", "/admin/*");
-        registration.addInitParameter("paramName", "paramValue");
+        registration.addUrlPatterns("/home");
         registration.setName("loginFilter");
         registration.setOrder(1);
+        return registration;
+    }
+
+    // @Bean
+    public FilterRegistrationBean loginViewFilterRegistration() {
+
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(loginViewFilter());
+        registration.addUrlPatterns("/me/*", "/admin/*");
+        registration.setName("loginViewFilter");
+        registration.setOrder(2);
         return registration;
     }
 
@@ -24,5 +34,11 @@ public class FilterConfig {
     public Filter loginFilter() {
         return new LoginFilter();
     }
+
+    //@Bean
+    public Filter loginViewFilter() {
+        return new LoginViewFilter();
+    }
+
 
 }
