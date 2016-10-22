@@ -49,6 +49,8 @@ public abstract class AbstractBaseControllerTest {
     protected static final String REGISTER_MOBILE_URL = "/service/us/register/mobile";
     protected static final String LOCATION_GET_ALL_STATES_URL = "/service/us/location/states";
     protected static final String ELECTION_URL = "/service/s/election";
+    protected static final String DOMAIN_URL = "/service/s/domain";
+
 
 
     protected MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));

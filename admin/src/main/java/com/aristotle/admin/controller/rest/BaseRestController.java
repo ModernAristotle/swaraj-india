@@ -4,12 +4,14 @@ import com.aristotle.admin.controller.beans.UserBean;
 import com.aristotle.admin.controller.rest.error.ApiErrorResponse;
 import com.aristotle.core.exception.AppException;
 import com.aristotle.core.persistance.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Transactional(rollbackFor = Exception.class)
+@Slf4j
 public abstract class BaseRestController {
 
     protected UserBean convertUserForLoginResult(User user) {
@@ -25,7 +27,7 @@ public abstract class BaseRestController {
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiErrorResponse test(IllegalArgumentException e) {
-        e.printStackTrace();
+        log.error("", e);
         return new ApiErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
 
@@ -33,7 +35,14 @@ public abstract class BaseRestController {
     @ExceptionHandler(AppException.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiErrorResponse appExceptionHandler(AppException appException) {
-        appException.printStackTrace();
+        log.error("", appException);
         return new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), appException.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ApiErrorResponse allOtherExceptions(Exception exception) {
+        log.error("", exception);
+        return new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), exception.getMessage());
     }
 }
