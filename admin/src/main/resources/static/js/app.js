@@ -75,7 +75,7 @@ app.config(function($routeProvider){
          })
         .when('/admin/developer/domain.html',{
              templateUrl: '/admin/developer/domain.html',
-             controller: 'usersController'
+             controller: 'domainController'
          })
         .when('/admin/developer/urlmapping.html',{
              templateUrl: '/admin/developer/urlmapping.html',

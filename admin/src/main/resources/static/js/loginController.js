@@ -1,9 +1,5 @@
 app.controller('loginController', function($scope, $http) {
 
-    $scope.user = {
-    userName :"nextinfotechuk@gmail.com"
-    };
-
     $scope.loginUser = function() {
     alert(angular.toJson($scope.user));
         $http({
