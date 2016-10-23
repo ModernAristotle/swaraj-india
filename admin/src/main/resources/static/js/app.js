@@ -81,6 +81,10 @@ app.config(function($routeProvider){
              templateUrl: '/admin/developer/urlmapping.html',
              controller: 'urlMappingController'
          })
+         .when('/admin/developer/htmlpart.html',{
+              templateUrl: '/admin/developer/htmlpart.html',
+              controller: 'htmlPartController'
+          })
         .when('/admin/developer/templates.html',{
              templateUrl: '/admin/developer/templates.html',
              controller: 'domainTemplateController'

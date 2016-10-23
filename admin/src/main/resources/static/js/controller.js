@@ -156,6 +156,56 @@ app.controller('urlMappingController', function($scope, $http) {
       };
 });
 
+
+app.controller('htmlPartController', function($scope, $http) {
+
+    console.log("fetching Domain Templates");
+    $scope.showTable = true;
+    $scope.domainTemplateSelected = false;
+
+    loadDomainTemplates($scope, $http)
+
+    $scope.onDomainTemplateSelection = function() {
+        $scope.domainTemplateSelected = true;
+        //Load all Url Mapping for this domain
+        loadHtmlPartOfDomainTemplate($scope, $http, $scope.selectedDomainTemplateId)
+    };
+    $scope.editHtmlPart = function(htmlPart) {
+        $scope.showTable = false;
+        $scope.selectedHtmlPart = htmlPart;
+    };
+
+     $scope.cancel = function() {
+         console.log("Edit Html Part cancelled");
+         $scope.showTable = true;
+     };
+     $scope.newHtmlPart = function() {
+         $scope.showTable = false;
+         $scope.selectedHtmlPart = {domainTemplateId: $scope.selectedDomainTemplateId};
+     };
+
+     $scope.saveHtmlPart = function() {
+          $scope.showTable = true;
+          console.log("Saving Html part : "+ angular.toJson($scope.selectedHtmlPart));
+          $http({
+              method : "POST",
+              url : "/service/s/htmlpart",
+              data : angular.toJson($scope.selectedHtmlPart),
+              headers : {
+                  'Content-Type' : 'application/json'
+              }
+          }).then(function successCallback(response) {
+              console.log("Url Mapping saved succesfully "+ angular.toJson(response));
+              loadHtmlPartOfDomainTemplate($scope, $http, $scope.selectedDomainTemplateId)
+              $scope.cancel();
+
+          }, function errorCallback(response) {
+              console.log(response.statusText);
+          });
+
+      };
+});
+
 function loadDomains(scope, http){
 http({
         method : "GET",
@@ -190,6 +240,21 @@ http({
       }).then(function successCallback(response) {
         console.log(angular.toJson(response.data));
         scope.urlMappings = response.data;
+      }, function errorCallback(response) {
+        console.log(response.statusText);
+      });
+
+}
+
+
+function loadHtmlPartOfDomainTemplate(scope, http, domainTemplateId){
+
+http({
+        method : "GET",
+        url : "/service/s/htmlpart/domaintemplate/"+domainTemplateId
+      }).then(function successCallback(response) {
+        console.log(angular.toJson(response.data));
+        scope.htmlParts = response.data;
       }, function errorCallback(response) {
         console.log(response.statusText);
       });

@@ -2,6 +2,7 @@ package com.aristotle.admin.controller.rest;
 
 import com.aristotle.admin.controller.beans.dynamo.DomainBean;
 import com.aristotle.admin.controller.beans.dynamo.DomainTemplateBean;
+import com.aristotle.admin.controller.beans.dynamo.HtmlPartBean;
 import com.aristotle.admin.controller.beans.dynamo.UrlMappingBean;
 import com.aristotle.admin.service.DynamoControllerService;
 import com.aristotle.core.exception.AppException;
@@ -52,5 +53,16 @@ public class DynamoController extends BaseRestController {
     public List<UrlMappingBean> getAllUrlMappings(HttpServletRequest httpServletRequest, @PathVariable("domainId") Long domainId) throws AppException {
         return dynamoControllerService.getAllUrlMappingOfDomain(domainId);
     }
+
+    @RequestMapping(value = "/service/s/htmlpart", method = POST)
+    public HtmlPartBean saveHtmlPartBean(HttpServletRequest httpServletRequest, @RequestBody HtmlPartBean htmlPartBean) throws AppException {
+        return dynamoControllerService.saveHtmlPart(htmlPartBean);
+    }
+
+    @RequestMapping(value = "/service/s/htmlpart/domaintemplate/{domainTemplateId}", method = GET)
+    public List<HtmlPartBean> getAllHtmlPartsByDomainTemplateId(HttpServletRequest httpServletRequest, @PathVariable("domainTemplateId") Long domainTemplateId) throws AppException {
+        return dynamoControllerService.getAllHtmlPartOfDomainTemplate(domainTemplateId);
+    }
+
 
 }

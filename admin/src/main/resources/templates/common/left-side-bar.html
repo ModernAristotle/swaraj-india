@@ -100,11 +100,17 @@
                     <li th:if="${userPermission.domain}">
                         <a href="#/admin/developer/domain.html">Domain</a>
                     </li>
+                    <li th:if="${userPermission.templates}">
+                        <a href="#/admin/developer/templates.html">Domain Templates</a>
+                    </li>
                     <li th:if="${userPermission.urlMapping}">
                         <a href="#/admin/developer/urlmapping.html">Url Mapping</a>
                     </li>
-                    <li th:if="${userPermission.templates}">
-                        <a href="#/admin/developer/templates.html">Templates</a>
+                    <li th:if="${userPermission.urltemplates}">
+                        <a href="#/admin/developer/urltemplate.html">Url Template</a>
+                    </li>
+                    <li th:if="${userPermission.htmlpart}">
+                        <a href="#/admin/developer/htmlpart.html">Html Part</a>
                     </li>
                     <li th:if="${userPermission.dataPlugins}">
                         <a href="#/admin/developer/static.html">Static Data Plugins</a>
