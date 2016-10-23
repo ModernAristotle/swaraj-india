@@ -3,4 +3,5 @@ MAINTAINER Ravi Sharma
 
 ADD ./ROOT.war ROOT.war
 ADD ./server.xml server.xml
+RUN apt-get install vim -y
 RUN rm -fR $TOMCAT_HOME/webapps/*; cp ROOT.war $TOMCAT_HOME/webapps/.; cp -f server.xml $TOMCAT_HOME/conf/.
