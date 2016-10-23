@@ -1,15 +1,9 @@
 package com.aristotle.admin.service;
 
-import com.aristotle.admin.controller.beans.dynamo.DomainBean;
-import com.aristotle.admin.controller.beans.dynamo.DomainTemplateBean;
-import com.aristotle.admin.controller.beans.dynamo.HtmlPartBean;
-import com.aristotle.admin.controller.beans.dynamo.UrlMappingBean;
+import com.aristotle.admin.controller.beans.dynamo.*;
 import com.aristotle.core.exception.AppException;
 import com.next.dynamo.exception.DynamoException;
-import com.next.dynamo.persistance.Domain;
-import com.next.dynamo.persistance.DomainTemplate;
-import com.next.dynamo.persistance.PartTemplate;
-import com.next.dynamo.persistance.UrlMapping;
+import com.next.dynamo.persistance.*;
 import com.next.dynamo.service.DynamoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -182,16 +176,31 @@ public class DynamoControllerService {
     public List<HtmlPartBean> getAllHtmlPartOfDomainTemplate(Long domainTemplateId) throws AppException {
         try {
             List<PartTemplate> partTemplates = dynamoService.findPartTemplateByDomainTemplate(domainTemplateId);
-            List<HtmlPartBean> htmlPartBeanList = new ArrayList<>(partTemplates.size());
-            for (PartTemplate onePartTemplate : partTemplates) {
-                HtmlPartBean htmlPartBean = new HtmlPartBean();
-                copyProperties(onePartTemplate, htmlPartBean);
-                htmlPartBeanList.add(htmlPartBean);
-            }
+            List<HtmlPartBean> htmlPartBeanList = convertToHtmlPartBean(partTemplates);
             return htmlPartBeanList;
         } catch (DynamoException e) {
             throw new AppException(e);
         }
+    }
+
+    public List<HtmlPartBean> getAllHtmlMainPartOfDomainTemplate(Long domainTemplateId) throws AppException {
+        try {
+            List<PartTemplate> partTemplates = dynamoService.findMainPartTemplateByDomainTemplate(domainTemplateId);
+            List<HtmlPartBean> htmlPartBeanList = convertToHtmlPartBean(partTemplates);
+            return htmlPartBeanList;
+        } catch (DynamoException e) {
+            throw new AppException(e);
+        }
+    }
+
+    private List<HtmlPartBean> convertToHtmlPartBean(List<PartTemplate> partTemplates) {
+        List<HtmlPartBean> htmlPartBeanList = new ArrayList<>(partTemplates.size());
+        for (PartTemplate onePartTemplate : partTemplates) {
+            HtmlPartBean htmlPartBean = new HtmlPartBean();
+            copyProperties(onePartTemplate, htmlPartBean);
+            htmlPartBeanList.add(htmlPartBean);
+        }
+        return htmlPartBeanList;
     }
 
     private PartTemplate getOrCreateHtmlPart(HtmlPartBean htmlPartBean) throws DynamoException, AppException {
@@ -214,5 +223,66 @@ public class DynamoControllerService {
             return domainTemplate;
         }
         return null;
+    }
+
+    private PartTemplate getPartTemplate(Long partTemplateId) throws DynamoException {
+        if (partTemplateId != null) {
+            PartTemplate partTemplate = dynamoService.getPartTemplateById(partTemplateId);
+            return partTemplate;
+        }
+        return null;
+    }
+
+    private UrlMapping getUrlMapping(Long urlMappingId) throws DynamoException {
+        if (urlMappingId != null) {
+            UrlMapping urlMapping = dynamoService.getUrlMappingById(urlMappingId);
+            return urlMapping;
+        }
+        return null;
+    }
+
+    public UrlTemplateBean saveUrlTemplate(UrlTemplateBean urlTemplateBean) throws AppException {
+        try {
+            PageTemplate pageTemplate = getOrCreatePageTemplate(urlTemplateBean);
+            pageTemplate.setDomainTemplate(getDomainTemplate(urlTemplateBean.getDomainTemplateId()));
+            pageTemplate.setMainTemplate(getPartTemplate(urlTemplateBean.getMainTemplateId()));
+            pageTemplate.setUrlMapping(getUrlMapping(urlTemplateBean.getUrlMappingId()));
+            pageTemplate = dynamoService.savePageTemplate(pageTemplate);
+            copyProperties(pageTemplate, urlTemplateBean);
+            return urlTemplateBean;
+        } catch (DynamoException e) {
+            throw new AppException(e);
+        }
+    }
+
+    private PageTemplate getOrCreatePageTemplate(UrlTemplateBean urlTemplateBean) throws DynamoException, AppException {
+        PageTemplate pageTemplate;
+        if (urlTemplateBean.getId() != null) {
+            pageTemplate = dynamoService.getPageTemplateById(urlTemplateBean.getId());
+            if (pageTemplate == null) {
+                throw new AppException("No Part Template found for [id=" + urlTemplateBean.getId() + "]");
+            }
+        } else {
+            pageTemplate = new PageTemplate();
+        }
+        copyProperties(urlTemplateBean, pageTemplate);
+        return pageTemplate;
+    }
+
+    public List<UrlTemplateBean> getAllUrlTemplateOfDomainTemplate(Long domainTemplateId) throws AppException {
+        try {
+            List<PageTemplate> partTemplates = dynamoService.findPageTemplatesByDomainTemplateId(domainTemplateId);
+            List<UrlTemplateBean> urlTemplateBeanList = new ArrayList<>(partTemplates.size());
+            for (PageTemplate onePageTemplate : partTemplates) {
+                UrlTemplateBean urlTemplateBean = new UrlTemplateBean();
+                copyProperties(onePageTemplate, urlTemplateBean);
+                urlTemplateBean.setUrlPattern(onePageTemplate.getUrlMapping().getUrlPattern());
+                urlTemplateBean.setMainTemplateName(onePageTemplate.getMainTemplate().getPartName());
+                urlTemplateBeanList.add(urlTemplateBean);
+            }
+            return urlTemplateBeanList;
+        } catch (DynamoException e) {
+            throw new AppException(e);
+        }
     }
 }

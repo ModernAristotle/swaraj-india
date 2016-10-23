@@ -85,6 +85,10 @@ app.config(function($routeProvider){
               templateUrl: '/admin/developer/htmlpart.html',
               controller: 'htmlPartController'
           })
+          .when('/admin/developer/urltemplate.html',{
+               templateUrl: '/admin/developer/urltemplate.html',
+               controller: 'urlTemplateController'
+           })
         .when('/admin/developer/templates.html',{
              templateUrl: '/admin/developer/templates.html',
              controller: 'domainTemplateController'

@@ -1,9 +1,6 @@
 package com.aristotle.admin.controller.rest;
 
-import com.aristotle.admin.controller.beans.dynamo.DomainBean;
-import com.aristotle.admin.controller.beans.dynamo.DomainTemplateBean;
-import com.aristotle.admin.controller.beans.dynamo.HtmlPartBean;
-import com.aristotle.admin.controller.beans.dynamo.UrlMappingBean;
+import com.aristotle.admin.controller.beans.dynamo.*;
 import com.aristotle.admin.service.DynamoControllerService;
 import com.aristotle.core.exception.AppException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,13 +52,28 @@ public class DynamoController extends BaseRestController {
     }
 
     @RequestMapping(value = "/service/s/htmlpart", method = POST)
-    public HtmlPartBean saveHtmlPartBean(HttpServletRequest httpServletRequest, @RequestBody HtmlPartBean htmlPartBean) throws AppException {
+    public HtmlPartBean saveHtmlPart(HttpServletRequest httpServletRequest, @RequestBody HtmlPartBean htmlPartBean) throws AppException {
         return dynamoControllerService.saveHtmlPart(htmlPartBean);
     }
 
     @RequestMapping(value = "/service/s/htmlpart/domaintemplate/{domainTemplateId}", method = GET)
     public List<HtmlPartBean> getAllHtmlPartsByDomainTemplateId(HttpServletRequest httpServletRequest, @PathVariable("domainTemplateId") Long domainTemplateId) throws AppException {
         return dynamoControllerService.getAllHtmlPartOfDomainTemplate(domainTemplateId);
+    }
+
+    @RequestMapping(value = "/service/s/htmlpart/main/domaintemplate/{domainTemplateId}", method = GET)
+    public List<HtmlPartBean> getAllHtmlMainPartsByDomainTemplateId(HttpServletRequest httpServletRequest, @PathVariable("domainTemplateId") Long domainTemplateId) throws AppException {
+        return dynamoControllerService.getAllHtmlMainPartOfDomainTemplate(domainTemplateId);
+    }
+
+    @RequestMapping(value = "/service/s/urltemplate", method = POST)
+    public UrlTemplateBean saveUrlTemplate(HttpServletRequest httpServletRequest, @RequestBody UrlTemplateBean urlTemplateBean) throws AppException {
+        return dynamoControllerService.saveUrlTemplate(urlTemplateBean);
+    }
+
+    @RequestMapping(value = "/service/s/urltemplate/domaintemplate/{domainTemplateId}", method = GET)
+    public List<UrlTemplateBean> getAllUrlTemplatesByDomainTemplateId(HttpServletRequest httpServletRequest, @PathVariable("domainTemplateId") Long domainTemplateId) throws AppException {
+        return dynamoControllerService.getAllUrlTemplateOfDomainTemplate(domainTemplateId);
     }
 
 

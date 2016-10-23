@@ -4,45 +4,67 @@
     <title>Title</title>
 </head>
 <body>
-<div th:fragment="domain">
-    <button type="button" class="btn btn-primary pull-right" ng-show="showTable" ng-click="newDomain()"><i class="fa fa-plus"></i> Add Domain
-    </button>
-    <table width="100%" class="table table-striped table-bordered table-hover col-xs-12 col-sm-6 col-md-4 col-lg-4" id="dataTables-example" ng-show="showTable">
-        <thead>
-        <tr>
-            <th>Domain Name</th>
-            <th>Active</th>
-            <th>Update</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="oneDomain in domains" class="odd gradeX">
-            <td>{{oneDomain.name}}</td>
-            <td>{{oneDomain.active}}</td>
-            <td><input type="button" class="btn btn-default" value="Update" ng-click="editDomain(oneDomain)"/></td>
-        </tr>
-
-        </tbody>
-    </table>
-
-    <form ng-submit="saveDomain()" ng-hide="showTable" class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-        <fieldset>
-            <div class="form-group">
-                <label>Domain Name</label>
-                <input class="form-control" placeholder="Domain Name" name="name" autofocus="true" ng-model="selectedDomain.name"/>
+<div th:fragment="urltemplate">
+    <div class="grid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                <label>Select Domain Template</label>
+                <select class="form-control " ng-model="selectedDomainTemplateId" ng-change="onDomainTemplateSelection()">
+                    <option ng-repeat="oneDomainTemplate in domainTemplates" ng-value="{{oneDomainTemplate.id}}">{{oneDomainTemplate.name}}</option>
+                </select>
             </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" value="" ng-model="selectedDomain.active"/>Active
-                </label>
-            </div>
+        </div>
 
-            <input type="submit" class="btn btn-primary col-xs-6 col-sm-6 col-md-4 col-lg-4" value="Save"/>
-            <input type="button" class="btn btn-default col-xs-6 col-sm-6 col-md-4 col-lg-4" value="Cancel" ng-click="cancel()"/>
+        <div class="row" ng-show="domainTemplateSelected">
+            <button type="button" class="btn btn-primary pull-right" ng-show="showTable" ng-click="newUrlTemplate()"><i class="fa fa-plus"></i> Add Url Template
+            </button>
+            <table class="table table-striped table-bordered table-hover col-xs-12 col-sm-6 col-md-4 col-lg-4" id="url-template" ng-show="showTable">
+                <thead>
+                <tr>
+                    <th>Url</th>
+                    <th>Main Template Name</th>
+                    <th>Git file Path</th>
+                    <th>Update</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="oneUrlTemplate in urlTemplates" class="odd gradeX">
+                    <td>{{oneUrlTemplate.urlPattern}}</td>
+                    <td>{{oneUrlTemplate.mainTemplateName}}</td>
+                    <td>{{oneUrlTemplate.gitFilePath}}</td>
+                    <td><input type="button" class="btn btn-default" value="Update" ng-click="editUrlTemplate(oneUrlTemplate)"/></td>
+                </tr>
 
-        </fieldset>
+                </tbody>
+            </table>
 
-    </form>
+            <form ng-submit="saveUrlTemplate()" ng-hide="showTable" class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                <fieldset>
+                    <div class="form-group">
+                        <label>Git File path</label>
+                        <input class="form-control" placeholder="Git File Path" name="urlMapping" ng-model="selectedUrlTemplate.gitFilePath"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Url</label>
+                        <select class="form-control " ng-model="selectedUrlTemplate.urlMappingId">
+                            <option ng-repeat="oneUrlMapping in urlMappings" ng-value="{{oneUrlMapping.id}}">{{oneUrlMapping.urlPattern}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Main Page Template</label>
+                        <select class="form-control " ng-model="selectedUrlTemplate.mainTemplateId">
+                            <option ng-repeat="oneMainHtmPart in mainHtmlParts" ng-value="{{oneMainHtmPart.id}}">{{oneMainHtmPart.partName}}</option>
+                        </select>
+                    </div>
+
+                    <input type="submit" class="btn btn-primary col-xs-6 col-sm-6 col-md-4 col-lg-4" value="Save"/>
+                    <input type="button" class="btn btn-default col-xs-6 col-sm-6 col-md-4 col-lg-4" value="Cancel" ng-click="cancel()"/>
+
+                </fieldset>
+
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>

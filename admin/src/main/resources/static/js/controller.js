@@ -42,7 +42,6 @@ app.controller('domainController', function($scope, $rootScope, $http) {
      };
 
      $scope.saveDomain = function() {
-          $scope.showTable = true;
           console.log("Saving Domain "+ angular.toJson($scope.selectedDomain));
           $http({
               method : "POST",
@@ -88,7 +87,6 @@ app.controller('domainTemplateController', function($scope, $rootScope, $http) {
      };
 
      $scope.saveDomainTemplate = function() {
-          $scope.showTable = true;
           console.log("Saving Domain Template : "+ angular.toJson($scope.selectedDomainTemplate));
           $http({
               method : "POST",
@@ -139,7 +137,6 @@ app.controller('urlMappingController', function($scope, $rootScope, $http) {
      };
 
      $scope.saveUrlMapping = function() {
-          $scope.showTable = true;
           console.log("Saving Url Mapping : "+ angular.toJson($scope.selectedUrlMapping));
           $http({
               method : "POST",
@@ -190,7 +187,6 @@ app.controller('htmlPartController', function($scope, $rootScope, $http) {
      };
 
      $scope.saveHtmlPart = function() {
-          $scope.showTable = true;
           console.log("Saving Html part : "+ angular.toJson($scope.selectedHtmlPart));
           $http({
               method : "POST",
@@ -211,7 +207,65 @@ app.controller('htmlPartController', function($scope, $rootScope, $http) {
       };
 });
 
+app.controller('urlTemplateController', function($scope, $rootScope, $http) {
+
+    $rootScope.headingTitle = "Url Templates";
+    console.log("fetching Domain Templates");
+    $scope.showTable = true;
+    $scope.domainTemplateSelected = false;
+
+    loadDomainTemplates($scope, $http);
+
+    $scope.onDomainTemplateSelection = function() {
+        $scope.domainTemplateSelected = true;
+        loadUrlTemplateOfDomainTemplate($scope, $http, $scope.selectedDomainTemplateId);
+        loadMainHtmlPartOfDomainTemplate($scope, $http, $scope.selectedDomainTemplateId);
+        for(i = 0; i < $scope.domainTemplates.length; i++){
+            if($scope.domainTemplates[i].id == $scope.selectedDomainTemplateId){
+                loadUrlMappingOfDomain($scope, $http, $scope.domainTemplates[i].domainId);
+            }
+        }
+
+    };
+    $scope.editUrlTemplate = function(urlTemplate) {
+        $scope.showTable = false;
+        $scope.selectedUrlTemplate = urlTemplate;
+    };
+
+     $scope.cancel = function() {
+         console.log("Edit Url Template cancelled");
+         $scope.showTable = true;
+     };
+     $scope.newUrlTemplate = function() {
+         $scope.showTable = false;
+         $scope.selectedUrlTemplate = {domainTemplateId: $scope.selectedDomainTemplateId};
+     };
+
+     $scope.saveUrlTemplate = function() {
+          console.log("Saving Url Template : "+ angular.toJson($scope.selectedUrlTemplate));
+          $http({
+              method : "POST",
+              url : "/service/s/urltemplate",
+              data : angular.toJson($scope.selectedUrlTemplate),
+              headers : {
+                  'Content-Type' : 'application/json'
+              }
+          }).then(function successCallback(response) {
+              console.log("Url Mapping saved succesfully "+ angular.toJson(response));
+              loadUrlTemplateOfDomainTemplate($scope, $http, $scope.selectedDomainTemplateId);
+              $scope.cancel();
+
+          }, function errorCallback(response) {
+              console.log(response.statusText);
+          });
+
+      };
+});
+
+
 function loadDomains(scope, http){
+console.log("Loading Domains ");
+
 http({
         method : "GET",
         url : "/service/s/domain"
@@ -224,6 +278,7 @@ http({
 }
 
 function loadDomainTemplates(scope, http){
+console.log("Loading Domain templates");
 
 http({
         method : "GET",
@@ -238,7 +293,7 @@ http({
 }
 
 function loadUrlMappingOfDomain(scope, http, domainId){
-
+console.log("Loading Url Mapping of Domain : "+ domainId);
 http({
         method : "GET",
         url : "/service/s/urlmapping/domain/"+domainId
@@ -253,6 +308,7 @@ http({
 
 
 function loadHtmlPartOfDomainTemplate(scope, http, domainTemplateId){
+console.log("Loading Html part of Domain template : "+ domainTemplateId);
 
 http({
         method : "GET",
@@ -260,6 +316,36 @@ http({
       }).then(function successCallback(response) {
         console.log(angular.toJson(response.data));
         scope.htmlParts = response.data;
+      }, function errorCallback(response) {
+        console.log(response.statusText);
+      });
+
+}
+
+function loadMainHtmlPartOfDomainTemplate(scope, http, domainTemplateId){
+console.log("Loading Main Html part of Domain template : "+ domainTemplateId);
+
+http({
+        method : "GET",
+        url : "/service/s/htmlpart/main/domaintemplate/"+domainTemplateId
+      }).then(function successCallback(response) {
+        console.log("Success: "+ angular.toJson(response.data));
+        scope.mainHtmlParts = response.data;
+      }, function errorCallback(response) {
+        console.log("failed : "+ response.statusText);
+      });
+
+}
+
+function loadUrlTemplateOfDomainTemplate(scope, http, domainTemplateId){
+console.log("Loading Url Template of Domain template : "+ domainTemplateId);
+
+http({
+        method : "GET",
+        url : "/service/s/urltemplate/domaintemplate/"+domainTemplateId
+      }).then(function successCallback(response) {
+        console.log(angular.toJson(response.data));
+        scope.urlTemplates = response.data;
       }, function errorCallback(response) {
         console.log(response.statusText);
       });
