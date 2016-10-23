@@ -2,10 +2,12 @@ package com.aristotle.admin.service;
 
 import com.aristotle.admin.controller.beans.dynamo.DomainBean;
 import com.aristotle.admin.controller.beans.dynamo.DomainTemplateBean;
+import com.aristotle.admin.controller.beans.dynamo.UrlMappingBean;
 import com.aristotle.core.exception.AppException;
 import com.next.dynamo.exception.DynamoException;
 import com.next.dynamo.persistance.Domain;
 import com.next.dynamo.persistance.DomainTemplate;
+import com.next.dynamo.persistance.UrlMapping;
 import com.next.dynamo.service.DynamoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -110,5 +112,56 @@ public class DynamoControllerService {
         }
         copyProperties(domainTemplateBean, domainTemplate);
         return domainTemplate;
+    }
+
+    public UrlMappingBean saveUrlMapping(UrlMappingBean urlMappingBean) throws AppException {
+
+        try {
+            UrlMapping urlMapping = getOrCreateUrlMapping(urlMappingBean);
+            urlMapping.setDomain(getDomain(urlMappingBean.getDomainId()));
+            urlMapping = dynamoService.saveUrlMapping(urlMapping);
+            copyProperties(urlMapping, urlMappingBean);
+            return urlMappingBean;
+        } catch (DynamoException e) {
+            throw new AppException(e);
+        }
+    }
+
+    public List<UrlMappingBean> getAllUrlMappingOfDomain(Long domainId) throws AppException {
+
+        try {
+            List<UrlMapping> urlMappings = dynamoService.getUrlMappingByDomainId(domainId);
+            List<UrlMappingBean> urlMappingBeanList = new ArrayList<>(urlMappings.size());
+            for (UrlMapping oneUrlMapping : urlMappings) {
+                UrlMappingBean urlMappingBean = new UrlMappingBean();
+                copyProperties(oneUrlMapping, urlMappingBean);
+                urlMappingBeanList.add(urlMappingBean);
+            }
+            return urlMappingBeanList;
+        } catch (DynamoException e) {
+            throw new AppException(e);
+        }
+    }
+
+    private UrlMapping getOrCreateUrlMapping(UrlMappingBean urlMappingBean) throws DynamoException, AppException {
+        UrlMapping urlMapping;
+        if (urlMappingBean.getId() != null) {
+            urlMapping = dynamoService.getUrlMappingById(urlMappingBean.getId());
+            if (urlMapping == null) {
+                throw new AppException("No Url Mapping found for [id=" + urlMappingBean.getId() + "]");
+            }
+        } else {
+            urlMapping = new UrlMapping();
+        }
+        copyProperties(urlMappingBean, urlMapping);
+        return urlMapping;
+    }
+
+    private Domain getDomain(Long domainId) throws DynamoException {
+        if (domainId != null) {
+            Domain domain = dynamoService.getDomainById(domainId);
+            return domain;
+        }
+        return null;
     }
 }

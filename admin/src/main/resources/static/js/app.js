@@ -79,7 +79,7 @@ app.config(function($routeProvider){
          })
         .when('/admin/developer/urlmapping.html',{
              templateUrl: '/admin/developer/urlmapping.html',
-             controller: 'usersController'
+             controller: 'urlMappingController'
          })
         .when('/admin/developer/templates.html',{
              templateUrl: '/admin/developer/templates.html',

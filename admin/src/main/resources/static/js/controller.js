@@ -24,7 +24,7 @@ app.controller('domainController', function($scope, $http) {
     console.log("fetching domains");
     $scope.showTable = true;
 
-    loadDomains($http)
+    loadDomains($scope, $http)
 
     $scope.editDomain = function(domain) {
         $scope.showTable = false;
@@ -53,8 +53,8 @@ app.controller('domainController', function($scope, $http) {
               }
           }).then(function successCallback(response) {
               console.log("Domain saved succesfully "+ angular.toJson(response));
+              loadDomains($scope, $http)
               $scope.cancel();
-
           }, function errorCallback(response) {
               console.log(response.statusText);
           });
@@ -69,16 +69,7 @@ app.controller('domainTemplateController', function($scope, $http) {
     $scope.showTable = true;
 
     loadDomains($scope, $http)
-
-    $http({
-                method : "GET",
-                url : "/service/s/domaintemplate"
-          }).then(function successCallback(response) {
-                console.log(angular.toJson(response.data));
-                $scope.domainTemplates = response.data;
-          }, function errorCallback(response) {
-                console.log(response.statusText);
-          });
+    loadDomainTemplates($scope, $http)
 
     $scope.editDomainTemplate = function(domainTemplate) {
         $scope.showTable = false;
@@ -96,7 +87,7 @@ app.controller('domainTemplateController', function($scope, $http) {
 
      $scope.saveDomainTemplate = function() {
           $scope.showTable = true;
-          console.log("Saving Domain Template"+ angular.toJson($scope.selectedDomainTemplate));
+          console.log("Saving Domain Template : "+ angular.toJson($scope.selectedDomainTemplate));
           $http({
               method : "POST",
               url : "/service/s/domaintemplate",
@@ -106,6 +97,7 @@ app.controller('domainTemplateController', function($scope, $http) {
               }
           }).then(function successCallback(response) {
               console.log("Domain saved succesfully "+ angular.toJson(response));
+              loadDomainTemplates($scope, $http)
               $scope.cancel();
 
           }, function errorCallback(response) {
@@ -115,6 +107,54 @@ app.controller('domainTemplateController', function($scope, $http) {
       };
 });
 
+app.controller('urlMappingController', function($scope, $http) {
+
+    console.log("fetching Url mappings");
+    $scope.showTable = true;
+    $scope.domainSelected = false;
+
+    loadDomains($scope, $http)
+
+    $scope.onDomainSelection = function() {
+        $scope.domainSelected = true;
+        //Load all Url Mapping for this domain
+        loadUrlMappingOfDomain($scope, $http, $scope.selectedDomainId)
+    };
+    $scope.editUrlMapping = function(urlMapping) {
+        $scope.showTable = false;
+        $scope.selectedUrlMapping = urlMapping;
+    };
+
+     $scope.cancel = function() {
+         console.log("Edit UrlMapping cancelled");
+         $scope.showTable = true;
+     };
+     $scope.newUrlMapping = function() {
+         $scope.showTable = false;
+         $scope.selectedUrlMapping = {domainId: $scope.selectedDomainId, httpCacheTimeSeconds:600};
+     };
+
+     $scope.saveUrlMapping = function() {
+          $scope.showTable = true;
+          console.log("Saving Url Mapping : "+ angular.toJson($scope.selectedUrlMapping));
+          $http({
+              method : "POST",
+              url : "/service/s/urlmapping",
+              data : angular.toJson($scope.selectedUrlMapping),
+              headers : {
+                  'Content-Type' : 'application/json'
+              }
+          }).then(function successCallback(response) {
+              console.log("Url Mapping saved succesfully "+ angular.toJson(response));
+              loadUrlMappingOfDomain($scope, $http, $scope.selectedUrlMapping.domainId)
+              $scope.cancel();
+
+          }, function errorCallback(response) {
+              console.log(response.statusText);
+          });
+
+      };
+});
 
 function loadDomains(scope, http){
 http({
@@ -126,4 +166,32 @@ http({
      }, function errorCallback(response) {
         console.log(response.statusText);
      });
+}
+
+function loadDomainTemplates(scope, http){
+
+http({
+        method : "GET",
+        url : "/service/s/domaintemplate"
+      }).then(function successCallback(response) {
+        console.log(angular.toJson(response.data));
+        scope.domainTemplates = response.data;
+      }, function errorCallback(response) {
+        console.log(response.statusText);
+      });
+
+}
+
+function loadUrlMappingOfDomain(scope, http, domainId){
+
+http({
+        method : "GET",
+        url : "/service/s/urlmapping/domain/"+domainId
+      }).then(function successCallback(response) {
+        console.log(angular.toJson(response.data));
+        scope.urlMappings = response.data;
+      }, function errorCallback(response) {
+        console.log(response.statusText);
+      });
+
 }
