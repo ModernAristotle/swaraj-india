@@ -1,6 +1,6 @@
 
 app.controller('registereController', function($scope) {
-    $scope.headingTitle = "User List";
+    $scope.headingTitle = "Registration";
 
     $scope.registerUser = function() {
     alert($scope.form);
@@ -19,8 +19,8 @@ app.controller('registereController', function($scope) {
     };
 });
 
-app.controller('domainController', function($scope, $http) {
-
+app.controller('domainController', function($scope, $rootScope, $http) {
+    $rootScope.headingTitle = "Domains";
     console.log("fetching domains");
     $scope.showTable = true;
 
@@ -63,7 +63,9 @@ app.controller('domainController', function($scope, $http) {
 });
 
 
-app.controller('domainTemplateController', function($scope, $http) {
+app.controller('domainTemplateController', function($scope, $rootScope, $http) {
+
+    $rootScope.headingTitle = "Domain Templates";
 
     console.log("fetching domain templates");
     $scope.showTable = true;
@@ -107,7 +109,9 @@ app.controller('domainTemplateController', function($scope, $http) {
       };
 });
 
-app.controller('urlMappingController', function($scope, $http) {
+app.controller('urlMappingController', function($scope, $rootScope, $http) {
+
+    $rootScope.headingTitle = "Url Mapping";
 
     console.log("fetching Url mappings");
     $scope.showTable = true;
@@ -157,8 +161,9 @@ app.controller('urlMappingController', function($scope, $http) {
 });
 
 
-app.controller('htmlPartController', function($scope, $http) {
+app.controller('htmlPartController', function($scope, $rootScope, $http) {
 
+    $rootScope.headingTitle = "Html Part";
     console.log("fetching Domain Templates");
     $scope.showTable = true;
     $scope.domainTemplateSelected = false;
