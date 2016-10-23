@@ -5,7 +5,64 @@
 </head>
 <body>
 <div th:fragment="templates">
-    <h1 class="page-header">Blank- Templates, i am admin/developer/templates.html</h1>
+    <h1 class="page-header">Domain Templates</h1>
+    <button type="button" class="btn btn-primary" ng-show="showTable" ng-click="newDomainTemplate()"><i class="fa fa-plus"></i> Add Domain Template
+    </button>
+    <table width="100%" class="table table-striped table-bordered table-hover col-xs-12 col-sm-6 col-md-4 col-lg-4" id="domain-templates" ng-show="showTable">
+        <thead>
+        <tr>
+            <th>Domain Template Name</th>
+            <th>Active</th>
+            <th>Git Repo</th>
+            <th>Branch</th>
+            <th>Update</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="oneDomainTemplate in domainTemplates" class="odd gradeX">
+            <td>{{oneDomainTemplate.name}}</td>
+            <td>{{oneDomainTemplate.active}}</td>
+            <td>{{oneDomainTemplate.gitRepository}}</td>
+            <td>{{oneDomainTemplate.gitBranch}}</td>
+            <td><input type="button" class="btn btn-default" value="Update" ng-click="editDomainTemplate(oneDomainTemplate)"/></td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <form ng-submit="saveDomainTemplate()" ng-hide="showTable" class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+        <fieldset>
+            <div class="form-group">
+                <label>Select Domain</label>
+                <select class="form-control" ng-model="selectedDomainTemplate.domainId">
+                    <option ng-repeat="oneDomain in domains" value="{{oneDomain.id}}">{{oneDomain.name}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Domain Template Name</label>
+                <input class="form-control" placeholder="Domain Template Name" name="name" autofocus="true" ng-model="selectedDomainTemplate.name"/>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="" ng-model="selectedDomainTemplate.active"/>Active
+                </label>
+            </div>
+            <div class="form-group">
+                <label>Git Repository(Http url)</label>
+                <input class="form-control" placeholder="Git Repository" name="gitRepository" ng-model="selectedDomainTemplate.gitRepository"/>
+            </div>
+            <div class="form-group">
+                <label>Git Repository Branch(ie. master, develop)</label>
+                <input class="form-control" placeholder="Domain Template Name" name="gitRepository" ng-model="selectedDomainTemplate.gitBranch"/>
+            </div>
+
+
+            <input type="submit" class="btn btn-primary col-xs-6 col-sm-6 col-md-4 col-lg-4" value="Save"/>
+            <input type="button" class="btn btn-default col-xs-6 col-sm-6 col-md-4 col-lg-4" value="Cancel" ng-click="cancel()"/>
+
+        </fieldset>
+
+    </form>
 </div>
 </body>
 </html>

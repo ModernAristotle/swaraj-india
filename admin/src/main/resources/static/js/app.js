@@ -83,7 +83,7 @@ app.config(function($routeProvider){
          })
         .when('/admin/developer/templates.html',{
              templateUrl: '/admin/developer/templates.html',
-             controller: 'usersController'
+             controller: 'domainTemplateController'
          })
         .when('/admin/developer/static.html',{
              templateUrl: '/admin/developer/static.html',

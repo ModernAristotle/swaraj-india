@@ -24,15 +24,7 @@ app.controller('domainController', function($scope, $http) {
     console.log("fetching domains");
     $scope.showTable = true;
 
-    $http({
-                method : "GET",
-                url : "/service/s/domain"
-          }).then(function successCallback(response) {
-                console.log(angular.toJson(response.data));
-                $scope.domains = response.data;
-          }, function errorCallback(response) {
-                console.log(response.statusText);
-          });
+    loadDomains($http)
 
     $scope.editDomain = function(domain) {
         $scope.showTable = false;
@@ -60,7 +52,8 @@ app.controller('domainController', function($scope, $http) {
                   'Content-Type' : 'application/json'
               }
           }).then(function successCallback(response) {
-              console.log("Domain saved succesfully "+ angular.toJson($scope.selectedDomain));
+              console.log("Domain saved succesfully "+ angular.toJson(response));
+              $scope.cancel();
 
           }, function errorCallback(response) {
               console.log(response.statusText);
@@ -68,3 +61,69 @@ app.controller('domainController', function($scope, $http) {
 
       };
 });
+
+
+app.controller('domainTemplateController', function($scope, $http) {
+
+    console.log("fetching domain templates");
+    $scope.showTable = true;
+
+    loadDomains($scope, $http)
+
+    $http({
+                method : "GET",
+                url : "/service/s/domaintemplate"
+          }).then(function successCallback(response) {
+                console.log(angular.toJson(response.data));
+                $scope.domainTemplates = response.data;
+          }, function errorCallback(response) {
+                console.log(response.statusText);
+          });
+
+    $scope.editDomainTemplate = function(domainTemplate) {
+        $scope.showTable = false;
+        $scope.selectedDomainTemplate = domainTemplate;
+    };
+
+     $scope.cancel = function() {
+         console.log("Edit Domain Template cancelled");
+         $scope.showTable = true;
+     };
+     $scope.newDomainTemplate = function() {
+         $scope.showTable = false;
+         $scope.selectedDomain = {};
+     };
+
+     $scope.saveDomainTemplate = function() {
+          $scope.showTable = true;
+          console.log("Saving Domain Template"+ angular.toJson($scope.selectedDomainTemplate));
+          $http({
+              method : "POST",
+              url : "/service/s/domaintemplate",
+              data : angular.toJson($scope.selectedDomainTemplate),
+              headers : {
+                  'Content-Type' : 'application/json'
+              }
+          }).then(function successCallback(response) {
+              console.log("Domain saved succesfully "+ angular.toJson(response));
+              $scope.cancel();
+
+          }, function errorCallback(response) {
+              console.log(response.statusText);
+          });
+
+      };
+});
+
+
+function loadDomains(scope, http){
+http({
+        method : "GET",
+        url : "/service/s/domain"
+     }).then(function successCallback(response) {
+        console.log(angular.toJson(response.data));
+        scope.domains = response.data;
+     }, function errorCallback(response) {
+        console.log(response.statusText);
+     });
+}
