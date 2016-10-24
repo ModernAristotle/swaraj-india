@@ -120,12 +120,23 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Location findLocationById(Long locationId) throws AppException {
+        if (locationId == null) {
+            return null;
+        }
         return locationRepository.findOne(locationId);
     }
 
     @Override
     public LocationType saveLocationType(LocationType locationType) throws AppException {
         return locationTypeRepository.save(locationType);
+    }
+
+    @Override
+    public LocationType findLocationTypeById(Long locationTypeId) throws AppException {
+        if (locationTypeId == null) {
+            return null;
+        }
+        return locationTypeRepository.findOne(locationTypeId);
     }
 
     @Override

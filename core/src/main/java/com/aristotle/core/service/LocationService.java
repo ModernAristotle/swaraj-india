@@ -33,6 +33,8 @@ public interface LocationService {
 
     LocationType saveLocationType(LocationType locationType) throws AppException;
 
+    LocationType findLocationTypeById(Long locationTypeId) throws AppException;
+
     Location saveLocation(Location location) throws AppException;
 
 

@@ -26,6 +26,8 @@ public class UserPermissionBean {
     private boolean urlMapping;
     private boolean templates;
     private boolean dataPlugins;
+    private boolean urltemplates;
+    private boolean htmlpart;
 
     private boolean userRoles;
     private boolean searchVolunteer;
@@ -40,7 +42,7 @@ public class UserPermissionBean {
     }
 
     public boolean isDeveloper() {
-        return superAdmin || domain || urlMapping || templates || dataPlugins;
+        return superAdmin || domain || urlMapping || templates || dataPlugins || urltemplates || htmlpart;
     }
 
     public boolean isMembers() {
@@ -117,6 +119,14 @@ public class UserPermissionBean {
 
     public boolean isDataPlugins() {
         return superAdmin || dataPlugins;
+    }
+
+    public boolean isUrltemplates() {
+        return superAdmin || urltemplates;
+    }
+
+    public boolean isHtmlpart() {
+        return superAdmin || htmlpart;
     }
 
     public boolean isUserRoles() {
