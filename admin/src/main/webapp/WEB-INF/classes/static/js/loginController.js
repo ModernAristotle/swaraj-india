@@ -1,7 +1,11 @@
-app.controller('loginController', function($scope, $http) {
-
-    $scope.loginUser = function() {
-    alert(angular.toJson($scope.user));
+app.controller('loginController', function($scope, $http)
+{
+    document.getElementById("error").style.visibility = "hidden";
+    $scope.user = {
+        userName :"nextinfotechuk@gmail.com"
+    };
+    $scope.loginUser = function()
+    {
         $http({
             method : "POST",
             url : "/service/us/login",
@@ -10,13 +14,16 @@ app.controller('loginController', function($scope, $http) {
                 'Content-Type' : 'application/json'
             }
         }).then(function successCallback(response) {
-              alert("Success");
-              window.location.href = '/home';
-          }, function errorCallback(response) {
-              console.log("Failed : "+ response.statusCode +", "+ response.statusText);
-              alert(response.statusText);
-              $scope.errorMessage = "Failed";
-          });
+            window.location.href = '/home';
+        }, function errorCallback(response)
+        {
+            document.getElementById("error").style.visibility ="visible";
+            $scope.errorMessage=response.data.message;
+            console.log(response.data);
+
+        });
     };
 });
+
+
 

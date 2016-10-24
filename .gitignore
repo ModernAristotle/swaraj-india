@@ -1,5 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
 *.iml
 target
+**/target
+**/*.class
+**/webapp
 build
 .idea

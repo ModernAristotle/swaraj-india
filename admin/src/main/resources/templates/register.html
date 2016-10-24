@@ -15,7 +15,6 @@
                     <div class="form-group">
                         <input class="form-control" placeholder="Name" name="name" type="text" autofocus="true" ng-model="user.name"/>
                     </div>
-
                     <div class="form-group">
                         <input class="form-control" placeholder="E-mail" name="email" type="email" ng-model="user.emailId"/>
                     </div>
@@ -28,30 +27,34 @@
                     <div class="checkbox">
                         <label data-toggle="tooltip"
                                title="Select Whether you are Living in India or abroad(NRI). If living outside india then check this box else leave it">
-                            <input name="nri" type="checkbox" value="false" ng-model="user.nri"/>NRI
+                            <!-- <input name="nri" id="demo" type="checkbox"  ng-change="user.myClick(user.nri)"   ng-model="user.nri"/>NRIs-->
+                            <input type="checkbox" id="chkPassport" ng-model="ShowPassport" ng-change="ShowHide()" />NRIs
                         </label>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group"    ng-show="IsVisible">
                         <label>Select Country</label>
                         <select class="form-control" ng-model="user.nriCountryCode">
-                            <option>India</option>
-                            <option>UK</option>
-                            <option>USA</option>
-                            <option>4</option>
-                            <option>5</option>
+                            <!-- <option>India</option>
+                             <option>UK</option>
+                             <option>USA</option>
+                             <option>4</option>
+                             <option>5</option>-->
+                            <option value = "0" label = "Please Select"></option>
+                            <option ng-repeat="Success in isdCode" value="{{SuccessisdCode}}"
+                                    ng-selected="{{ Success.Selected == true }}">
+                                {{Successname}}
+                            </option>
                         </select>
                     </div>
                     <div class="form-group">
                         <input class="form-control" placeholder="Mobile Number" name="mobileNumber" type="text" ng-model="user.mobileNumber"/>
                     </div>
                     <div class="g-recaptcha" data-sitekey="6LdF0QgUAAAAAONFzptIy_AeBH3kR1hZDF85J1G0" ng-model="user.grecaptchaResponse"></div>
-
                     <!-- Change this to a button or input when using this as a form -->
                     <input type="submit" class="btn btn-lg btn-success btn-block" value="Register"/>
                     <div class="form-group">
                         <a href="/login.html"><i class="fa fa-sign-in fa-fw"></i> Already Registered? Login Now</a>
                     </div>
-
                 </fieldset>
             </form>
         </div>
