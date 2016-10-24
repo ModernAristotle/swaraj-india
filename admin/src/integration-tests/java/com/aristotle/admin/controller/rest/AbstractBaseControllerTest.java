@@ -50,6 +50,7 @@ public abstract class AbstractBaseControllerTest {
     protected static final String LOCATION_GET_ALL_STATES_URL = "/service/us/location/states";
     protected static final String ELECTION_URL = "/service/s/election";
     protected static final String DOMAIN_URL = "/service/s/domain";
+    protected static final String DOMAIN_TEMPLATE_URL = "/service/s/domaintemplate";
 
 
 

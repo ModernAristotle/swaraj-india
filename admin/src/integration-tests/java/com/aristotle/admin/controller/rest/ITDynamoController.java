@@ -2,6 +2,7 @@ package com.aristotle.admin.controller.rest;
 
 
 import com.aristotle.admin.controller.beans.dynamo.DomainBean;
+import com.aristotle.admin.controller.beans.dynamo.DomainTemplateBean;
 import com.google.common.collect.Sets;
 import com.next.dynamo.persistance.Domain;
 import com.next.dynamo.persistance.repository.DomainRepository;
@@ -240,4 +241,25 @@ public class ITDynamoController extends AbstractBaseControllerTest {
                 .andExpect(jsonPath("$[1].setting", is(domainOne.getSetting())))
                 .andExpect(jsonPath("$[1].active", is(true)));
     }
+
+    /*
+    When Domain Template do not have valid Domain Id
+     */
+    @Test
+    public void testSaveDomainTemplate_whenDomainNameIsNull() throws Exception {
+        final DomainTemplateBean domainTemplateBean = new DomainTemplateBean();
+        domainTemplateBean.setDomainId(null);
+        mockMvc.perform(post(DOMAIN_TEMPLATE_URL)
+                .content(toJson(domainTemplateBean))
+                .contentType(contentType))
+                .andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$.status", is(400)))
+                .andExpect(jsonPath("$.message", is("Domain Template must have valid domain")));
+
+        List<Domain> dbDomains = domainRepository.findAll();
+        assertThat(dbDomains.size(), is(0));
+    }
+
 }
