@@ -14,7 +14,6 @@
                 </select>
             </div>
         </div>
-
         <div class="row" ng-show="domainSelected">
             <button type="button" class="btn btn-primary pull-right" ng-show="showTable" ng-click="newUrlMapping()"><i class="fa fa-plus"></i> Add Domain Template
             </button>
@@ -38,10 +37,8 @@
                     <td>{{oneUrlMapping.httpCacheTimeSeconds}}</td>
                     <td><input type="button" class="btn btn-default" value="Update" ng-click="editUrlMapping(oneUrlMapping)"/></td>
                 </tr>
-
                 </tbody>
             </table>
-
             <form ng-submit="saveUrlMapping()" ng-hide="showTable" class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
                 <fieldset>
                     <div class="form-group">
@@ -66,12 +63,9 @@
                         <label>HTTP Cache time in seconds</label>
                         <input class="form-control" placeholder="Forward Url" name="urlMapping" autofocus="true" ng-model="selectedUrlMapping.httpCacheTimeSeconds"/>
                     </div>
-
                     <input type="submit" class="btn btn-primary col-xs-6 col-sm-6 col-md-4 col-lg-4" value="Save"/>
                     <input type="button" class="btn btn-default col-xs-6 col-sm-6 col-md-4 col-lg-4" value="Cancel" ng-click="cancel()"/>
-
                 </fieldset>
-
             </form>
         </div>
     </div>
