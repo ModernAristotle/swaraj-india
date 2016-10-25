@@ -27,23 +27,14 @@
                     <div class="checkbox">
                         <label data-toggle="tooltip"
                                title="Select Whether you are Living in India or abroad(NRI). If living outside india then check this box else leave it">
-                            <!-- <input name="nri" id="demo" type="checkbox"  ng-change="user.myClick(user.nri)"   ng-model="user.nri"/>NRIs-->
                             <input type="checkbox" id="chkPassport" ng-model="ShowPassport" ng-change="ShowHide()" />NRIs
                         </label>
                     </div>
                     <div class="form-group"    ng-show="IsVisible">
                         <label>Select Country</label>
-                        <select class="form-control" ng-model="user.nriCountryCode">
-                            <!-- <option>India</option>
-                             <option>UK</option>
-                             <option>USA</option>
-                             <option>4</option>
-                             <option>5</option>-->
-                            <option value = "0" label = "Please Select"></option>
-                            <option ng-repeat="Success in isdCode" value="{{SuccessisdCode}}"
-                                    ng-selected="{{ Success.Selected == true }}">
-                                {{Successname}}
-                            </option>
+                        <select ng-model="selectedCountryName"
+                                ng-options="item.isdCode as item.name for item in CountryName">
+                            <option value="">Select Account</option>
                         </select>
                     </div>
                     <div class="form-group">

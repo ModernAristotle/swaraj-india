@@ -22,10 +22,15 @@ app.controller('registerController', function($scope, $http)
             $scope.errorMessage = "Failed";
         });
     };
+
     $scope.IsVisible = false;
     $scope.ShowHide = function ()
     {
+
         $scope.IsVisible = $scope.ShowPassport;
+
+        $scope.selectedCountryName = null;
+        $scope.CountryName = [];
         $http({
             method : "GET",
             url : "/service/us/location/countries",
@@ -35,13 +40,14 @@ app.controller('registerController', function($scope, $http)
             }
         }).then(function successCallback(response)
         {
-            $scope.Success=response.data;
-            $scope.Successname=response.data.name;
-            $scope.SuccessisdCode=response.data.isdCode;
+            console.log(response.data);
+            $scope.CountryName = response.data;
         }, function errorCallback(response)
         {
             $scope.Error=response.data;
         });
     }
 });
+
+
 
