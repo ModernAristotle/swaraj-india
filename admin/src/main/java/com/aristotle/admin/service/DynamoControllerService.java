@@ -5,6 +5,7 @@ import com.aristotle.core.exception.AppException;
 import com.next.dynamo.exception.DynamoException;
 import com.next.dynamo.persistance.*;
 import com.next.dynamo.service.DynamoService;
+import com.next.dynamo.service.GitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class DynamoControllerService {
 
     @Autowired
     private DynamoService dynamoService;
+
+    @Autowired
+    private GitService gitService;
 
     public DomainBean saveDomain(DomainBean domainBean) throws AppException {
 
@@ -91,6 +95,22 @@ public class DynamoControllerService {
                 domainTemplateBeanList.add(domainTemplateBean);
             }
             return domainTemplateBeanList;
+        } catch (DynamoException e) {
+            throw new AppException(e);
+        }
+    }
+
+    public void refreshDomainTemplate(Long domainTemplateId) throws AppException {
+        try {
+            gitService.refreshDomainTemplateFromGit(domainTemplateId);
+        } catch (DynamoException e) {
+            throw new AppException(e);
+        }
+    }
+
+    public List<String> getDomaintemplateGitFiles(Long domainTemplateId) throws AppException {
+        try {
+            return gitService.getDomaintemplateGitFiles(domainTemplateId);
         } catch (DynamoException e) {
             throw new AppException(e);
         }

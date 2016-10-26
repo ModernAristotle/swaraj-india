@@ -167,10 +167,12 @@ app.controller('htmlPartController', function($scope, $rootScope, $http) {
 
     loadDomainTemplates($scope, $http)
 
+
     $scope.onDomainTemplateSelection = function() {
         $scope.domainTemplateSelected = true;
         //Load all Url Mapping for this domain
-        loadHtmlPartOfDomainTemplate($scope, $http, $scope.selectedDomainTemplateId)
+        loadHtmlPartOfDomainTemplate($scope, $http, $scope.selectedDomainTemplateId);
+        loadGitFilesOfDomainTemplate($scope, $http, $scope.selectedDomainTemplateId);
     };
     $scope.editHtmlPart = function(htmlPart) {
         $scope.showTable = false;
@@ -220,6 +222,8 @@ app.controller('urlTemplateController', function($scope, $rootScope, $http) {
         $scope.domainTemplateSelected = true;
         loadUrlTemplateOfDomainTemplate($scope, $http, $scope.selectedDomainTemplateId);
         loadMainHtmlPartOfDomainTemplate($scope, $http, $scope.selectedDomainTemplateId);
+        loadGitFilesOfDomainTemplate($scope, $http, $scope.selectedDomainTemplateId);
+
         for(i = 0; i < $scope.domainTemplates.length; i++){
             if($scope.domainTemplates[i].id == $scope.selectedDomainTemplateId){
                 loadUrlMappingOfDomain($scope, $http, $scope.domainTemplates[i].domainId);
@@ -321,6 +325,23 @@ http({
       });
 
 }
+
+function loadGitFilesOfDomainTemplate(scope, http, domainTemplateId){
+console.log("Loading Git Files of Domain template : "+ domainTemplateId);
+
+http({
+        method : "GET",
+        url : "/service/s/gitfiles/domaintemplate/"+domainTemplateId
+      }).then(function successCallback(response) {
+        console.log(angular.toJson(response.data));
+        scope.domainTemplateGitFiles = response.data;
+      }, function errorCallback(response) {
+        console.log(response.statusText);
+      });
+
+}
+
+
 
 function loadMainHtmlPartOfDomainTemplate(scope, http, domainTemplateId){
 console.log("Loading Main Html part of Domain template : "+ domainTemplateId);

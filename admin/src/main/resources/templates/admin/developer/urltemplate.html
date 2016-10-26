@@ -39,7 +39,9 @@
                 <fieldset>
                     <div class="form-group">
                         <label>Git File path</label>
-                        <input class="form-control" placeholder="Git File Path" name="urlMapping" ng-model="selectedUrlTemplate.gitFilePath"/>
+                        <select class="form-control" placeholder="Git File Path" name="urlMapping" ng-model="selectedUrlTemplate.gitFilePath">
+                            <option ng-repeat="oneGitFile in domainTemplateGitFiles" ng-value="{{oneGitFile}}">{{oneGitFile}}</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>Select Url</label>

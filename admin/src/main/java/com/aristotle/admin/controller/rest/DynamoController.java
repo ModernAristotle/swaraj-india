@@ -1,9 +1,11 @@
 package com.aristotle.admin.controller.rest;
 
 import com.aristotle.admin.controller.beans.dynamo.*;
+import com.aristotle.admin.controller.rest.error.ApiErrorResponse;
 import com.aristotle.admin.service.DynamoControllerService;
 import com.aristotle.core.exception.AppException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +41,17 @@ public class DynamoController extends BaseRestController {
     @RequestMapping(value = "/service/s/domaintemplate", method = GET)
     public List<DomainTemplateBean> getAllDomainTemplate(HttpServletRequest httpServletRequest) throws AppException {
         return dynamoControllerService.getAllDomainTemplates();
+    }
+
+    @RequestMapping(value = "/service/s/refresh/domaintemplate/{domainTemplateId}", method = GET)
+    public ApiErrorResponse refreshDOmainTemplate(HttpServletRequest httpServletRequest, @PathVariable("domainTemplateId") Long domainTemplateId) throws AppException {
+        dynamoControllerService.refreshDomainTemplate(domainTemplateId);
+        return new ApiErrorResponse(HttpStatus.ACCEPTED.value(), "Refresh Initiated");
+    }
+
+    @RequestMapping(value = "/service/s/gitfiles/domaintemplate/{domainTemplateId}", method = GET)
+    public List<String> getDomaintemplateGitFiles(HttpServletRequest httpServletRequest, @PathVariable("domainTemplateId") Long domainTemplateId) throws AppException {
+        return dynamoControllerService.getDomaintemplateGitFiles(domainTemplateId);
     }
 
     @RequestMapping(value = "/service/s/urlmapping", method = POST)
