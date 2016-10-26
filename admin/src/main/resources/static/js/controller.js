@@ -81,6 +81,11 @@ app.controller('domainTemplateController', function($scope, $rootScope, $http) {
          console.log("Edit Domain Template cancelled");
          $scope.showTable = true;
      };
+     $scope.refreshDomainTemplate = function() {
+          console.log("Refreshing DOmain Template");
+          refreshDOmainTemplateFromGithub($scope, $http, $scope.selectedDomainTemplate.id)
+      };
+
      $scope.newDomainTemplate = function() {
          $scope.showTable = false;
          $scope.selectedDomain = {};
@@ -367,6 +372,20 @@ http({
       }).then(function successCallback(response) {
         console.log(angular.toJson(response.data));
         scope.urlTemplates = response.data;
+      }, function errorCallback(response) {
+        console.log(response.statusText);
+      });
+
+}
+
+function refreshDOmainTemplateFromGithub(scope, http, domainTemplateId){
+console.log("Loading Url Template of Domain template : "+ domainTemplateId);
+
+http({
+        method : "GET",
+        url : "/service/s/refresh/domaintemplate/"+domainTemplateId
+      }).then(function successCallback(response) {
+        console.log(angular.toJson(response.data));
       }, function errorCallback(response) {
         console.log(response.statusText);
       });
