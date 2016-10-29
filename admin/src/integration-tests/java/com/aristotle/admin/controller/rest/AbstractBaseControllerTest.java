@@ -1,6 +1,6 @@
 package com.aristotle.admin.controller.rest;
 
-import com.aristotle.admin.App;
+import com.aristotle.admin.AdminApp;
 import com.aristotle.admin.dummy.impl.DummyEmailManagerImpl;
 import com.aristotle.core.enums.CreationType;
 import com.aristotle.core.exception.AppException;
@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = App.class)
+@SpringBootTest(classes = AdminApp.class)
 @WebAppConfiguration
 @EnableWebMvc
 @Transactional

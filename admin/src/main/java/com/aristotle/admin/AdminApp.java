@@ -1,4 +1,5 @@
 package com.aristotle.admin;
+
 import com.aristotle.admin.config.SwaggerConfig;
 import com.aristotle.admin.filter.FilterConfig;
 import com.aristotle.core.config.DatabaseConfig;
@@ -12,19 +13,20 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
+
 import java.util.Arrays;
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.aristotle.admin"})
 @EnableAutoConfiguration
 @EntityScan(basePackages = {"com.aristotle.core.persistance"})
 @Import({SwaggerConfig.class, DatabaseConfig.class, DynamoServiceContext.class, FilterConfig.class})
-public class App extends SpringBootServletInitializer {
+public class AdminApp extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(App.class);
+        return application.sources(AdminApp.class);
     }
     public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(new Object[]{App.class}, args);
+        ApplicationContext ctx = SpringApplication.run(new Object[]{AdminApp.class}, args);
 
         System.out.println("Let's inspect the beans provided by Spring Boot:");
         String[] beanNames = ctx.getBeanDefinitionNames();
