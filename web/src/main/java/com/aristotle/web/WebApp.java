@@ -19,15 +19,15 @@ import java.util.Arrays;
 @EnableAutoConfiguration
 @EnableCaching
 @Import({DatabaseConfig.class, DatabaseConfig.class, DynamoServiceContext.class})
-public class App extends SpringBootServletInitializer {
+public class WebApp extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(App.class);
+        return application.sources(WebApp.class);
     }
 
     public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(new Object[]{App.class}, args);
+        ApplicationContext ctx = SpringApplication.run(new Object[]{WebApp.class}, args);
 
         System.out.println("Let's inspect the beans provided by Spring Boot:");
         String[] beanNames = ctx.getBeanDefinitionNames();
