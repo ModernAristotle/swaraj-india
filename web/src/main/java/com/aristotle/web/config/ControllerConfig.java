@@ -1,11 +1,10 @@
 package com.aristotle.web.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.DispatcherServlet;
 
 public class ControllerConfig {
 
-    @Bean
+    //@Bean
     public DispatcherServlet dispatcherServlet() {
         return new DispatcherServlet();
     }

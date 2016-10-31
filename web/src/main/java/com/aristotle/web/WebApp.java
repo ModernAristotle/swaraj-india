@@ -20,7 +20,7 @@ import java.util.Arrays;
 @EnableAutoConfiguration
 @EnableCaching
 @Import({DatabaseConfig.class, DynamoServiceContext.class})
-@EntityScan(basePackages = {"com.aristotle.core.persistance"})
+@EntityScan(basePackages = {"com.aristotle.core.persistance", "com.next.dynamo.persistance"})
 public class WebApp extends SpringBootServletInitializer {
 
     @Override
