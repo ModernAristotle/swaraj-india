@@ -50,6 +50,7 @@ public class ContentController {
     @RequestMapping(value = {"/content/**", "/", "/index.html", "/**"}, produces = MediaType.TEXT_HTML_VALUE)
     @ResponseBody
     public String serverSideHandler(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, ModelAndView modelAndView) throws IOException {
+        logger.info("Handling : {}", httpServletRequest.getRequestURI());
 
 
         JsonObject jsonContext = new JsonObject();
