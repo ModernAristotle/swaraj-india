@@ -13,24 +13,16 @@ app.controller('registerController', function($scope, $http)
             }
         }).then(function successCallback(response)
         {
-            alert("Success");
             window.location.href = '/home';
         }, function errorCallback(response)
         {
-
             $scope.Error=response.data;
-
-            console.log("Failed : "+ response.statusCode +", "+ response.statusText);
-            $scope.errorMessage = "Failed";
-
         });
     };
-
-    $scope.IsVisible = false;
-
-    $scope.ShowHide = function ()
+    $scope.countryIsVisible = false;
+    $scope.showhidecountry = function ()
     {
-        $scope.IsVisible = $scope.ShowPassport;
+        $scope.countryIsVisible = $scope.showcountry;
         $http({
             method : "GET",
             url : "/service/us/location/countries",
@@ -40,9 +32,9 @@ app.controller('registerController', function($scope, $http)
             }
         }).then(function successCallback(response)
         {
-            $scope.Success=response.data;
-            $scope.Successname=response.data.name;
-            $scope.SuccessisdCode=response.data.isdCode;
+            $scope.Country=response.data;
+            $scope.Countryname=response.data.name;
+            $scope.CountryisdCode=response.data.isdCode;
         }, function errorCallback(response)
         {
             $scope.Error=response.data;
