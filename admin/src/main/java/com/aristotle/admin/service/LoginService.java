@@ -80,6 +80,7 @@ public class LoginService {
             userPermissionBean.setMobileGroups(userPermissionBean.isMobileGroups() || oneAppPermission == ADMIN_MOBILE_GROUP);
             userPermissionBean.setDonation(userPermissionBean.isDonation() || oneAppPermission == ADMIN_DONATION);
             userPermissionBean.setCandidates(userPermissionBean.isCandidates() || oneAppPermission == ADMIN_CANDIDATE);
+            userPermissionBean.setElection(userPermissionBean.isElection() || oneAppPermission == ADMIN_ELECTION);
 
         }
     }

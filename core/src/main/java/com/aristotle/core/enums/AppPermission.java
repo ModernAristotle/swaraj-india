@@ -25,6 +25,8 @@ public enum AppPermission {
     ADMIN_DONATION,
     ADMIN_CANDIDATE,
 
+    ADMIN_ELECTION,
+
     ADD_MEMBER,
     UPDATE_MEMBER,
     SEARCH_MEMBER,

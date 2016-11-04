@@ -1,8 +1,10 @@
 package com.aristotle.admin.controller.beans;
 
+import lombok.Getter;
 import lombok.Setter;
 
 @Setter
+@Getter
 public class UserPermissionBean {
 
     private boolean superAdmin;
@@ -33,6 +35,9 @@ public class UserPermissionBean {
     private boolean searchVolunteer;
     private boolean editUser;
 
+
+    private boolean election;
+
     public boolean isContent() {
         return superAdmin || news || twitter || poll || events;
     }
@@ -51,6 +56,10 @@ public class UserPermissionBean {
 
     public boolean isPickLocation() {
         return isContent() || isCampaign() || isDeveloper() || isMembers();
+    }
+
+    public boolean isElectionAdmin() {
+        return superAdmin || election;
     }
 
     public boolean isSuperAdmin() {
@@ -140,5 +149,11 @@ public class UserPermissionBean {
     public boolean isEditUser() {
         return superAdmin || editUser;
     }
+
+    public boolean isElection() {
+        return superAdmin || election;
+    }
+
+
 
 }

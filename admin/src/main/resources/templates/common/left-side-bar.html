@@ -132,6 +132,15 @@
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
+            <li th:if="${userPermission.electionAdmin}">
+                <a href="#"><i class="fa fa-user fa-fw"></i> Elections<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li th:if="${userPermission.election}">
+                        <a href="#/admin/user/elections.html.html">Election</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
             <li th:if="${userPermission.pickLocation}">
                 <a href="#/admin/location/update.html"><i class="fa  fa-location-arrow fa-fw"></i> Pick Location</a>
             </li>
