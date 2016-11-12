@@ -1,5 +1,6 @@
 package com.aristotle.core.util;
 
+import java.util.Collection;
 import java.util.Date;
 
 public class ValidationUtil {
@@ -18,6 +19,12 @@ public class ValidationUtil {
 
     public static void assertBefore(Date beforeDate, Date afterDate, String errorMessage) {
         if (beforeDate.after(afterDate)) {
+            throw new IllegalArgumentException(errorMessage);
+        }
+    }
+
+    public static void assertNotEmpty(Collection data, String errorMessage) {
+        if (data == null || data.isEmpty()) {
             throw new IllegalArgumentException(errorMessage);
         }
     }
