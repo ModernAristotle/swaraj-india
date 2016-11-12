@@ -5,7 +5,7 @@
 </head>
 <body>
 <div th:fragment="register">
-    <div class="login-panel panel panel-primary">
+    <div class="login-panel panel panel-yellow">
         <div class="panel-heading">
             <h3 class="panel-title">Register</h3>
         </div>
@@ -27,13 +27,14 @@
                     <div class="checkbox">
                         <label data-toggle="tooltip"
                                title="Select Whether you are Living in India or abroad(NRI). If living outside india then check this box else leave it">
-                            <input type="checkbox" id="nriChkPassport" ng-model="showcountry" ng-change="showhidecountry()"/>NRIs
+                            <input type="checkbox" id="nrichkPassport" ng-model="showcountry" ng-change="showhidecountry()" />NRIs
                         </label>
                     </div>
                     <div class="form-group"    ng-show="countryIsVisible">
                         <label>Select Country</label>
-                        <select class="form-control" ng-model="countryCode" ng-options="oneCountry.name for oneCountry in countries track by oneCountry.isdCode">
-                            <option value="0">Select Country</option>
+                        <select ng-model="selectedCountryName"
+                                ng-options="item.isdCode as item.name for item in CountryName">
+                            <option value="">Select Account</option>
                         </select>
                     </div>
                     <div class="form-group">

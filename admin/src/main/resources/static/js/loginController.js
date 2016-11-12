@@ -19,8 +19,6 @@ app.controller('loginController', function($scope, $http)
         {
             document.getElementById("error").style.visibility ="visible";
             $scope.errorMessage=response.data.message;
-            console.log(response.data);
-
         });
     };
 });
