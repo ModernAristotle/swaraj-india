@@ -119,7 +119,7 @@ app.controller('urlMappingController', function($scope, $rootScope, $http) {
     console.log("fetching Url mappings");
     $scope.showTable = true;
     $scope.domainSelected = false;
-
+    $scope.selectedUrlMapping = {};
     loadDomains($scope, $http)
 
     $scope.onDomainSelection = function() {
@@ -130,6 +130,7 @@ app.controller('urlMappingController', function($scope, $rootScope, $http) {
     $scope.editUrlMapping = function(urlMapping) {
         $scope.showTable = false;
         $scope.selectedUrlMapping = urlMapping;
+        loadDataPluginsOfUrlMapping($scope, $http, $scope.selectedUrlMapping.id);
     };
 
      $scope.cancel = function() {
@@ -139,7 +140,21 @@ app.controller('urlMappingController', function($scope, $rootScope, $http) {
      $scope.newUrlMapping = function() {
          $scope.showTable = false;
          $scope.selectedUrlMapping = {domainId: $scope.selectedDomainId, httpCacheTimeSeconds:600};
+         loadDataPluginsOfUrlMapping($scope, $http, 0);
      };
+
+     $scope.pluginSelection = [];
+     $scope.$watch('pluginSelection', function () {
+       console.log('change', $scope.pluginSelection);
+       $scope.selectedUrlMapping.dataPlugins = [];
+       angular.forEach($scope.pluginSelection, function (dataPluginSelection, index) {
+           console.log('dataPluginSelection : ', dataPluginSelection);
+           if (dataPluginSelection) {
+           $scope.selectedUrlMapping.dataPlugins.push($scope.urlMappingDataPlugins[index].id);
+           console.log('$scope.selectedUrlMapping : ', $scope.selectedUrlMapping);
+           }
+       });
+     }, true);
 
      $scope.saveUrlMapping = function() {
           console.log("Saving Url Mapping : "+ angular.toJson($scope.selectedUrlMapping));
@@ -309,6 +324,20 @@ http({
       }).then(function successCallback(response) {
         console.log(angular.toJson(response.data));
         scope.urlMappings = response.data;
+      }, function errorCallback(response) {
+        console.log(response.statusText);
+      });
+
+}
+
+function loadDataPluginsOfUrlMapping(scope, http, urlMappingId){
+console.log("Loading Data plugins of Url Mapping : "+ urlMappingId);
+http({
+        method : "GET",
+        url : "/service/s/custom/plugin/"+urlMappingId
+      }).then(function successCallback(response) {
+        console.log(angular.toJson(response.data));
+        scope.urlMappingDataPlugins = response.data;
       }, function errorCallback(response) {
         console.log(response.statusText);
       });

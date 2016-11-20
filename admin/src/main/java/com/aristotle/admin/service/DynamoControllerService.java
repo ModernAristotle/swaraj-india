@@ -6,6 +6,7 @@ import com.next.dynamo.exception.DynamoException;
 import com.next.dynamo.persistance.*;
 import com.next.dynamo.service.DynamoService;
 import com.next.dynamo.service.GitService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
@@ -136,6 +139,8 @@ public class DynamoControllerService {
             UrlMapping urlMapping = getOrCreateUrlMapping(urlMappingBean);
             urlMapping.setDomain(getDomain(urlMappingBean.getDomainId()));
             urlMapping = dynamoService.saveUrlMapping(urlMapping);
+            dynamoService.saveUrlMappingPlugins(urlMapping.getId(), urlMappingBean.getDataPlugins());
+
             copyProperties(urlMapping, urlMappingBean);
             return urlMappingBean;
         } catch (DynamoException e) {
@@ -301,6 +306,28 @@ public class DynamoControllerService {
                 urlTemplateBeanList.add(urlTemplateBean);
             }
             return urlTemplateBeanList;
+        } catch (DynamoException e) {
+            throw new AppException(e);
+        }
+    }
+
+    public List<DataPluginBean> getActiveCustomDataPlugins(Long ulrMappingId) throws AppException {
+        try {
+            List<UrlMappingPlugin> urlMappingPlugins = dynamoService.findUrlMappingPluginByUrlMapping(ulrMappingId);
+            List<CustomDataPlugin> customDataPlugins = dynamoService.getActiveCustomDataPlugins();
+            List<DataPluginBean> dataPluginBeanList = new ArrayList<>(customDataPlugins.size());
+            Map<Long, DataPlugin> dataPluginMap = urlMappingPlugins.stream().collect(Collectors.toMap(oneUrlMapping -> oneUrlMapping.getDataPlugin().getId(), oneUrlMapping -> oneUrlMapping.getDataPlugin()));
+
+            for (CustomDataPlugin oneCustomDataPlugin : customDataPlugins) {
+                DataPluginBean dataPluginBean = new DataPluginBean();
+                BeanUtils.copyProperties(oneCustomDataPlugin, dataPluginBean);
+                if (dataPluginMap.containsKey(oneCustomDataPlugin.getId())) {
+                    dataPluginBean.setSelected(true);
+                }
+                dataPluginBeanList.add(dataPluginBean);
+            }
+            return dataPluginBeanList;
+
         } catch (DynamoException e) {
             throw new AppException(e);
         }

@@ -24,4 +24,6 @@ public class UrlMappingBean {
     private Integer httpCacheTimeSeconds;
 
     private Long domainId;
+
+    private Long[] dataPlugins;
 }

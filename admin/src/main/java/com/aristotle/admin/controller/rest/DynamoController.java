@@ -4,6 +4,7 @@ import com.aristotle.admin.controller.beans.dynamo.*;
 import com.aristotle.admin.controller.rest.error.ApiErrorResponse;
 import com.aristotle.admin.service.DynamoControllerService;
 import com.aristotle.core.exception.AppException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
+@Slf4j
 public class DynamoController extends BaseRestController {
 
     @Autowired
@@ -89,5 +91,8 @@ public class DynamoController extends BaseRestController {
         return dynamoControllerService.getAllUrlTemplateOfDomainTemplate(domainTemplateId);
     }
 
-
+    @RequestMapping(value = "/service/s/custom/plugin/{urlMappingId}", method = GET)
+    public List<DataPluginBean> getCustomPlugins(HttpServletRequest httpServletRequest, @PathVariable("urlMappingId") Long urlMappingId) throws AppException {
+        return dynamoControllerService.getActiveCustomDataPlugins(urlMappingId);
+    }
 }
