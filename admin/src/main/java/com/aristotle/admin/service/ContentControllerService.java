@@ -1,12 +1,16 @@
 package com.aristotle.admin.service;
 
 
+import com.aristotle.core.enums.ContentStatus;
+import com.aristotle.core.enums.ContentType;
 import com.aristotle.core.exception.AppException;
 import com.aristotle.core.persistance.Content;
 import com.aristotle.core.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -38,7 +42,13 @@ public class ContentControllerService {
             dbContent.setRejectionReason(content.getRejectionReason());
         } else {
             dbContent = content;
+            dbContent.setContentStatus(ContentStatus.Pending);
+            dbContent.setGlobal(true);
         }
         return dbContent;
+    }
+
+    public List<Content> getContentList(ContentType type) throws AppException {
+        return contentService.findContent(type);
     }
 }

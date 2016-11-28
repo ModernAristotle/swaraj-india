@@ -286,6 +286,53 @@ app.controller('urlTemplateController', function($scope, $rootScope, $http) {
       };
 });
 
+app.controller('pressReleaseController', function($scope, $rootScope, $http) {
+
+    $rootScope.headingTitle = "Press Releases";
+    console.log("fetching Press Releases");
+    $scope.showTable = true;
+
+    loadPressReleases($scope, $http);
+    $scope.selectedPressRelease = {};
+
+    $scope.editPressRelease = function(pressRelease) {
+        $scope.showTable = false;
+        $scope.selectedPressRelease = pressRelease;
+        CKEDITOR.instances.content.setData(pressRelease.content);
+    };
+
+     $scope.cancel = function() {
+         console.log("Edit Press release cancelled");
+         $scope.showTable = true;
+     };
+     $scope.newPressRelease = function() {
+         $scope.showTable = false;
+         $scope.selectedPressRelease = {};
+     };
+
+     $scope.savePressRelease     = function() {
+     $scope.selectedPressRelease.content = CKEDITOR.instances.content.getData();
+
+          console.log("Saving Press release : "+ angular.toJson($scope.selectedPressRelease));
+          $http({
+              method : "POST",
+              url : "/service/s/pressrelease",
+              data : angular.toJson($scope.selectedPressRelease),
+              headers : {
+                  'Content-Type' : 'application/json'
+              }
+          }).then(function successCallback(response) {
+              console.log("Press release saved succesfully "+ angular.toJson(response));
+              loadPressReleases($scope, $http, $scope.selectedDomainTemplateId);
+              $scope.cancel();
+
+          }, function errorCallback(response) {
+              console.log(response.statusText);
+          });
+
+      };
+});
+
 
 function loadDomains(scope, http){
 console.log("Loading Domains ");
@@ -415,6 +462,21 @@ http({
         url : "/service/s/refresh/domaintemplate/"+domainTemplateId
       }).then(function successCallback(response) {
         console.log(angular.toJson(response.data));
+      }, function errorCallback(response) {
+        console.log(response.statusText);
+      });
+
+}
+
+function loadPressReleases(scope, http){
+console.log("Loading Press Releases");
+
+http({
+        method : "GET",
+        url : "/service/s/pressrelease"
+      }).then(function successCallback(response) {
+        console.log(angular.toJson(response.data));
+        scope.pressReleases = response.data;
       }, function errorCallback(response) {
         console.log(response.statusText);
       });

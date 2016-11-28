@@ -41,6 +41,10 @@ app.config(function($routeProvider){
              templateUrl: '/admin/content/events.html',
              controller: 'usersController'
          })
+         .when('/admin/content/pressrelease.html',{
+              templateUrl: '/admin/content/pressrelease.html',
+              controller: 'pressReleaseController'
+          })
         .when('/admin/campaign/facebook.html',{
              templateUrl: '/admin/campaign/facebook.html',
              controller: 'usersController'

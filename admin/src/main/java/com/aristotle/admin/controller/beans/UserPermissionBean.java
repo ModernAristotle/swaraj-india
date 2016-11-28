@@ -12,7 +12,7 @@ public class UserPermissionBean {
     private boolean blogs;
     private boolean poll;
     private boolean events;
-
+    private boolean pressRelease;
 
     private boolean facebook;
     private boolean twitter;
@@ -39,7 +39,7 @@ public class UserPermissionBean {
     private boolean election;
 
     public boolean isContent() {
-        return superAdmin || news || twitter || poll || events;
+        return superAdmin || news || twitter || poll || events || pressRelease;
     }
 
     public boolean isCampaign() {
@@ -80,6 +80,10 @@ public class UserPermissionBean {
 
     public boolean isEvents() {
         return superAdmin || events;
+    }
+
+    public boolean isPressRelease() {
+        return superAdmin || pressRelease;
     }
 
     public boolean isFacebook() {

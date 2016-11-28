@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -26,14 +27,35 @@ public class ContentRestController extends BaseRestController {
         return contentControllerService.saveContent(content);
     }
 
+    @RequestMapping(value = "/service/s/news", method = RequestMethod.GET)
+    public List<Content> getNews(HttpServletRequest httpServletRequest) throws AppException {
+        return contentControllerService.getContentList(ContentType.News);
+    }
+
     @RequestMapping(value = "/service/s/blog", method = RequestMethod.POST)
     public Content saveBlog(HttpServletRequest httpServletRequest, @RequestBody Content content) throws AppException {
         content.setContentType(ContentType.Blog);
         return contentControllerService.saveContent(content);
     }
 
+    @RequestMapping(value = "/service/s/blog", method = RequestMethod.GET)
+    public List<Content> getBlogs(HttpServletRequest httpServletRequest) throws AppException {
+        return contentControllerService.getContentList(ContentType.Blog);
+    }
+
     @RequestMapping(value = "/service/s/pressrelease", method = RequestMethod.POST)
     public Content savePressRelease(HttpServletRequest httpServletRequest, @RequestBody Content content) throws AppException {
+        content.setContentType(ContentType.PressRelease);
+        return contentControllerService.saveContent(content);
+    }
+
+    @RequestMapping(value = "/service/s/pressrelease", method = RequestMethod.GET)
+    public List<Content> getPressReleases(HttpServletRequest httpServletRequest) throws AppException {
+        return contentControllerService.getContentList(ContentType.PressRelease);
+    }
+
+    @RequestMapping(value = "/service/s/pressrelease/status", method = RequestMethod.POST)
+    public Content updateContentStatus(HttpServletRequest httpServletRequest, @RequestBody Content content) throws AppException {
         content.setContentType(ContentType.PressRelease);
         return contentControllerService.saveContent(content);
     }

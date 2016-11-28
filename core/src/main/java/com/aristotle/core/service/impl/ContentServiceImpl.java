@@ -1,13 +1,18 @@
 package com.aristotle.core.service.impl;
 
 import com.aristotle.core.enums.ContentStatus;
+import com.aristotle.core.enums.ContentType;
 import com.aristotle.core.exception.AppException;
 import com.aristotle.core.persistance.Content;
 import com.aristotle.core.persistance.repo.ContentRepository;
 import com.aristotle.core.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.aristotle.core.util.ValidationUtil.*;
 
@@ -44,6 +49,12 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public Content findContentById(Long contentId) throws AppException {
         return contentRepository.findOne(contentId);
+    }
+
+    @Override
+    public List<Content> findContent(ContentType contentType) throws AppException {
+        Pageable pageable = new PageRequest(0, 100);
+        return contentRepository.getContent(contentType, pageable);
     }
 
     private void generateUrlTitle(Content content) {

@@ -1,5 +1,6 @@
 package com.aristotle.core.persistance.repo;
 
+import com.aristotle.core.enums.ContentType;
 import com.aristotle.core.persistance.Content;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,10 +20,13 @@ public interface ContentRepository extends JpaRepository<Content, Long> {
     @Query("select count(content) from Content content join content.locations locations where content.contentType=?1 and locations.id in ?2 and content.contentStatus='Published'")
     public long getLocationPublishedContentCount(String contentType, Set<Long> locationIds);
 
-    @Query("select content from Content content where content.contentType=?1 and content.global=true  and content.contentStatus='Published' order by content.dateCreated desc")
+    @Query("select content from Content content where content.contentType=?1 and content.global=true and content.contentStatus='Published' order by content.dateCreated desc")
     public List<Content> getGlobalPublishedContent(String contentType, Pageable pageable);
 
     @Query("select count(content) from Content content where content.contentType=?1 and content.global=true  and content.contentStatus='Published'")
     public long getGlobalPublishedContentCount(String contentType);
+
+    @Query("select content from Content content where content.contentType=?1 order by content.dateCreated desc")
+    public List<Content> getContent(ContentType contentType, Pageable pageable);
 
 }
