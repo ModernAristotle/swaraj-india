@@ -32,6 +32,11 @@ public class ContentRestController extends BaseRestController {
         return contentControllerService.getContentList(ContentType.News);
     }
 
+    @RequestMapping(value = "/service/s/news/status", method = RequestMethod.POST)
+    public Content updateNewsStatus(HttpServletRequest httpServletRequest, @RequestBody Content content) throws AppException {
+        return contentControllerService.updateContentStatus(ContentType.News, content.getId(), content.getContentStatus());
+    }
+
     @RequestMapping(value = "/service/s/blog", method = RequestMethod.POST)
     public Content saveBlog(HttpServletRequest httpServletRequest, @RequestBody Content content) throws AppException {
         content.setContentType(ContentType.Blog);
@@ -41,6 +46,11 @@ public class ContentRestController extends BaseRestController {
     @RequestMapping(value = "/service/s/blog", method = RequestMethod.GET)
     public List<Content> getBlogs(HttpServletRequest httpServletRequest) throws AppException {
         return contentControllerService.getContentList(ContentType.Blog);
+    }
+
+    @RequestMapping(value = "/service/s/blog/status", method = RequestMethod.POST)
+    public Content updateBlogStatus(HttpServletRequest httpServletRequest, @RequestBody Content content) throws AppException {
+        return contentControllerService.updateContentStatus(ContentType.Blog, content.getId(), content.getContentStatus());
     }
 
     @RequestMapping(value = "/service/s/pressrelease", method = RequestMethod.POST)
@@ -55,8 +65,7 @@ public class ContentRestController extends BaseRestController {
     }
 
     @RequestMapping(value = "/service/s/pressrelease/status", method = RequestMethod.POST)
-    public Content updateContentStatus(HttpServletRequest httpServletRequest, @RequestBody Content content) throws AppException {
-        content.setContentType(ContentType.PressRelease);
-        return contentControllerService.saveContent(content);
+    public Content updatePressReleaseStatus(HttpServletRequest httpServletRequest, @RequestBody Content content) throws AppException {
+        return contentControllerService.updateContentStatus(ContentType.PressRelease, content.getId(), content.getContentStatus());
     }
 }

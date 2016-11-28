@@ -309,9 +309,28 @@ app.controller('pressReleaseController', function($scope, $rootScope, $http) {
          $scope.showTable = false;
          $scope.selectedPressRelease = {};
      };
+     $scope.publishPressRelease = function() {
+           console.log("Publishing Press release : "+ angular.toJson($scope.selectedPressRelease));
+           $scope.selectedPressRelease.contentStatus='Published';
+           $http({
+               method : "POST",
+               url : "/service/s/pressrelease/status",
+               data : angular.toJson($scope.selectedPressRelease),
+               headers : {
+                   'Content-Type' : 'application/json'
+               }
+           }).then(function successCallback(response) {
+               console.log("Press release published succesfully "+ angular.toJson(response));
+               loadPressReleases($scope, $http, $scope.selectedDomainTemplateId);
+               $scope.cancel();
+
+           }, function errorCallback(response) {
+               console.log(response.statusText);
+           });
+      };
 
      $scope.savePressRelease     = function() {
-     $scope.selectedPressRelease.content = CKEDITOR.instances.content.getData();
+          $scope.selectedPressRelease.content = CKEDITOR.instances.content.getData();
 
           console.log("Saving Press release : "+ angular.toJson($scope.selectedPressRelease));
           $http({

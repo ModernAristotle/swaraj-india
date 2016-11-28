@@ -51,4 +51,17 @@ public class ContentControllerService {
     public List<Content> getContentList(ContentType type) throws AppException {
         return contentService.findContent(type);
     }
+
+    public Content updateContentStatus(ContentType contentType, Long contentId, ContentStatus contentStatus) throws AppException {
+        Content dbContent = contentService.findContentById(contentId);
+        if (dbContent == null) {
+            throw new IllegalArgumentException("No Such content found [id=" + contentId + "]");
+        }
+        if (dbContent.getContentType() != contentType) {
+            throw new IllegalArgumentException("No Such content found [id=" + contentId + ", contentType= " + contentType + "]");
+        }
+        dbContent.setContentStatus(contentStatus);
+        dbContent = contentService.saveContent(dbContent);
+        return dbContent;
+    }
 }
