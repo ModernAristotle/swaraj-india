@@ -1,6 +1,8 @@
 package com.aristotle.admin.controller.rest;
 
+import com.aristotle.admin.controller.beans.UserSessionObject;
 import com.aristotle.admin.service.ContentControllerService;
+import com.aristotle.admin.service.LoginService;
 import com.aristotle.core.enums.ContentType;
 import com.aristotle.core.exception.AppException;
 import com.aristotle.core.persistance.Content;
@@ -20,6 +22,9 @@ public class ContentRestController extends BaseRestController {
 
     @Autowired
     private ContentControllerService contentControllerService;
+
+    @Autowired
+    private LoginService loginService;
 
     @RequestMapping(value = "/service/s/news", method = RequestMethod.POST)
     public Content saveNews(HttpServletRequest httpServletRequest, @RequestBody Content content) throws AppException {
@@ -55,6 +60,8 @@ public class ContentRestController extends BaseRestController {
 
     @RequestMapping(value = "/service/s/pressrelease", method = RequestMethod.POST)
     public Content savePressRelease(HttpServletRequest httpServletRequest, @RequestBody Content content) throws AppException {
+        UserSessionObject userSessionObject = loginService.getUserSessionObject(httpServletRequest);
+        userSessionObject.getSelectedAdminLocation();
         content.setContentType(ContentType.PressRelease);
         return contentControllerService.saveContent(content);
     }

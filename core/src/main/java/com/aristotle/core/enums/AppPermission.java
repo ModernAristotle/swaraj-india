@@ -3,6 +3,7 @@ package com.aristotle.core.enums;
 public enum AppPermission {
     ADMIN_CAMPAIGN_FB,
     ADMIN_CAMPAIGN_TWITTER,
+    ADMIN_PRESS_RELEASE,
     CREATE_NEWS,
     UPDATE_NEWS,
     DELETE_NEWS,

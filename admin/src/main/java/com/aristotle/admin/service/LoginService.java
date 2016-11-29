@@ -81,6 +81,7 @@ public class LoginService {
             userPermissionBean.setDonation(userPermissionBean.isDonation() || oneAppPermission == ADMIN_DONATION);
             userPermissionBean.setCandidates(userPermissionBean.isCandidates() || oneAppPermission == ADMIN_CANDIDATE);
             userPermissionBean.setElection(userPermissionBean.isElection() || oneAppPermission == ADMIN_ELECTION);
+            userPermissionBean.setPressRelease(userPermissionBean.isPressRelease() || oneAppPermission == ADMIN_PRESS_RELEASE);
 
         }
     }
