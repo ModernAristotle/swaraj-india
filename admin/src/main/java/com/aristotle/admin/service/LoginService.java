@@ -68,10 +68,21 @@ public class LoginService {
         UserPermissionBean userPermissionBean = userSessionObject.getUserPermissionBean();
         Set<AppPermission> appPermissions = userService.getLocationPermissionsOfUser(user.getId(), location.getId());
         for (AppPermission oneAppPermission : appPermissions) {
-            userPermissionBean.setNews(userPermissionBean.isNews() || oneAppPermission == CREATE_NEWS || oneAppPermission == UPDATE_NEWS || oneAppPermission == DELETE_NEWS || oneAppPermission == APPROVE_NEWS);
-            userPermissionBean.setBlogs(userPermissionBean.isBlogs() || oneAppPermission == CREATE_BLOG || oneAppPermission == UPDATE_BLOG || oneAppPermission == DELETE_BLOG || oneAppPermission == APPROVE_BLOG);
-            userPermissionBean.setPoll(userPermissionBean.isPoll() || oneAppPermission == CREATE_POLL || oneAppPermission == UPDATE_POLL || oneAppPermission == DELETE_POLL || oneAppPermission == APPROVE_POLL);
-            userPermissionBean.setEvents(userPermissionBean.isEvents() || oneAppPermission == CREATE_EVENT || oneAppPermission == UPDATE_EVENT || oneAppPermission == DELETE_EVENT || oneAppPermission == APPROVE_EVENT);
+            userPermissionBean.setNewsEditor(userPermissionBean.isNewsEditor() || oneAppPermission == NEWS_EDITOR);
+            userPermissionBean.setNewsReporter(userPermissionBean.isNewsReporter() || oneAppPermission == NEWS_REPORTER);
+
+            userPermissionBean.setBlogEditor(userPermissionBean.isBlogEditor() || oneAppPermission == BLOG_EDITOR);
+            userPermissionBean.setBlogReporter(userPermissionBean.isBlogReporter() || oneAppPermission == BLOG_REPORTER);
+
+            userPermissionBean.setPressReleaseEditor(userPermissionBean.isPressReleaseEditor() || oneAppPermission == PRESS_RELEASE_EDITOR);
+            userPermissionBean.setPressReleaseReporter(userPermissionBean.isPressReleaseReporter() || oneAppPermission == PRESS_RELEASE_REPORTER);
+
+            userPermissionBean.setPollEditor(userPermissionBean.isPollEditor() || oneAppPermission == POLL_EDITOR);
+            userPermissionBean.setPollReporter(userPermissionBean.isPollReporter() || oneAppPermission == POLL_REPORTER);
+
+            userPermissionBean.setEventEditor(userPermissionBean.isEventEditor() || oneAppPermission == EVENT_EDITOR);
+            userPermissionBean.setEventReporter(userPermissionBean.isEventReporter() || oneAppPermission == EVENT_REPORTER);
+
             userPermissionBean.setFacebook(userPermissionBean.isFacebook() || oneAppPermission == ADMIN_CAMPAIGN_FB);
             userPermissionBean.setTwitter(userPermissionBean.isTwitter() || oneAppPermission == ADMIN_CAMPAIGN_TWITTER);
             userPermissionBean.setSms(userPermissionBean.isSms() || oneAppPermission == ADMIN_SMS);
@@ -81,9 +92,9 @@ public class LoginService {
             userPermissionBean.setDonation(userPermissionBean.isDonation() || oneAppPermission == ADMIN_DONATION);
             userPermissionBean.setCandidates(userPermissionBean.isCandidates() || oneAppPermission == ADMIN_CANDIDATE);
             userPermissionBean.setElection(userPermissionBean.isElection() || oneAppPermission == ADMIN_ELECTION);
-            userPermissionBean.setPressRelease(userPermissionBean.isPressRelease() || oneAppPermission == ADMIN_PRESS_RELEASE);
 
         }
+        userPermissionBean.setAppPermissions(appPermissions);
     }
 
 

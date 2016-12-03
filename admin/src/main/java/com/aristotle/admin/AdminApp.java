@@ -12,12 +12,14 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 
 import java.util.Arrays;
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.aristotle.admin"})
 @EnableAutoConfiguration
+@EnableAspectJAutoProxy
 @EntityScan(basePackages = {"com.aristotle.core.persistance"})
 @Import({SwaggerConfig.class, DatabaseConfig.class, DynamoServiceContext.class, FilterConfig.class})
 public class AdminApp extends SpringBootServletInitializer {

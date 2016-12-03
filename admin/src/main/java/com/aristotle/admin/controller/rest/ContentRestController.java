@@ -1,5 +1,6 @@
 package com.aristotle.admin.controller.rest;
 
+import com.aristotle.admin.controller.beans.ContentIdBean;
 import com.aristotle.admin.controller.beans.UserSessionObject;
 import com.aristotle.admin.service.ContentControllerService;
 import com.aristotle.admin.service.LoginService;
@@ -34,12 +35,12 @@ public class ContentRestController extends BaseRestController {
 
     @RequestMapping(value = "/service/s/news", method = RequestMethod.GET)
     public List<Content> getNews(HttpServletRequest httpServletRequest) throws AppException {
-        return contentControllerService.getContentList(ContentType.News);
+        return contentControllerService.getNewstList();
     }
 
-    @RequestMapping(value = "/service/s/news/status", method = RequestMethod.POST)
-    public Content updateNewsStatus(HttpServletRequest httpServletRequest, @RequestBody Content content) throws AppException {
-        return contentControllerService.updateContentStatus(ContentType.News, content.getId(), content.getContentStatus());
+    @RequestMapping(value = "/service/s/news/publish", method = RequestMethod.POST)
+    public Content updateNewsStatus(HttpServletRequest httpServletRequest, @RequestBody ContentIdBean contentIdBean) throws AppException {
+        return contentControllerService.publishNews(contentIdBean.getId());
     }
 
     @RequestMapping(value = "/service/s/blog", method = RequestMethod.POST)
@@ -50,12 +51,12 @@ public class ContentRestController extends BaseRestController {
 
     @RequestMapping(value = "/service/s/blog", method = RequestMethod.GET)
     public List<Content> getBlogs(HttpServletRequest httpServletRequest) throws AppException {
-        return contentControllerService.getContentList(ContentType.Blog);
+        return contentControllerService.getBlogList();
     }
 
-    @RequestMapping(value = "/service/s/blog/status", method = RequestMethod.POST)
-    public Content updateBlogStatus(HttpServletRequest httpServletRequest, @RequestBody Content content) throws AppException {
-        return contentControllerService.updateContentStatus(ContentType.Blog, content.getId(), content.getContentStatus());
+    @RequestMapping(value = "/service/s/blog/publish", method = RequestMethod.POST)
+    public Content updateBlogStatus(HttpServletRequest httpServletRequest, @RequestBody ContentIdBean contentIdBean) throws AppException {
+        return contentControllerService.publishBlog(contentIdBean.getId());
     }
 
     @RequestMapping(value = "/service/s/pressrelease", method = RequestMethod.POST)
@@ -68,11 +69,11 @@ public class ContentRestController extends BaseRestController {
 
     @RequestMapping(value = "/service/s/pressrelease", method = RequestMethod.GET)
     public List<Content> getPressReleases(HttpServletRequest httpServletRequest) throws AppException {
-        return contentControllerService.getContentList(ContentType.PressRelease);
+        return contentControllerService.getPressReleaseList();
     }
 
-    @RequestMapping(value = "/service/s/pressrelease/status", method = RequestMethod.POST)
-    public Content updatePressReleaseStatus(HttpServletRequest httpServletRequest, @RequestBody Content content) throws AppException {
-        return contentControllerService.updateContentStatus(ContentType.PressRelease, content.getId(), content.getContentStatus());
+    @RequestMapping(value = "/service/s/pressrelease/publish", method = RequestMethod.POST)
+    public Content updatePressReleaseStatus(HttpServletRequest httpServletRequest, @RequestBody ContentIdBean contentIdBean) throws AppException {
+        return contentControllerService.publishPressRelease(contentIdBean.getId());
     }
 }

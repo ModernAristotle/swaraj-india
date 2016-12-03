@@ -27,7 +27,7 @@ app.config(function($routeProvider){
          })
         .when('/admin/content/news.html',{
              templateUrl: '/admin/content/news.html',
-             controller: 'usersController'
+             controller: 'newsController'
          })
         .when('/admin/content/blogs.html',{
              templateUrl: '/admin/content/blogs.html',
@@ -124,4 +124,11 @@ app.config(function($routeProvider){
        .otherwise(
             { redirectTo: '/'}
         );
+});
+
+app.run(function($rootScope) {
+    $rootScope.login = function() {
+        console.log("Login");
+        window.location.href = '/home';
+    };
 });

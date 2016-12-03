@@ -1,3 +1,35 @@
+(function(){
+  var httpInterceptor = function ($provide, $httpProvider) {
+    $provide.factory('httpInterceptor', function ($q, $rootScope) {
+      return {
+        'request': function(config) {
+          // do something on success
+          $rootScope.error = {show: false, showLogin:false};
+
+          return config;
+        },
+
+        response: function (response) {
+          return response || $q.when(response);
+        },
+        responseError: function (rejection) {
+          $rootScope.error.message = rejection.data.message;
+          $rootScope.error.show = true;
+
+          if(rejection.status === 401) {
+            $rootScope.error.showLogin = true;
+          }
+          return $q.reject(rejection);
+        }
+      };
+    });
+    $httpProvider.interceptors.push('httpInterceptor');
+  };
+  angular.module("app").config(httpInterceptor);
+}());
+
+
+
 
 app.controller('registereController', function($scope) {
     $scope.headingTitle = "Registration";
@@ -314,7 +346,7 @@ app.controller('pressReleaseController', function($scope, $rootScope, $http) {
            $scope.selectedPressRelease.contentStatus='Published';
            $http({
                method : "POST",
-               url : "/service/s/pressrelease/status",
+               url : "/service/s/pressrelease/publish",
                data : angular.toJson($scope.selectedPressRelease),
                headers : {
                    'Content-Type' : 'application/json'
@@ -329,7 +361,7 @@ app.controller('pressReleaseController', function($scope, $rootScope, $http) {
            });
       };
 
-     $scope.savePressRelease     = function() {
+     $scope.savePressRelease = function() {
           $scope.selectedPressRelease.content = CKEDITOR.instances.content.getData();
 
           console.log("Saving Press release : "+ angular.toJson($scope.selectedPressRelease));
@@ -342,7 +374,73 @@ app.controller('pressReleaseController', function($scope, $rootScope, $http) {
               }
           }).then(function successCallback(response) {
               console.log("Press release saved succesfully "+ angular.toJson(response));
-              loadPressReleases($scope, $http, $scope.selectedDomainTemplateId);
+              loadPressReleases($scope, $http);
+              $scope.cancel();
+
+          }, function errorCallback(response) {
+              console.log(response.statusText);
+          });
+
+      };
+});
+
+app.controller('newsController', function($scope, $rootScope, $http) {
+
+    $rootScope.headingTitle = "News";
+    console.log("fetching News");
+    $scope.showTable = true;
+
+    loadNews($scope, $http);
+    $scope.selectedNews = {};
+
+    $scope.editNews = function(news) {
+        $scope.showTable = false;
+        $scope.selectedNews = news;
+        CKEDITOR.instances.content.setData(news.content);
+    };
+
+     $scope.cancel = function() {
+         console.log("Edit News cancelled");
+         $scope.showTable = true;
+     };
+     $scope.newNews = function() {
+         $scope.showTable = false;
+         $scope.selectedNews = {};
+     };
+     $scope.publishNews = function() {
+           console.log("Publishing News : "+ angular.toJson($scope.selectedNews));
+           $scope.selectedNews.contentStatus='Published';
+           $http({
+               method : "POST",
+               url : "/service/s/news/publish",
+               data : angular.toJson($scope.selectedNews),
+               headers : {
+                   'Content-Type' : 'application/json'
+               }
+           }).then(function successCallback(response) {
+               console.log("Press release published succesfully "+ angular.toJson(response));
+               loadNews($scope, $http);
+               $scope.cancel();
+
+           }, function errorCallback(response) {
+               console.log(response.statusText);
+           });
+      };
+
+     $scope.saveNews = function() {
+          $scope.selectedNews.content = CKEDITOR.instances.content.getData();
+
+          console.log("Saving Press release : "+ angular.toJson($scope.selectedNews));
+          $http({
+              method : "POST",
+              url : "/service/s/news",
+              data : angular.toJson($scope.selectedNews),
+              headers : {
+                  'Content-Type' : 'application/json'
+              }
+          }).then(function successCallback(response) {
+              console.log("Press release saved succesfully "+ angular.toJson(response));
+              loadNews($scope, $http, $scope.selectedDomainTemplateId);
               $scope.cancel();
 
           }, function errorCallback(response) {
@@ -501,3 +599,21 @@ http({
       });
 
 }
+
+function loadNews(scope, http){
+console.log("Loading News");
+
+http({
+        method : "GET",
+        url : "/service/s/news"
+      }).then(function successCallback(response) {
+        console.log(angular.toJson(response.data));
+        scope.newsList = response.data;
+      }, function errorCallback(response) {
+        console.log(response.statusText);
+      });
+
+}
+
+
+

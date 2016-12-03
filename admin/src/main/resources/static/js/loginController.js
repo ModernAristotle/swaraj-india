@@ -1,11 +1,14 @@
-app.controller('loginController', function($scope, $http)
+app.controller('loginController', function($scope, $rootScope, $http)
 {
-    document.getElementById("error").style.visibility = "hidden";
     $scope.user = {
         userName :"nextinfotechuk@gmail.com"
     };
+    $rootScope.error = {
+        show : false
+    };
     $scope.loginUser = function()
     {
+        $rootScope.error.show = false;
         $http({
             method : "POST",
             url : "/service/us/login",
@@ -17,8 +20,8 @@ app.controller('loginController', function($scope, $http)
             window.location.href = '/home';
         }, function errorCallback(response)
         {
-            document.getElementById("error").style.visibility ="visible";
-            $scope.errorMessage=response.data.message;
+            $rootScope.error.message = response.data.message;
+            $rootScope.error.show = true;
         });
     };
 });

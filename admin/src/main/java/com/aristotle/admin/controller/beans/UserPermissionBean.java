@@ -1,18 +1,32 @@
 package com.aristotle.admin.controller.beans;
 
+import com.aristotle.core.enums.AppPermission;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Setter
 @Getter
 public class UserPermissionBean {
 
+    private Set<AppPermission> appPermissions;
     private boolean superAdmin;
-    private boolean news;
-    private boolean blogs;
-    private boolean poll;
-    private boolean events;
-    private boolean pressRelease;
+
+    private boolean newsEditor;
+    private boolean newsReporter;
+
+    private boolean blogEditor;
+    private boolean blogReporter;
+
+    private boolean pressReleaseEditor;
+    private boolean pressReleaseReporter;
+
+    private boolean pollEditor;
+    private boolean pollReporter;
+
+    private boolean eventEditor;
+    private boolean eventReporter;
 
     private boolean facebook;
     private boolean twitter;
@@ -39,11 +53,11 @@ public class UserPermissionBean {
     private boolean election;
 
     public boolean isContent() {
-        return superAdmin || news || twitter || poll || events || pressRelease;
+        return isNews() || isBlogs() || isPoll() || isEvents() || isPressRelease();
     }
 
     public boolean isCampaign() {
-        return superAdmin || facebook || blogs || sms || email || call || mobileGroups || donation || candidates;
+        return superAdmin || facebook || twitter || sms || email || call || mobileGroups || donation || candidates;
     }
 
     public boolean isDeveloper() {
@@ -67,23 +81,23 @@ public class UserPermissionBean {
     }
 
     public boolean isNews() {
-        return superAdmin || news;
+        return superAdmin || newsEditor || newsReporter;
     }
 
     public boolean isBlogs() {
-        return superAdmin || blogs;
+        return superAdmin || blogEditor || blogReporter;
     }
 
     public boolean isPoll() {
-        return superAdmin || poll;
+        return superAdmin || pollEditor || pollReporter;
     }
 
     public boolean isEvents() {
-        return superAdmin || events;
+        return superAdmin || eventEditor || eventReporter;
     }
 
     public boolean isPressRelease() {
-        return superAdmin || pressRelease;
+        return superAdmin || pressReleaseEditor || pressReleaseReporter;
     }
 
     public boolean isFacebook() {

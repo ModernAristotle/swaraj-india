@@ -19,6 +19,16 @@ public class FilterConfig {
         return registration;
     }
 
+    @Bean
+    public FilterRegistrationBean securedRestServiceFilter() {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(restLoginFilter());
+        registration.addUrlPatterns("/service/s/*");
+        registration.setName("securedRestServiceFilter");
+        registration.setOrder(3);
+        return registration;
+    }
+
     // @Bean
     public FilterRegistrationBean loginViewFilterRegistration() {
 
@@ -28,6 +38,11 @@ public class FilterConfig {
         registration.setName("loginViewFilter");
         registration.setOrder(2);
         return registration;
+    }
+
+    @Bean
+    public Filter restLoginFilter() {
+        return new RestLoginFilter();
     }
 
     @Bean

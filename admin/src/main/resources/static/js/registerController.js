@@ -1,7 +1,7 @@
 app.controller('registerController', function($scope, $http)
 {
     $scope.headingTitle = "Registration";
-    $scope.user = {};
+    $scope.user = {countryCode: "91"};
     $scope.registerUser = function()
     {
         $http({

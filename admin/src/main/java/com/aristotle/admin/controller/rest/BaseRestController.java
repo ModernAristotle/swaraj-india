@@ -2,6 +2,7 @@ package com.aristotle.admin.controller.rest;
 
 import com.aristotle.admin.controller.beans.UserBean;
 import com.aristotle.admin.controller.rest.error.ApiErrorResponse;
+import com.aristotle.admin.exception.NotAllowedException;
 import com.aristotle.core.exception.AppException;
 import com.aristotle.core.persistance.User;
 import lombok.extern.slf4j.Slf4j;
@@ -31,12 +32,19 @@ public abstract class BaseRestController {
         return new ApiErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
 
-    //
+
     @ExceptionHandler(AppException.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiErrorResponse appExceptionHandler(AppException appException) {
         log.error("", appException);
         return new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), appException.getMessage());
+    }
+
+    @ExceptionHandler(NotAllowedException.class)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ApiErrorResponse notAllowedExceptionHandler(NotAllowedException notAllowedException) {
+        log.error("", notAllowedException);
+        return new ApiErrorResponse(HttpStatus.FORBIDDEN.value(), notAllowedException.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

@@ -37,6 +37,10 @@
                             {{headingTitle}}
                         </div>
                         <div class="panel-body">
+                            <div class="alert alert-danger" ng-show="error.show">
+                                {{error.message}}
+                                <button type="button" class="btn btn-primary" ng-click="login()" ng-show="error.showLogin">Login Now</button>
+                            </div>
                             <div ng-view="test"></div>
                         </div>
                         <div class="panel-footer">
