@@ -8,9 +8,12 @@ import com.aristotle.core.exception.AppException;
 import com.aristotle.core.persistance.Content;
 import com.aristotle.core.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 import static com.aristotle.core.enums.AppPermission.*;
@@ -54,7 +57,8 @@ public class ContentControllerService {
 
     @SecureService(permissions = {NEWS_REPORTER, NEWS_EDITOR})
     public List<Content> getNewstList() throws AppException {
-        return contentService.findContent(ContentType.News);
+        Pageable page = new PageRequest(0, 100);
+        return contentService.findContent(ContentType.News, page);
     }
 
     @SecureService(permissions = {NEWS_EDITOR})
@@ -64,7 +68,8 @@ public class ContentControllerService {
 
     @SecureService(permissions = {BLOG_REPORTER, BLOG_EDITOR})
     public List<Content> getBlogList() throws AppException {
-        return contentService.findContent(ContentType.Blog);
+        Pageable page = new PageRequest(0, 100);
+        return contentService.findContent(ContentType.Blog, page);
     }
 
     @SecureService(permissions = {BLOG_EDITOR})
@@ -74,7 +79,8 @@ public class ContentControllerService {
 
     @SecureService(permissions = {PRESS_RELEASE_REPORTER, PRESS_RELEASE_EDITOR})
     public List<Content> getPressReleaseList() throws AppException {
-        return contentService.findContent(ContentType.PressRelease);
+        Pageable page = new PageRequest(0, 100);
+        return contentService.findContent(ContentType.PressRelease, page);
     }
 
     @SecureService(permissions = {PRESS_RELEASE_EDITOR})
@@ -91,6 +97,9 @@ public class ContentControllerService {
             throw new IllegalArgumentException("No Such content found [id=" + contentId + ", contentType= " + contentType + "]");
         }
         dbContent.setContentStatus(contentStatus);
+        if (contentStatus == ContentStatus.Published && dbContent.getPublishDate() == null) {
+            dbContent.setPublishDate(new Date());
+        }
         dbContent = contentService.saveContent(dbContent);
         return dbContent;
     }

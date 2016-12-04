@@ -1,8 +1,10 @@
 package com.aristotle.web.controller;
 
+import com.aristotle.core.plugin.ContextSetting;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.JsonNodeValueResolver;
 import com.github.jknack.handlebars.Template;
@@ -39,6 +41,12 @@ public class ContentController {
     @Autowired
     private HandleBarManager handleBarManager;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private ContextSetting contextSetting;
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @ExceptionHandler({Exception.class})
@@ -53,14 +61,15 @@ public class ContentController {
         logger.info("Handling : {}", httpServletRequest.getRequestURI());
 
 
-        JsonObject jsonContext = new JsonObject();
-        modelAndView.getModel().put("context", jsonContext);
+        //JsonObject jsonContext = new JsonObject();
+        ObjectNode jsonContext = objectMapper.createObjectNode();
+        modelAndView.getModel().put(contextSetting.getContextFieldName(), jsonContext);
         StopWatch stopWatch = new StopWatch();
 
         try {
             stopWatch.start("DBTask");
             pluginManager.applyAllPluginsForUrl(httpServletRequest, httpServletResponse, modelAndView, true, true);
-            addPageAttributes(httpServletRequest, httpServletResponse, modelAndView);
+            //addPageAttributes(httpServletRequest, httpServletResponse, modelAndView);
             stopWatch.stop();
         } catch (DynamoException e) {
             return "User not logged In";
@@ -78,8 +87,8 @@ public class ContentController {
         stopWatch.stop();
 
         stopWatch.start("Convert Data To Jackson");
-        JsonNode rootNode = convertDataToJackSon(jsonContext);
-        Context context = Context.newBuilder(rootNode).resolver(JsonNodeValueResolver.INSTANCE).build();
+        //JsonNode rootNode = convertDataToJackSon(jsonContext);
+        Context context = Context.newBuilder(jsonContext).resolver(JsonNodeValueResolver.INSTANCE).build();
         stopWatch.stop();
 
         stopWatch.start("Apply Data");
@@ -97,7 +106,8 @@ public class ContentController {
         return result;
     }
 
-    private ObjectMapper mapper = new ObjectMapper();
+    @Autowired
+    private ObjectMapper mapper;
 
     private JsonNode convertDataToJackSon(JsonObject jsonObject) throws JsonProcessingException, IOException {
         JsonNode rootNode = mapper.readTree(jsonObject.toString());
@@ -107,29 +117,31 @@ public class ContentController {
     @ResponseBody
     @RequestMapping("/api/content/**")
     public String defaultContentApiMethod(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, ModelAndView modelAndView) {
-        JsonObject context = new JsonObject();
-        modelAndView.getModel().put("context", context);
+//        JsonObject context = new JsonObject();
+        JsonNode jsonContext = objectMapper.createObjectNode();
+        modelAndView.getModel().put("context", jsonContext);
         try {
             pluginManager.applyAllPluginsForUrl(httpServletRequest, httpServletResponse, modelAndView, true, true);
-            addPageAttributes(httpServletRequest, httpServletResponse, modelAndView);
+            //addPageAttributes(httpServletRequest, httpServletResponse, modelAndView);
         } catch (DynamoException e) {
             e.printStackTrace();
         }
-        return context.toString();
+        return jsonContext.toString();
     }
 
     @ResponseBody
     @RequestMapping("/api/**")
     public String defaultApiMethod(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, ModelAndView modelAndView) {
-        JsonObject context = new JsonObject();
-        modelAndView.getModel().put("context", context);
+//        JsonObject context = new JsonObject();
+        JsonNode jsonContext = objectMapper.createObjectNode();
+        modelAndView.getModel().put("context", jsonContext);
         try {
             pluginManager.applyAllPluginsForUrl(httpServletRequest, httpServletResponse, modelAndView, true, false);
         } catch (DynamoException e) {
             e.printStackTrace();
         }
         addCorsHeaders(httpServletResponse);
-        return context.toString();
+        return jsonContext.toString();
     }
 
     private void addCorsHeaders(HttpServletResponse httpServletResponse) {

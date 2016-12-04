@@ -6,25 +6,33 @@ import com.aristotle.core.exception.AppException;
 import com.aristotle.core.persistance.Content;
 import com.aristotle.core.persistance.repo.ContentRepository;
 import com.aristotle.core.service.ContentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.aristotle.core.util.ValidationUtil.*;
+import static java.util.Arrays.asList;
 
 /**
  * Created by ravi on 12/11/16.
  */
 @Service
 @Transactional(rollbackFor = {Throwable.class})
+@Slf4j
 public class ContentServiceImpl implements ContentService {
 
     @Autowired
     private ContentRepository contentRepository;
+
+    @Autowired
+    private UrlHelper urlHelper;
+
+    private List<ContentType> newsAndPressReleaseContentType = asList(ContentType.News, ContentType.PressRelease);
 
     @Override
     public Content saveContent(Content content) throws AppException {
@@ -40,9 +48,10 @@ public class ContentServiceImpl implements ContentService {
         if (!content.isGlobal()) {
             assertNotEmpty(content.getLocations(), "Content either should be set global or must be linked to atleast one location");
         }
-        generateUrlTitle(content);
 
         content = contentRepository.save(content);
+        urlHelper.generateContentUrl(content);
+
         return content;
     }
 
@@ -52,8 +61,28 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public List<Content> findContent(ContentType contentType) throws AppException {
-        Pageable pageable = new PageRequest(0, 100);
+    public List<Content> findPublishedContent(ContentType contentType, Set<Long> locationIds, Pageable pageable) throws AppException {
+        if (locationIds == null || locationIds.isEmpty()) {
+            return contentRepository.getGlobalPublishedContent(contentType, pageable);
+        }
+        List<Content> contents = contentRepository.getLocationPublishedContent(contentType.name(), locationIds, pageable);
+        if (contents.isEmpty() && pageable.getPageNumber() == 0) {
+            contents = contentRepository.getGlobalPublishedContent(contentType, pageable);
+        }
+        return contents;
+    }
+
+    @Override
+    public List<Content> findLatestPublishedNewsAndPressReleases(Set<Long> locationIds, Pageable pageable) throws AppException {
+        log.info("newsAndPressReleaseContentType = " + newsAndPressReleaseContentType);
+        if (locationIds == null || locationIds.isEmpty()) {
+            return contentRepository.getLatestGlobalPublishedContent(pageable);
+        }
+        return contentRepository.getLatestLocationPublishedContent(locationIds, pageable);
+    }
+
+    @Override
+    public List<Content> findContent(ContentType contentType, Pageable pageable) throws AppException {
         return contentRepository.getContent(contentType, pageable);
     }
 

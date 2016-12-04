@@ -1,6 +1,7 @@
 package com.aristotle.web;
 
 import com.aristotle.core.config.DatabaseConfig;
+import com.aristotle.web.config.ControllerConfig;
 import com.next.dynamo.context.DynamoServiceContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -19,7 +20,7 @@ import java.util.Arrays;
 @ComponentScan(basePackages = {"com.aristotle.web"})
 @EnableAutoConfiguration
 @EnableCaching
-@Import({DatabaseConfig.class, DynamoServiceContext.class})
+@Import({DatabaseConfig.class, DynamoServiceContext.class, ControllerConfig.class})
 @EntityScan(basePackages = {"com.aristotle.core.persistance", "com.next.dynamo.persistance"})
 public class WebApp extends SpringBootServletInitializer {
 
