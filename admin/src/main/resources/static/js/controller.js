@@ -440,7 +440,74 @@ app.controller('newsController', function($scope, $rootScope, $http) {
               }
           }).then(function successCallback(response) {
               console.log("Press release saved succesfully "+ angular.toJson(response));
-              loadNews($scope, $http, $scope.selectedDomainTemplateId);
+              loadNews($scope, $http);
+              $scope.cancel();
+
+          }, function errorCallback(response) {
+              console.log(response.statusText);
+          });
+
+      };
+});
+
+
+app.controller('blogController', function($scope, $rootScope, $http) {
+
+    $rootScope.headingTitle = "Blog";
+    console.log("fetching Blogs");
+    $scope.showTable = true;
+
+    loadBlogs($scope, $http);
+    $scope.selectedBlog = {};
+
+    $scope.editBlog = function(blog) {
+        $scope.showTable = false;
+        $scope.selectedBlog = blog;
+        CKEDITOR.instances.content.setData(blog.content);
+    };
+
+     $scope.cancel = function() {
+         console.log("Edit Blog cancelled");
+         $scope.showTable = true;
+     };
+     $scope.newBlog = function() {
+         $scope.showTable = false;
+         $scope.selectedBlog = {};
+     };
+     $scope.publishBlog = function() {
+           console.log("Publishing Blog : "+ angular.toJson($scope.selectedBlog));
+           $scope.selectedBlog.contentStatus='Published';
+           $http({
+               method : "POST",
+               url : "/service/s/blog/publish",
+               data : angular.toJson($scope.selectedBlog),
+               headers : {
+                   'Content-Type' : 'application/json'
+               }
+           }).then(function successCallback(response) {
+               console.log("Blog published succesfully "+ angular.toJson(response));
+               loadBlogs($scope, $http);
+               $scope.cancel();
+
+           }, function errorCallback(response) {
+               console.log(response.statusText);
+           });
+      };
+
+     $scope.saveBlog = function() {
+          $scope.selectedBlog.content = CKEDITOR.instances.content.getData();
+
+          console.log("Saving Blog : "+ angular.toJson($scope.selectedBlog));
+          $http({
+              method : "POST",
+              url : "/service/s/blog",
+              data : angular.toJson($scope.selectedBlog),
+              headers : {
+                  'Content-Type' : 'application/json'
+              }
+          }).then(function successCallback(response) {
+              console.log("Blog saved succesfully "+ angular.toJson(response));
+              loadBlogs($scope, $http);
               $scope.cancel();
 
           }, function errorCallback(response) {
@@ -615,5 +682,20 @@ http({
 
 }
 
+
+function loadBlogs(scope, http){
+console.log("Loading Blogs");
+
+http({
+        method : "GET",
+        url : "/service/s/blog"
+      }).then(function successCallback(response) {
+        console.log(angular.toJson(response.data));
+        scope.blogList = response.data;
+      }, function errorCallback(response) {
+        console.log(response.statusText);
+      });
+
+}
 
 

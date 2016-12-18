@@ -31,7 +31,7 @@ app.config(function($routeProvider){
          })
         .when('/admin/content/blogs.html',{
              templateUrl: '/admin/content/blogs.html',
-             controller: 'usersController'
+             controller: 'blogController'
          })
         .when('/admin/content/poll.html',{
              templateUrl: '/admin/content/poll.html',
