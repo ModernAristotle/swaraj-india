@@ -331,6 +331,8 @@ app.controller('pressReleaseController', function($scope, $rootScope, $http) {
         $scope.showTable = false;
         $scope.selectedPressRelease = pressRelease;
         CKEDITOR.instances.content.setData(pressRelease.content);
+        CKEDITOR.instances.content.config.filebrowserImageUploadUrl = '/images/upload?uploadSource=pressRelease&contentId='+ $scope.selectedNews.id
+
     };
 
      $scope.cancel = function() {
@@ -397,6 +399,10 @@ app.controller('newsController', function($scope, $rootScope, $http) {
         $scope.showTable = false;
         $scope.selectedNews = news;
         CKEDITOR.instances.content.setData(news.content);
+
+        CKEDITOR.instances.content.config.filebrowserImageUploadUrl = '/images/upload?uploadSource=news&contentId='+ $scope.selectedNews.id
+
+
     };
 
      $scope.cancel = function() {
@@ -464,6 +470,8 @@ app.controller('blogController', function($scope, $rootScope, $http) {
         $scope.showTable = false;
         $scope.selectedBlog = blog;
         CKEDITOR.instances.content.setData(blog.content);
+        CKEDITOR.instances.content.config.filebrowserImageUploadUrl = '/images/upload?uploadSource=blog&contentId='+ $scope.selectedBlog.id
+
     };
 
      $scope.cancel = function() {

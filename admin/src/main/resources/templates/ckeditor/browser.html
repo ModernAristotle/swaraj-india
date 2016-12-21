@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Browsing Images</title>
+    <script th:inline="javascript">
+        function returnFileUrl(fileUrl) {
+            var funcNum = [[${funcNum}]];
+            window.opener.CKEDITOR.tools.callFunction( funcNum, fileUrl );
+            window.close();
+        }
+
+    </script>
+</head>
+<body>
+
+<h4>Click on image to select an image</h4>
+<table>
+    <tr th:each="oneFile : ${uploadedFiles}">
+
+        <!--<td th:text="${oneFile.id}">1</td>-->
+        <!--<td><img th:src="${'https://s3-us-west-2.amazonaws.com/static.swarajindia.org/' + oneFile.fileName}" /></td>-->
+        <td>
+            <button th:onclick="@{|returnFileUrl('https://s3-us-west-2.amazonaws.com/static.swarajindia.org/${oneFile.fileName}')|}"><img
+                    th:src="${'https://s3-us-west-2.amazonaws.com/static.swarajindia.org/' + oneFile.fileName}" style="max-height:200px;max-width:200px;cursor: pointer"/></button>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

@@ -3,6 +3,7 @@ package com.aristotle.core.service;
 import com.aristotle.core.enums.ContentType;
 import com.aristotle.core.exception.AppException;
 import com.aristotle.core.persistance.Content;
+import com.aristotle.core.persistance.UploadedFile;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -22,4 +23,8 @@ public interface ContentService {
     List<Content> findPublishedContent(ContentType contentType, Set<Long> locationIds, Pageable pageable) throws AppException;
 
     List<Content> findLatestPublishedNewsAndPressReleases(Set<Long> locationIds, Pageable pageable) throws AppException;
+
+    UploadedFile saveUploadedFile(String remoteFileName, long size, String uploadSource);
+
+    List<UploadedFile> getUploadedFiles(int pageNumber, int pageSize);
 }

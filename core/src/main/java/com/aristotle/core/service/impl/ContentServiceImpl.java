@@ -4,11 +4,15 @@ import com.aristotle.core.enums.ContentStatus;
 import com.aristotle.core.enums.ContentType;
 import com.aristotle.core.exception.AppException;
 import com.aristotle.core.persistance.Content;
+import com.aristotle.core.persistance.UploadedFile;
 import com.aristotle.core.persistance.repo.ContentRepository;
+import com.aristotle.core.persistance.repo.UploadedFileRepository;
 import com.aristotle.core.service.ContentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +35,9 @@ public class ContentServiceImpl implements ContentService {
 
     @Autowired
     private UrlHelper urlHelper;
+
+    @Autowired
+    private UploadedFileRepository uploadedFileRepository;
 
     private List<ContentType> newsAndPressReleaseContentType = asList(ContentType.News, ContentType.PressRelease);
 
@@ -79,6 +86,30 @@ public class ContentServiceImpl implements ContentService {
             return contentRepository.getLatestGlobalPublishedContent(pageable);
         }
         return contentRepository.getLatestLocationPublishedContent(locationIds, pageable);
+    }
+
+    @Override
+    public UploadedFile saveUploadedFile(String remoteFileName, long fileSize, String uploadSource) {
+        UploadedFile uploadedFile = uploadedFileRepository.getUploadedFileByFileName(remoteFileName);
+        if (uploadedFile == null) {
+            uploadedFile = new UploadedFile();
+            uploadedFile.setFileName(remoteFileName);
+        }
+        uploadedFile.setSize(fileSize);
+        uploadedFile.setFileType(getFileType(remoteFileName));
+        uploadedFile.setUploadSource(uploadSource);
+        uploadedFile = uploadedFileRepository.save(uploadedFile);
+        return uploadedFile;
+    }
+
+    @Override
+    public List<UploadedFile> getUploadedFiles(int pageNumber, int pageSize) {
+        Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(new Sort.Order(Sort.Direction.DESC, "dateCreated")));
+        return uploadedFileRepository.findAll(pageable).getContent();
+    }
+
+    private String getFileType(String fileName) {
+        return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
     @Override
