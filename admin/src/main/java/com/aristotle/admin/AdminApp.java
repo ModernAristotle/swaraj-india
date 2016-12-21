@@ -12,7 +12,6 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
@@ -22,14 +21,14 @@ import java.util.Arrays;
 @EnableAspectJAutoProxy
 @EnableJpaRepositories(basePackages = {"com.aristotle.core.persistance", "com.next.dynamo.persistance.repository"})
 @EntityScan(basePackages = {"com.aristotle.core.persistance", "com.next.dynamo.persistance"})
-@Import({SwaggerConfig.class, DatabaseConfig.class, FilterConfig.class})
+//@Import({SwaggerConfig.class, DatabaseConfig.class, FilterConfig.class})
 @EnableJpaAuditing
 @Slf4j
 public class AdminApp extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         log.info("Building SpringApplicationBuilder from AdminApp class");
-        return application.sources(AdminApp.class);
+        return application.sources(AdminApp.class, SwaggerConfig.class, DatabaseConfig.class, FilterConfig.class);
     }
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(new Object[]{AdminApp.class}, args);
