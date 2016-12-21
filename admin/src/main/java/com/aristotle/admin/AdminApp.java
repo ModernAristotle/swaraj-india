@@ -14,12 +14,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.Arrays;
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.aristotle.admin"})
 @EnableAutoConfiguration
 @EnableAspectJAutoProxy
+@EnableJpaRepositories(basePackages = {"com.aristotle.core.persistance.repo"})
 @EntityScan(basePackages = {"com.aristotle.core.persistance"})
 @Import({SwaggerConfig.class, DatabaseConfig.class, DynamoServiceContext.class, FilterConfig.class})
 public class AdminApp extends SpringBootServletInitializer {
