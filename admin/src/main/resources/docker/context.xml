@@ -27,5 +27,5 @@
     <!--
     <Manager pathname="" />
     -->
-    <Resources cachingAllowed="true" cacheMaxSize="500000"/>
+    <Resources cachingAllowed="true" cacheMaxSize="2000000"/>
 </Context>
