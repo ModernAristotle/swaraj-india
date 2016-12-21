@@ -4,7 +4,6 @@ import com.aristotle.admin.config.SwaggerConfig;
 import com.aristotle.admin.filter.FilterConfig;
 import com.aristotle.core.config.DatabaseConfig;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -19,9 +18,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import java.util.Arrays;
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.aristotle.admin", "com.aristotle.core", "com.next.dynamo"})
-@EnableAutoConfiguration
 @EnableAspectJAutoProxy
-@EnableJpaRepositories(basePackages = {"com.aristotle.core.persistance.repo", "com.next.dynamo.persistance.repository"})
+@EnableJpaRepositories(basePackages = {"com.aristotle.core.persistance", "com.next.dynamo.persistance.repository"})
 @EntityScan(basePackages = {"com.aristotle.core.persistance", "com.next.dynamo.persistance"})
 @Import({SwaggerConfig.class, DatabaseConfig.class, FilterConfig.class})
 @EnableJpaAuditing
