@@ -3,7 +3,6 @@ package com.aristotle.admin;
 import com.aristotle.admin.config.SwaggerConfig;
 import com.aristotle.admin.filter.FilterConfig;
 import com.aristotle.core.config.DatabaseConfig;
-import com.next.dynamo.context.DynamoServiceContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,12 +17,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.Arrays;
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.aristotle.admin", "com.aristotle.core"})
+@ComponentScan(basePackages = {"com.aristotle.admin", "com.aristotle.core", "com.next.dynamo"})
 @EnableAutoConfiguration
 @EnableAspectJAutoProxy
-@EnableJpaRepositories(basePackages = {"com.aristotle.core.persistance.repo"})
-@EntityScan(basePackages = {"com.aristotle.core.persistance"})
-@Import({SwaggerConfig.class, DatabaseConfig.class, DynamoServiceContext.class, FilterConfig.class})
+@EnableJpaRepositories(basePackages = {"com.aristotle.core.persistance.repo", "com.next.dynamo.persistance.repository"})
+@EntityScan(basePackages = {"com.aristotle.core.persistance", "com.next.dynamo.persistance"})
+@Import({SwaggerConfig.class, DatabaseConfig.class, FilterConfig.class})
 public class AdminApp extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
