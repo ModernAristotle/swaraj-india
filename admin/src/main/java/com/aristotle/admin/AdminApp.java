@@ -18,7 +18,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.Arrays;
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.aristotle.admin"})
+@ComponentScan(basePackages = {"com.aristotle.admin", "com.aristotle.core"})
 @EnableAutoConfiguration
 @EnableAspectJAutoProxy
 @EnableJpaRepositories(basePackages = {"com.aristotle.core.persistance.repo"})
