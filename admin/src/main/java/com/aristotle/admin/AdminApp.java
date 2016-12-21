@@ -3,6 +3,7 @@ package com.aristotle.admin;
 import com.aristotle.admin.config.SwaggerConfig;
 import com.aristotle.admin.filter.FilterConfig;
 import com.aristotle.core.config.DatabaseConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -23,9 +24,11 @@ import java.util.Arrays;
 @EntityScan(basePackages = {"com.aristotle.core.persistance", "com.next.dynamo.persistance"})
 @Import({SwaggerConfig.class, DatabaseConfig.class, FilterConfig.class})
 @EnableJpaAuditing
+@Slf4j
 public class AdminApp extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        log.info("Building SpringApplicationBuilder from AdminApp class");
         return application.sources(AdminApp.class);
     }
     public static void main(String[] args) {
