@@ -12,7 +12,7 @@ import java.util.Set;
 @Table(name = "location_type")
 @Getter
 @Setter
-@ToString(exclude = {"parentLocationType", "roles"}, callSuper = true)
+@ToString(exclude = {"parentLocationType", "roles", "childLocationTypes"}, callSuper = true)
 public class LocationType extends BaseEntity {
 
 
