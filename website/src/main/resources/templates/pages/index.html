@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<templates lang="en" ng-app="app" class="no-js lt-ie9 lt-ie8 lt-ie7" xmlns:th="http://www.thymeleaf.org"> <![endif]-->
+<!--[if IE 7]>
+<templates lang="en" ng-app="app" class="no-js lt-ie9 lt-ie8" xmlns:th="http://www.thymeleaf.org"> <![endif]-->
+<!--[if IE 8]>
+<templates lang="en" ng-app="app" class="no-js lt-ie9" xmlns:th="http://www.thymeleaf.org"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-app="app" class="no-js" xmlns:th="http://www.thymeleaf.org"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Swaraj Abhiyan - Offical Website</title>
+    <div th:include="/includes/header-css"/>
+
+</head>
+
+<body>
+
+<!--Kode Wrapper Start-->
+<div class="kode_wrapper">
+
+    <!--Header Wrap Start-->
+
+    <div th:include="/common/header-menu"/>
+
+    <!--Header Wrap Start-->
+
+
+    <!--Banner Wrap Start-->
+    <div th:include="/pages/home/home-big-slider" class="kode_banner"/>
+
+    <!--Banner Wrap End-->
+
+
+    <!--Content Wrap Start-->
+    <div class="kode_content">
+
+        <!--Program List Wrap Start-->
+        <div th:include="/pages/home/home-programme" class="kode_program_bg"/>
+
+        <!--Program List Wrap Start-->
+
+
+        <!--Welcome to Democracy Wrap Start-->
+        <section th:include="/pages/home/home-welcome" class="kode_welcome_bg"/>
+        <!--Welcome to Democracy Wrap End-->
+
+
+        <!--What we Do Wrap Start -->
+        <!--NOOOO <div th:include="/pages/home/home-what-we-do" class="kode_wht_otr_wrap" />-->
+        <!--What we Do Wrap End-->
+
+        <!--News &amp; Press Release Wrap Start-->
+        <section th:include="/pages/home/home-press" class="kode_news_bg"/>
+        <!--News &amp; Press Release Wrap End-->
+
+
+        <!-- Swaraj Darshan Start-->
+        <section th:include="/pages/home/home-swaraj-darshan" class="kode_news_bg"/>
+        <!--  Swaraj Darshan End-->
+
+
+        <!--Our Latest Work Wrap Start-->
+        <section th:include="/pages/home/home-vision" class="kode_latest_wrk_bg"/>
+        <!--Our Latest Work Wrap End-->
+
+
+        <!--Become member Now Wrap Start-->
+        <section th:include="/pages/home/home-become-member" class="kode_purchase_bg"/>
+        <!--Become member Now Wrap End-->
+
+
+        <!--Our Political Campagin Wrap Start-->
+        <section th:include="/pages/home/home-political-campaign" class="kode_politician_bg"/>
+        <!--Our Political Campagin Wrap End-->
+
+
+        <!--Our Top Politician Wrap Start-->
+        <div th:include="/pages/home/home-our-team" class="kode-team-testi"/>
+        <!--Our Top Politician Wrap End-->
+
+
+        <!--Progress Bar Wrap Start-->
+        <section th:include="/pages/home/home-progress" class="kode_progress_bg"/>
+        <!--Progress Bar Wrap Start-->
+
+
+        <!--Count Up Wrap Start-->
+        <section th:include="/pages/home/home-counter" class="kode_countup_bg"/>
+        <!--Count Up Wrap End-->
+
+
+        <!--Latest Blog Post Wrap Start-->
+        <!--<section th:include="/pages/home/home-blog" class="kode_latest_outer_wrap"/>-->
+        <!--Latest Blog Post Wrap End-->
+
+        <!--Latest Video Wrap Start-->
+        <div th:include="/pages/home/home-video" class="kode_video_bg"/>
+        <!--Latest Video Wrap End-->
+
+        <!--Donate Now 2 Wrap Start-->
+        <section th:include="/pages/home/home-donate" class="kode_purchase2_bg"/>
+        <!--Donate Now 2 Wrap End-->
+
+
+        <!--Comming Up Election Wrap Start-->
+        <section th:include="/pages/home/home-election" class="kode_counter_bg"/>
+        <!--Comming Up Election Wrap End-->
+
+
+        <!--Testimonial Wrap Start-->
+        <!--<section th:include="/pages/home/home-testimonial" class="kode_testimonial_bg" />-->
+        <!--Testimonial Wrap End-->
+
+        <!--FAQ Wrap Start-->
+        <section th:include="/pages/home/home-faq" class="wrapper100percent section2" id="6"/>
+        <!--FAQ Wrap End-->
+
+        <!--Contact With Us Wrap Start-->
+        <section th:include="/pages/home/home-connect" class="kode_contact_bg"/>
+        <!--Contact With Us Wrap End-->
+
+
+    </div>
+    <!--Content Wrap End-->
+
+
+    <!--Footer Wrap Start-->
+    <footer>
+        <div th:include="/common/footer-menu"/>
+
+    </footer>
+    <!--Footer Wrap End-->
+</div>
+<!--Kode Wrapper End-->
+<div th:include="/includes/footer-js"/>
+
+</body>
+</html>

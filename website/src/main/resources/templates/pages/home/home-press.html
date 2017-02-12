@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="kode_hdg_1">
+        <h6>Media Conference</h6>
+        <h4>News &amp; Press Release</h4>
+    </div>
+
+    <div class="kode_press_new_lst">
+        <div class="row">
+            <div th:if="${not #lists.isEmpty(latestThreeContent)}">
+                <div th:each="oneContent : ${latestThreeContent}" class="col-md-4 col-sm-6">
+                    <a th:href="|${oneContent.urlTitle}.html|" th:text="|${oneContent.contentType} : ${oneContent.title}|">Test</a>
+
+                    <div class="kode_press_news">
+                        <figure class="kode_pres1_style">
+                            <img th:src="${oneContent.imageUrl}" alt="Image here"/>
+                            <figcaption><a data-rel="prettyPhoto[]" th:href="${oneContent.imageUrl}"><i class="icon-add52"></i></a>
+                            </figcaption>
+                        </figure>
+                        <div class="kode_news_date">
+                            <ul>
+                                <li><a href="#" th:text="${oneContent.publishDate}">None</a></li>
+                                <li>07 <a href="#"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="kode_news_des">
+                            <h6><a href="#" th:text="${oneContent.title}"></a></h6>
+                            <p>Text will come here</p>
+                            <a th:href="|${oneContent.urlTitle}.html|">Read More <i class="fa fa-long-arrow-right"></i> </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="kode_press_link">
+        <a class="kode_link_2" href="/content/news_press_release.html">See More</a>
+    </div>
+
+</div>
